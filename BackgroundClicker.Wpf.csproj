@@ -12,7 +12,6 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <ApplicationIcon>assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="assets\icon.ico" />
@@ -55,6 +54,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AutoClickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditStepWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -77,6 +80,9 @@
     </Compile>
     <Compile Include="HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AutoClickerWindow.xaml.cs">
+      <DependentUpon>AutoClickerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditStepWindow.xaml.cs">
       <DependentUpon>EditStepWindow.xaml</DependentUpon>

@@ -59,22 +59,7 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#44FFFFFF"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="#00F2EA"/>
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.05" Duration="0:0:0.1"/>
-                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.05" Duration="0:0:0.1"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.0" Duration="0:0:0.1"/>
-                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.0" Duration="0:0:0.1"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
+                                <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -235,11 +220,61 @@
             <Setter Property="CaretBrush" Value="#00F2EA"/>
         </Style>
 
-        <Style TargetType="CheckBox">
+        <Style x:Key="ModernCheckBoxStyle" TargetType="CheckBox">
             <Setter Property="Foreground" Value="#BBFFFFFF"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="18" Height="18" VerticalAlignment="Center">
+                                <Border x:Name="CheckBoxBorder" Background="#22FFFFFF" BorderBrush="#55FFFFFF" BorderThickness="1" CornerRadius="4"/>
+                                <Path x:Name="CheckMark" Data="M 4,9 L 8,13 L 14,5" Stroke="#00F2EA" StrokeThickness="2" Visibility="Collapsed"/>
+                            </Grid>
+                            <ContentPresenter Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="#00F2EA"/>
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CheckBoxBorder" Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernRadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#DDFFFFFF"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="18" Height="18" VerticalAlignment="Center">
+                                <Ellipse x:Name="RadioBorder" Stroke="#88FFFFFF" StrokeThickness="2"/>
+                                <Ellipse x:Name="RadioCheck" Fill="#00F2EA" Width="10" Height="10" Visibility="Collapsed"/>
+                            </Grid>
+                            <ContentPresenter Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="RadioBorder" Property="Stroke" Value="#00F2EA"/>
+                                <Setter TargetName="RadioCheck" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RadioBorder" Property="Stroke" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
@@ -272,6 +307,7 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button Content="Help" Style="{StaticResource HeaderLinkButtonStyle}" Click="HelpButton_Click"/>
+                    <Button Content="Auto Clicker" Style="{StaticResource HeaderLinkButtonStyle}" Click="AutoClickerButton_Click"/>
                     <Button Content="Credits" Style="{StaticResource HeaderLinkButtonStyle}" Click="CreditsButton_Click"/>
                 </StackPanel>
 
@@ -478,7 +514,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <CheckBox x:Name="RandomizeIntervalCheckBox" Content="Randomize interval (±20%)" Margin="0,0,0,10"/>
+                            <CheckBox x:Name="RandomizeIntervalCheckBox" Content="Randomize interval (±20%)" Margin="0,0,0,10" Style="{StaticResource ModernCheckBoxStyle}"/>
 
                             <Grid Margin="0,0,0,2">
                                 <Grid.ColumnDefinitions>
@@ -494,7 +530,7 @@
                                     <TextBox x:Name="StopAfterMinutesTextBox" Height="26" HorizontalContentAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
-                            <CheckBox x:Name="HardStopCheckBox" Content="Stop immediately (hard limit)" Margin="0,0,0,10"/>
+                            <CheckBox x:Name="HardStopCheckBox" Content="Stop immediately (hard limit)" Margin="0,0,0,10" Style="{StaticResource ModernCheckBoxStyle}"/>
 
                             <Grid Margin="0,0,0,10">
                                 <Grid.ColumnDefinitions>
@@ -506,16 +542,16 @@
                                     <TextBox x:Name="JitterPixelsTextBox" Height="26" HorizontalContentAlignment="Center" Text="0"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center">
-                                    <CheckBox x:Name="PlayClickSoundCheckBox" Content="Ping on click" Margin="0,0,0,4"/>
-                                    <CheckBox x:Name="PlayErrorSoundCheckBox" Content="Alert on error/stop"/>
+                                    <CheckBox x:Name="PlayClickSoundCheckBox" Content="Ping on click" Margin="0,0,0,4" Style="{StaticResource ModernCheckBoxStyle}"/>
+                                    <CheckBox x:Name="PlayErrorSoundCheckBox" Content="Alert on error/stop" Style="{StaticResource ModernCheckBoxStyle}"/>
                                 </StackPanel>
                             </Grid>
 
-                            <CheckBox x:Name="DoubleClickCheckBox" Content="Send Double Click" Margin="0,0,0,10"/>
-                            <CheckBox x:Name="AlwaysOnTopCheckBox" Content="Keep On Top" Checked="AlwaysOnTopCheckBox_CheckedChanged" Unchecked="AlwaysOnTopCheckBox_CheckedChanged" Margin="0,0,0,10"/>
+                            <CheckBox x:Name="DoubleClickCheckBox" Content="Send Double Click" Margin="0,0,0,10" Style="{StaticResource ModernCheckBoxStyle}"/>
+                            <CheckBox x:Name="AlwaysOnTopCheckBox" Content="Keep On Top" Checked="AlwaysOnTopCheckBox_CheckedChanged" Unchecked="AlwaysOnTopCheckBox_CheckedChanged" Margin="0,0,0,10" Style="{StaticResource ModernCheckBoxStyle}"/>
                             
-                            <CheckBox x:Name="UseSequenceCheckBox" Content="Use sequence instead of single target" Margin="0,0,0,10"/>
-                            <CheckBox x:Name="BlockingClickCheckBox" Content="Use Blocking Clicking (takes control of mouse)" Margin="0,0,0,10">
+                            <CheckBox x:Name="UseSequenceCheckBox" Content="Use sequence instead of single target" Margin="0,0,0,10" Style="{StaticResource ModernCheckBoxStyle}"/>
+                            <CheckBox x:Name="BlockingClickCheckBox" Content="Use Blocking Clicking (takes control of mouse)" Margin="0,0,0,10" Style="{StaticResource ModernCheckBoxStyle}">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         Uses the real mouse cursor to perform clicks.
@@ -527,8 +563,8 @@
 
                             <Separator Background="#33FFFFFF" Margin="0,10,0,20"/>
                             <CheckBox x:Name="EnableAutoRepeatCheckBox" Content="Enable Auto-Repeat"
-                                      FontSize="14" FontWeight="Bold" Foreground="White"
-                                      Margin="0,0,0,15"/>
+                                      FontSize="14" FontWeight="Bold"
+                                      Margin="0,0,0,15" Style="{StaticResource ModernCheckBoxStyle}"/>
                             <Button x:Name="ExecutionButton" Content="START" Click="ExecutionButton_Click"
                                     Height="50" Style="{StaticResource AnimatedButtonStyle}"
                                     Background="#228B22" BorderBrush="#3CB371" FontWeight="Bold" FontSize="14"/>
@@ -546,7 +582,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="v0.9.1 BETA" Foreground="#66FFFFFF" FontSize="10" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        <TextBlock Text="v0.9.7.1 BETA" Foreground="#66FFFFFF" FontSize="10" FontWeight="SemiBold" VerticalAlignment="Center"/>
                     </StackPanel>
                     
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">

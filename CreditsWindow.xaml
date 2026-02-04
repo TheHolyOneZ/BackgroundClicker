@@ -122,7 +122,7 @@
             <ScrollViewer Margin="30, 20, 50, 30" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="Credits &amp; Features" Style="{StaticResource TitleText}" Margin="0,10,0,5"/>
-                    <TextBlock Text="Version 0.9.1 BETA" Style="{StaticResource BodyText}" Foreground="#A0AEC0"/>
+                    <TextBlock Text="Version 1.0.0" Style="{StaticResource BodyText}" Foreground="#A0AEC0"/>
 
                     <Separator Background="#33FFFFFF" Margin="0,15,0,10"/>
 
@@ -140,6 +140,14 @@
                         <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Humanization:</Bold> Use click jitter and randomized intervals to simulate human-like behavior.</TextBlock>
                         <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Dual Click Modes:</Bold> Switch to a 'Blocking' click for apps that ignore background events.</TextBlock>
                         <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Global Hotkey:</Bold> Start and stop automation from anywhere with the F8 key.</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Text="Auto-Clicker Module" Style="{StaticResource HeaderText}"/>
+                    <StackPanel Margin="15,8,0,0">
+                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Flexible Clicking:</Bold> Set intervals, choose mouse buttons, and perform single or double clicks.</TextBlock>
+                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Targeted Positions:</Bold> Click at the current cursor location or a fixed screen position.</TextBlock>
+                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Hotkey Control:</Bold> Use F9 to start/stop and F10 to pick a location.</TextBlock>
+                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Randomization:</Bold> Mimic human behavior with a randomized click interval.</TextBlock>
                     </StackPanel>
                     
                     <TextBlock Text="Core Technology" Style="{StaticResource HeaderText}"/>

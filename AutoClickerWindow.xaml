@@ -1,0 +1,364 @@
+<Window x:Class="BackgroundClicker.Wpf.AutoClickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Auto Clicker"
+        Height="500" Width="620" MinWidth="520" MinHeight="340"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Window.Resources>
+        <Style x:Key="AnimatedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#22FFFFFF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#33FFFFFF"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#44FFFFFF"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#00F2EA"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.05" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.05" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.0" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#10FFFFFF"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="BorderBrush" Value="#22FFFFFF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#15FFFFFF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#66FFFFFF"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="CaretBrush" Value="#00F2EA"/>
+        </Style>
+        
+        <Style x:Key="ModernCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#BBFFFFFF"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="18" Height="18" VerticalAlignment="Center">
+                                <Border x:Name="CheckBoxBorder" Background="#22FFFFFF" BorderBrush="#55FFFFFF" BorderThickness="1" CornerRadius="4"/>
+                                <Path x:Name="CheckMark" Data="M 4,9 L 8,13 L 14,5" Stroke="#00F2EA" StrokeThickness="2" Visibility="Collapsed"/>
+                            </Grid>
+                            <ContentPresenter Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="#00F2EA"/>
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CheckBoxBorder" Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernRadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#DDFFFFFF"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="18" Height="18" VerticalAlignment="Center">
+                                <Ellipse x:Name="RadioBorder" Stroke="#88FFFFFF" StrokeThickness="2"/>
+                                <Ellipse x:Name="RadioCheck" Fill="#00F2EA" Width="10" Height="10" Visibility="Collapsed"/>
+                            </Grid>
+                            <ContentPresenter Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="RadioBorder" Property="Stroke" Value="#00F2EA"/>
+                                <Setter TargetName="RadioCheck" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RadioBorder" Property="Stroke" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AutoClickerComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Background" Value="#151515"/>
+            <Setter Property="Foreground" Value="#00F2EA"/>
+            <Setter Property="BorderBrush" Value="#262626"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="4,3"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                      RecognizesAccessKey="True"/>
+
+                                    <ToggleButton x:Name="DropDownToggle"
+                                                  Grid.Column="1"
+                                                  Focusable="False"
+                                                  ClickMode="Press"
+                                                  Background="Transparent"
+                                                  BorderThickness="0"
+                                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Fill="#00F2EA"
+                                              Stretch="Uniform"
+                                              Margin="6,0,6,0"
+                                              VerticalAlignment="Center"/>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+
+                            <Popup x:Name="PART_Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Border Margin="0,2,0,0"
+                                        Background="#151515"
+                                        BorderBrush="#262626"
+                                        BorderThickness="1"
+                                        CornerRadius="4">
+                                    <ScrollViewer>
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#00F2EA"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#00F2EA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="18" BorderThickness="1" BorderBrush="#44FFFFFF">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#111827" Offset="0"/>
+                <GradientStop Color="#1F2937" Offset="0.4"/>
+                <GradientStop Color="#0F172A" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="#11FFFFFF" MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <Border Width="8" Height="8" CornerRadius="4" Background="#00F2EA" Margin="0,0,8,0"/>
+                    <StackPanel>
+                        <TextBlock Text="AUTO CLICKER" Foreground="White" FontWeight="SemiBold"/>
+                        <TextBlock Text="Simple high-speed cursor clicker" Foreground="#A0FFFFFF" FontSize="10"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Button Grid.Column="1" Content="✕" Width="30" Height="30" Margin="0,0,10,0"
+                        Background="Transparent" BorderThickness="0" Foreground="#DDFFFFFF"
+                        FontSize="14" Cursor="Hand" Click="CloseButton_Click"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="20">
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                            <TextBlock Text="Timing" Foreground="#88FFFFFF" FontSize="11" FontWeight="Bold" Margin="0,0,0,6"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                    <TextBlock Text="Interval (ms)" Foreground="#AAFFFFFF" FontSize="11"/>
+                                    <TextBox x:Name="IntervalMsTextBox" Height="30" Text="100"/>
+                                    <TextBlock Text="Max CPS depends on system performance (typically 150-400+)." Foreground="#66FFFFFF" FontSize="9" Margin="0,2,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                                    <TextBlock Text="Button" Foreground="#AAFFFFFF" FontSize="11"/>
+                                    <ComboBox x:Name="ButtonTypeComboBox" Height="30" SelectedIndex="0" Style="{StaticResource AutoClickerComboBoxStyle}">
+                                        <ComboBoxItem Content="Left"/>
+                                        <ComboBoxItem Content="Right"/>
+                                        <ComboBoxItem Content="Middle"/>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Click type" Foreground="#AAFFFFFF" FontSize="11"/>
+                                    <ComboBox x:Name="ClickTypeComboBox" Height="30" SelectedIndex="0" Style="{StaticResource AutoClickerComboBoxStyle}">
+                                        <ComboBoxItem Content="Single"/>
+                                        <ComboBoxItem Content="Double"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Margin="0,10,0,10">
+                            <TextBlock Text="Target" Foreground="#88FFFFFF" FontSize="11" FontWeight="Bold" Margin="0,0,0,6"/>
+                            <StackPanel>
+                                <RadioButton x:Name="UseCurrentCursorRadio" Content="Use current cursor position" IsChecked="True" Margin="0,0,0,4" GroupName="TargetMode" Style="{StaticResource ModernRadioButtonStyle}" Checked="UseCurrentCursorRadio_Checked"/>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <RadioButton x:Name="UseFixedPositionRadio" Content="Fixed screen position" Margin="0,0,10,0" GroupName="TargetMode" Style="{StaticResource ModernRadioButtonStyle}" Checked="UseFixedPositionRadio_Checked"/>
+                                    <TextBlock Text="X" Foreground="#AAFFFFFF" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <TextBox x:Name="FixedXTextBox" Width="60" Height="26" HorizontalContentAlignment="Center" IsEnabled="False"/>
+                                    <TextBlock Text="Y" Foreground="#AAFFFFFF" VerticalAlignment="Center" Margin="10,0,4,0"/>
+                                    <TextBox x:Name="FixedYTextBox" Width="60" Height="26" HorizontalContentAlignment="Center" IsEnabled="False"/>
+                                    <Button x:Name="PickCurrentPositionButton" Content="Pick current" Width="90" Height="26" Margin="10,0,0,0"
+                                            Style="{StaticResource AnimatedButtonStyle}"
+                                            Click="PickCurrentPositionButton_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                            <TextBlock Text="Behavior" Foreground="#88FFFFFF" FontSize="11" FontWeight="Bold" Margin="0,0,0,6"/>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="RandomizeIntervalCheckBox" Content="Randomize interval (±20%)" Margin="0,0,20,0" Style="{StaticResource ModernCheckBoxStyle}"/>
+                                <CheckBox x:Name="UseHotkeyCheckBox" Content="Global hotkey" Style="{StaticResource ModernCheckBoxStyle}" Checked="UseHotkeyCheckBox_Checked" Unchecked="UseHotkeyCheckBox_Unchecked"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                <TextBlock Text="Toggle hotkey" Foreground="#AAFFFFFF" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBox x:Name="ToggleHotkeyTextBox" MinWidth="80" Height="26" Margin="6,0,0,0"
+                                         HorizontalAlignment="Left"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Text="F9"
+                                         TextChanged="ToggleHotkeyTextBox_TextChanged"/>
+                            </StackPanel>
+                            <CheckBox x:Name="ShowClickCountCheckBox" Content="Show running click counter" Margin="0,6,0,0" IsChecked="True" Style="{StaticResource ModernCheckBoxStyle}" Checked="ShowClickCountCheckBox_Changed" Unchecked="ShowClickCountCheckBox_Changed"/>
+                        </StackPanel>
+
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="StartStopButton" Grid.Column="0" Content="START" Width="130" Height="46"
+                                    Style="{StaticResource AnimatedButtonStyle}"
+                                    Background="#228B22" BorderBrush="#3CB371" FontWeight="Bold" FontSize="14"
+                                    Click="StartStopButton_Click"/>
+
+                            <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                                <TextBlock x:Name="ClickCounterTextBlock" Text="0 clicks" Foreground="#FFFFFF" FontWeight="SemiBold" FontSize="12" Visibility="Visible"/>
+                                <TextBlock Text="Press F9 (if enabled) to start/stop, F10 to 'Pick current' position, or use the buttons below."
+                                           Foreground="#A0FFFFFF" FontSize="11" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="2" Background="#15000000" CornerRadius="0,0,18,18" Padding="16,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <TextBlock Text="Auto Clicker" Foreground="#66FFFFFF" FontSize="10"/>
+                    <TextBlock Text=" • " Foreground="#44FFFFFF" FontSize="10"/>
+                    <TextBlock x:Name="StatusTextBlock" Text="Idle" Foreground="#00F2EA" FontSize="10"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -847,6 +847,15 @@ namespace BackgroundClicker.Wpf
             help.ShowDialog();
         }
 
+        private void AutoClickerButton_Click(object sender, RoutedEventArgs e)
+        {
+            var autoClicker = new AutoClickerWindow
+            {
+                Owner = this
+            };
+            autoClicker.Show();
+        }
+
         private void CreditsButton_Click(object sender, RoutedEventArgs e)
         {
             var credits = new CreditsWindow();
