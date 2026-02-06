@@ -5,7 +5,7 @@ Tired of automation tools that take over your mouse? This is a powerful WPF appl
 > ### 🚀 Pre-compiled Version Available!
 >
 > You can download the ready-to-use `.exe` file directly from the **Releases** page:
-> [https://github.com/TheHolyOneZ/BackgroundClickEmulationStudy/releases](https://github.com/TheHolyOneZ/BackgroundClickEmulationStudy/releases)
+> https://github.com/TheHolyOneZ/BackgroundClicker/releases
 > No need to build it yourself.
 
 ![Application Screenshot](images/image.png)
