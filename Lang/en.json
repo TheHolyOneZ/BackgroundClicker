@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "en",
+    "name": "English"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "Guide",
+    "autoclicker": "Auto Clicker",
+    "credits": "About",
+    "minimize": "Minimize",
+    "close": "Close",
+    "language": "Language"
+  },
+  "main": {
+    "section": {
+      "target": "TARGET",
+      "sequence": "SEQUENCE",
+      "timing": "TIMING",
+      "behavior": "BEHAVIOR",
+      "sound": "SOUND"
+    },
+    "field": {
+      "profile": "Profile",
+      "window": "Window title",
+      "coordinates": "Coordinates",
+      "interval": "Interval",
+      "stopAfterClicks": "Stop after",
+      "stopAfterMinutes": "Stop after",
+      "jitter": "Click jitter",
+      "stepDelay": "Delay after step"
+    },
+    "unit": {
+      "seconds": "s",
+      "clicks": "clicks",
+      "minutes": "min",
+      "pixels": "px"
+    },
+    "button": {
+      "save": "Save",
+      "removeStep": "Remove",
+      "clearSteps": "Clear",
+      "listWindows": "List visible windows",
+      "setup": "Start setup",
+      "start": "START",
+      "stop": "STOP",
+      "reset": "Reset the click counter",
+      "cancelSetup": "Cancel setup  (Esc)",
+      "newProfile": "New",
+      "moreActions": "More profile actions",
+      "capturePoint": "Capture point"
+    },
+    "toggle": {
+      "randomize": "Randomize interval (±20%)",
+      "hardStop": "Stop immediately at the limit",
+      "doubleClick": "Send a double click",
+      "alwaysOnTop": "Keep this window on top",
+      "blocking": "Blocking click",
+      "blockingTip": "Uses the real mouse cursor instead of sending a message. More reliable for games and apps that ignore background clicks, but it will briefly move your mouse.",
+      "pingOnClick": "Ping on every click",
+      "alertOnError": "Alert on error or stop",
+      "autoRepeat": "Auto-repeat",
+      "recordSteps": "Record steps — stay armed and add every capture"
+    },
+    "hint": {
+      "sequence": "Press Capture point, hover a spot in the target window and press F10 — it is added here straight away. Turn on Record steps to stay armed and capture several in a row, then press Esc. Double-click a step to edit it.",
+      "setup": "Press Start setup, hover the point you want in the target window, then press F10 to capture it. Esc cancels. Holding the left mouse button still for 3 seconds also works."
+    },
+    "footer": {
+      "clicksSent": "clicks sent"
+    },
+    "menu": {
+      "duplicate": "Duplicate profile…",
+      "rename": "Rename profile…",
+      "delete": "Delete profile"
+    },
+    "mode": {
+      "single": "Single point",
+      "sequence": "Sequence"
+    }
+  },
+  "status": {
+    "idle": "Idle",
+    "running": "Running",
+    "stoppedByUser": "Stopped by user",
+    "profileDirty": "Profile has unsaved changes. Save it, or start anyway.",
+    "profileSavedReady": "Profile saved. Ready to run.",
+    "profileSaved": "Profile saved: {0}",
+    "invalidInterval": "Invalid interval",
+    "invalidCoordinates": "Invalid coordinates",
+    "targetReadyHandle": "Target window ready (handle)",
+    "targetReadyTitle": "Target window ready (title)",
+    "targetNotFoundSetup": "Target window not found. Use Start setup.",
+    "targetNotFoundTitle": "Target window not found. Check the title, or bring the window to the front.",
+    "targetNotFoundBlocking": "Target window not found for the blocking sequence",
+    "targetLost": "Target window lost. Stopping.",
+    "clickSent": "Click sent",
+    "hardLimitReached": "Hard click limit reached. Stopping.",
+    "runLimitReached": "Run limit reached. Stopping.",
+    "targetCaptured": "Target captured. Save the profile to keep it.",
+    "noWindowDetected": "No window detected under the cursor",
+    "captureArmed": "Hover the target and press F10 to capture. Esc cancels.",
+    "captureRecording": "Recording — press F10 at each point, Esc when finished.",
+    "stepRecorded": "Step {0} recorded. F10 for the next, Esc to finish.",
+    "captureCancelled": "Setup cancelled.",
+    "recordingFinished": "Recording finished — {0} steps added.",
+    "profileCreated": "Profile created: {0}",
+    "profileRenamed": "Profile renamed to: {0}",
+    "captureStep": "Hover the point to add and press F10. Esc cancels.",
+    "stepAdded": "Step added. The sequence now has {0}.",
+    "targetNotFoundCapture": "Target window not found. Use Capture point."
+  },
+  "notify": {
+    "sequenceEmpty": "The sequence is enabled but has no steps. Add at least one step before starting.",
+    "noTarget": "Enter a target window title, or enable the sequence, before starting.",
+    "invalidCoordinates": "X and Y must both be valid whole numbers.",
+    "zeroCoordinates": "X and Y cannot both be 0. Move the target point away from the top-left corner.",
+    "windowNotFound": "No window matches the title “{0}”. Make sure it is open and visible, or capture it with Start setup.",
+    "intervalInvalid": "The interval must be a number greater than 0 seconds.",
+    "targetNotFound": "Target window not found. Check the window title, or capture it with Start setup.",
+    "titleError": "Error",
+    "titleInfo": "Information",
+    "ok": "OK",
+    "cancel": "Cancel"
+  },
+  "dialog": {
+    "unsavedTitle": "Unsaved changes",
+    "unsavedMessage": "This profile has unsaved changes. Save them before switching?",
+    "saveBeforeStartMessage": "You changed this profile. Save it before starting?",
+    "saveAndStart": "Save and start"
+  },
+  "sequence": {
+    "click": "Click",
+    "doubleClick": "Double click",
+    "stepFormat": "{0} at ({1}, {2}) — wait {3}s"
+  },
+  "windowList": {
+    "title": "Visible windows"
+  },
+  "editStep": {
+    "invalidDelay": "Enter a valid, non-negative number for the delay.",
+    "title": "Edit step",
+    "doubleClick": "Send a double click for this step",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "autoclicker": {
+    "title": "AUTO CLICKER",
+    "subtitle": "Simple high-speed cursor clicker",
+    "section": {
+      "timing": "TIMING",
+      "target": "TARGET",
+      "behavior": "BEHAVIOR"
+    },
+    "field": {
+      "button": "Button",
+      "interval": "Interval",
+      "clickType": "Click type",
+      "hotkey": "Toggle hotkey",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "ms"
+    },
+    "button": {
+      "left": "Left",
+      "right": "Right",
+      "middle": "Middle",
+      "single": "Single",
+      "double": "Double",
+      "pickCurrent": "Pick current",
+      "start": "START",
+      "stop": "STOP"
+    },
+    "toggle": {
+      "useCursor": "Click at the current cursor position",
+      "useFixed": "Click at a fixed screen position",
+      "randomize": "Randomize interval (±20%)",
+      "globalHotkey": "Global hotkey",
+      "showCounter": "Show the running click counter"
+    },
+    "hint": {
+      "cps": "Maximum clicks per second depends on your system — typically 150 to 400.",
+      "keys": "Press F9 to start or stop, F10 to pick the current position, or use the buttons below."
+    },
+    "status": {
+      "idle": "Idle",
+      "running": "Running",
+      "invalidInterval": "Invalid interval",
+      "invalidPosition": "Invalid fixed position",
+      "error": "Error: {0}",
+      "unknownError": "unknown",
+      "clicks": "{0} clicks"
+    },
+    "notify": {
+      "intervalMessage": "The interval must be a positive number in milliseconds.",
+      "intervalTitle": "Invalid interval",
+      "positionMessage": "Fixed X and Y must both be valid whole numbers.",
+      "positionTitle": "Invalid position"
+    }
+  },
+  "help": {
+    "windowTitle": "Guide",
+    "title": "Background Clicker",
+    "intro": "How to automate clicks without giving up your mouse.",
+    "nav": {
+      "heading": "CONTENTS",
+      "quickStart": "Quick start",
+      "profiles": "Profiles & sequences",
+      "modes": "Click modes",
+      "features": "Other features"
+    },
+    "quickStart": {
+      "heading": "Quick start",
+      "step1": "Press Start setup, hover the point you want in the target window, and press F10 to capture it.",
+      "step2": "Type a name in the Profile box and press Save.",
+      "step3": "Press START for a single test click, or turn on Auto-repeat for continuous clicking."
+    },
+    "profiles": {
+      "heading": "Profiles & sequences",
+      "body": "A profile stores everything: the target window, the coordinates, the timings and every toggle. A sequence is a list of clicks that runs in order.",
+      "item1": "Save, load and delete profiles from the Profile row at the top.",
+      "item2": "Switch the target to Sequence, press Capture point, and press F10 at each spot. Turn on Record steps first to capture several in one pass.",
+      "item3": "Double-click any step in the list to change its delay or double-click setting."
+    },
+    "modes": {
+      "heading": "Click modes",
+      "nonBlockingLabel": "Non-blocking (default)",
+      "nonBlockingBody": "Sends the click straight to the window by its title. Your cursor never moves and your work is never interrupted. This is the recommended mode.",
+      "blockingLabel": "Blocking",
+      "blockingBody": "For apps that ignore background messages, such as some games. This briefly moves your real cursor to perform the click, so you lose the mouse for a moment."
+    },
+    "features": {
+      "heading": "Other features",
+      "item1": "Press F8 anywhere to start or stop the clicker, even while this window is minimized.",
+      "item2": "Randomize interval and Click jitter make the timing and position look less mechanical.",
+      "item3": "Keep on top pins this window above the target, and the sound toggles confirm clicks and errors by ear.",
+      "item4": "Stop after a number of clicks or a number of minutes to bound an unattended run."
+    }
+  },
+  "credits": {
+    "windowTitle": "About",
+    "title": "Background Clicker",
+    "version": "Version {0}",
+    "authorHeading": "Author",
+    "authorBody": "Designed and built by TheHolyOneZ.",
+    "featuresHeading": "What it does",
+    "feature1Label": "Background clicking",
+    "feature1Body": "Sends clicks to a window without moving your mouse or stealing focus.",
+    "feature2Label": "Click sequencing",
+    "feature2Body": "Chains clicks with individual delays for multi-step routines.",
+    "feature3Label": "Profiles",
+    "feature3Body": "Saves and reloads a full configuration per task.",
+    "feature4Label": "Humanization",
+    "feature4Body": "Click jitter and randomized intervals make timing look less mechanical.",
+    "feature5Label": "Two click modes",
+    "feature5Body": "Falls back to a blocking click for apps that ignore background events.",
+    "feature6Label": "Global hotkey",
+    "feature6Body": "Starts and stops from anywhere with F8.",
+    "moduleHeading": "Auto Clicker module",
+    "module1Label": "Flexible clicking",
+    "module1Body": "Set the interval, pick the mouse button, single or double.",
+    "module2Label": "Targeted positions",
+    "module2Body": "Click at the cursor, or at a fixed screen position.",
+    "module3Label": "Hotkey control",
+    "module3Body": "F9 starts and stops, F10 picks the current position.",
+    "techHeading": "How it works",
+    "techBody": "Built with WPF and C#. It uses the Win32 messaging API to post mouse events directly to a window handle, which is what lets it click without taking control of your cursor.",
+    "translationHeading": "Translations",
+    "translationBody": "Languages are built into the executable. To add your own, create a Lang folder next to the program, copy en.json into it, translate the values and change the _meta block."
+  },
+  "profile": {
+    "nameLabel": "Profile name",
+    "defaultName": "Profile",
+    "copySuffix": "copy",
+    "newTitle": "New profile",
+    "createAction": "Create",
+    "duplicateTitle": "Duplicate profile",
+    "duplicateAction": "Duplicate",
+    "renameTitle": "Rename profile",
+    "renameAction": "Rename",
+    "errorEmpty": "Enter a name for the profile.",
+    "errorTaken": "A profile called “{0}” already exists.",
+    "deleteConfirmTitle": "Delete profile",
+    "deleteConfirmMessage": "Delete the profile “{0}”?\n\nIts target, timings and sequence are removed. This cannot be undone."
+  }
+}

@@ -1,159 +1,99 @@
 <Window x:Class="BackgroundClicker.Wpf.CreditsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Credits" Height="600" Width="550"
+        xmlns:i18n="clr-namespace:BackgroundClicker.Wpf.I18n"
+        Title="About" Height="640" Width="700"
         WindowStartupLocation="CenterOwner" WindowStyle="None"
-        ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
-        FontFamily="./Fonts/#Roboto">
+        ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
-        
-        <Style x:Key="ModernScrollBarThumb" TargetType="{x:Type Thumb}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border x:Name="border" CornerRadius="4" Background="#4A5568" SnapsToDevicePixels="True"/>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#A0AEC0"/>
-                            </Trigger>
-                            <Trigger Property="IsDragging" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#00F2EA"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style TargetType="{x:Type ScrollBar}">
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Width" Value="12"/>
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollBar}">
-                        <Track x:Name="PART_Track" IsDirectionReversed="true" Focusable="false">
-                            <Track.Thumb>
-                                <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
-                            </Track.Thumb>
-                        </Track>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        
-        <Style x:Key="TitleText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
-
-        <Style x:Key="HeaderText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#00F2EA"/>
-            <Setter Property="Margin" Value="0,15,0,8"/>
-        </Style>
-
-        <Style x:Key="BodyText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#CBD5E0"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="LineHeight" Value="22"/>
-        </Style>
-
         <Style x:Key="LinkText" TargetType="TextBlock" BasedOn="{StaticResource BodyText}">
-            <Setter Property="TextDecorations" Value="Underline"/>
-            <Setter Property="Foreground" Value="#4DD0E1"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="TextDecorations" Value="Underline"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
-        
-        <Style x:Key="CloseButton" TargetType="Button">
-            <Setter Property="Background" Value="#22FFFFFF"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#33FFFFFF"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#CCFF0055"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        <Style x:Key="FeatureLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource FontSizeMedium}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,2"/>
+        </Style>
+        <Style x:Key="FeatureBody" TargetType="TextBlock" BasedOn="{StaticResource BodyText}">
+            <Setter Property="Margin" Value="0,0,0,14"/>
         </Style>
     </Window.Resources>
 
-    <Border CornerRadius="20" BorderThickness="1" BorderBrush="#44FFFFFF" MouseLeftButtonDown="TitleBar_Drag">
-        <Border.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#0F2027" Offset="0"/>
-                <GradientStop Color="#203A43" Offset="0.5"/>
-                <GradientStop Color="#2C5364" Offset="1"/>
-            </LinearGradientBrush>
-        </Border.Background>
-
+    <Border Background="{StaticResource SurfaceBaseBrush}"
+            BorderBrush="{StaticResource LineStrongBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource Radius}"
+            TextElement.FontFamily="{StaticResource FontUI}"
+            TextElement.FontSize="{StaticResource FontSizeBody}"
+            TextElement.Foreground="{StaticResource TextPrimaryBrush}">
         <Grid>
-            <Button Style="{StaticResource CloseButton}"
-                    Content="✕"
-                    FontWeight="Bold"
-                    Click="CloseButton_Click"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Margin="0,10,15,0"
-                    Width="30" Height="30"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <ScrollViewer Margin="30, 20, 50, 30" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <TextBlock Text="Credits &amp; Features" Style="{StaticResource TitleText}" Margin="0,10,0,5"/>
-                    <TextBlock Text="Version 1.0.0" Style="{StaticResource BodyText}" Foreground="#A0AEC0"/>
+            <Grid Grid.Row="0" Background="{StaticResource SurfacePanelBrush}" MouseLeftButtonDown="TitleBar_Drag">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <Rectangle Width="3" Height="12" Fill="{StaticResource AccentBrush}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{i18n:T credits.windowTitle}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                        Style="{StaticResource TitleBarCloseButton}" Height="40"
+                        HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                        ToolTip="{i18n:T nav.close}" Click="CloseButton_Click"/>
+            </Grid>
 
-                    <Separator Background="#33FFFFFF" Margin="0,15,0,10"/>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,6,0">
+                <StackPanel Margin="32,26,32,32">
 
-                    <TextBlock Text="Author" Style="{StaticResource HeaderText}"/>
-                    <TextBlock Style="{StaticResource BodyText}">
-                        <Run>This application was designed and developed by TheHolyOneZ.</Run>
-                    </TextBlock>
-                    <TextBlock Name="GitHubLink" Style="{StaticResource LinkText}" Text="https://github.com/TheHolyOneZ"/>
+                    <TextBlock Text="{i18n:T credits.title}" Style="{StaticResource TitleText}"/>
+                    <TextBlock x:Name="VersionTextBlock" Style="{StaticResource BodyText}"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               FontFamily="{StaticResource FontMono}" Margin="0,2,0,0"/>
 
-                    <TextBlock Text="Core Application Features" Style="{StaticResource HeaderText}"/>
-                    <StackPanel Margin="15,8,0,0">
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Background Clicking:</Bold> Send clicks to windows without moving your mouse or losing focus.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Click Sequencing:</Bold> Create complex chains of clicks with custom delays for advanced automation.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Profile Management:</Bold> Save and load different configurations for all your tasks.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Humanization:</Bold> Use click jitter and randomized intervals to simulate human-like behavior.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Dual Click Modes:</Bold> Switch to a 'Blocking' click for apps that ignore background events.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Global Hotkey:</Bold> Start and stop automation from anywhere with the F8 key.</TextBlock>
-                    </StackPanel>
+                    <Separator/>
 
-                    <TextBlock Text="Auto-Clicker Module" Style="{StaticResource HeaderText}"/>
-                    <StackPanel Margin="15,8,0,0">
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Flexible Clicking:</Bold> Set intervals, choose mouse buttons, and perform single or double clicks.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Targeted Positions:</Bold> Click at the current cursor location or a fixed screen position.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Hotkey Control:</Bold> Use F9 to start/stop and F10 to pick a location.</TextBlock>
-                        <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,4"><Run FontWeight="SemiBold" Foreground="#00F2EA">•</Run> <Bold>Randomization:</Bold> Mimic human behavior with a randomized click interval.</TextBlock>
-                    </StackPanel>
-                    
-                    <TextBlock Text="Core Technology" Style="{StaticResource HeaderText}"/>
-                    <TextBlock Style="{StaticResource BodyText}">
-                        Built with WPF and C#, this application uses the Win32 API to send background mouse events, allowing it to click windows without taking control of the user's cursor.
-                    </TextBlock>
+                    <TextBlock Text="{i18n:T credits.authorHeading}" Style="{StaticResource HeadingText}" Margin="0,4,0,10"/>
+                    <TextBlock Text="{i18n:T credits.authorBody}" Style="{StaticResource BodyText}"/>
+                    <TextBlock x:Name="GitHubLink" Style="{StaticResource LinkText}"
+                               Text="https://github.com/TheHolyOneZ"/>
+
+                    <TextBlock Text="{i18n:T credits.featuresHeading}" Style="{StaticResource HeadingText}"/>
+                    <TextBlock Text="{i18n:T credits.feature1Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.feature1Body}" Style="{StaticResource FeatureBody}"/>
+                    <TextBlock Text="{i18n:T credits.feature2Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.feature2Body}" Style="{StaticResource FeatureBody}"/>
+                    <TextBlock Text="{i18n:T credits.feature3Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.feature3Body}" Style="{StaticResource FeatureBody}"/>
+                    <TextBlock Text="{i18n:T credits.feature4Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.feature4Body}" Style="{StaticResource FeatureBody}"/>
+                    <TextBlock Text="{i18n:T credits.feature5Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.feature5Body}" Style="{StaticResource FeatureBody}"/>
+                    <TextBlock Text="{i18n:T credits.feature6Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.feature6Body}" Style="{StaticResource FeatureBody}"/>
+
+                    <TextBlock Text="{i18n:T credits.moduleHeading}" Style="{StaticResource HeadingText}"/>
+                    <TextBlock Text="{i18n:T credits.module1Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.module1Body}" Style="{StaticResource FeatureBody}"/>
+                    <TextBlock Text="{i18n:T credits.module2Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.module2Body}" Style="{StaticResource FeatureBody}"/>
+                    <TextBlock Text="{i18n:T credits.module3Label}" Style="{StaticResource FeatureLabel}"/>
+                    <TextBlock Text="{i18n:T credits.module3Body}" Style="{StaticResource FeatureBody}"/>
+
+                    <TextBlock Text="{i18n:T credits.techHeading}" Style="{StaticResource HeadingText}"/>
+                    <TextBlock Text="{i18n:T credits.techBody}" Style="{StaticResource BodyText}"/>
+
+                    <TextBlock Text="{i18n:T credits.translationHeading}" Style="{StaticResource HeadingText}"/>
+                    <TextBlock Text="{i18n:T credits.translationBody}" Style="{StaticResource BodyText}"/>
 
                 </StackPanel>
             </ScrollViewer>

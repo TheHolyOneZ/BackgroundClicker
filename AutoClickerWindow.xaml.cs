@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Globalization;
+using BackgroundClicker.Wpf.I18n;
 
 namespace BackgroundClicker.Wpf
 {
@@ -63,8 +64,8 @@ namespace BackgroundClicker.Wpf
         [DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-        private const int HOTKEY_ID_TOGGLE = 2; 
-        private const int HOTKEY_ID_PICK = 3;   
+        private const int HOTKEY_ID_TOGGLE = 2;
+        private const int HOTKEY_ID_PICK = 3;
         private const uint MOD_NONE = 0x0000;
         private const uint VK_F9 = 0x78;
         private const uint VK_F10 = 0x79;
@@ -80,7 +81,9 @@ namespace BackgroundClicker.Wpf
         public AutoClickerWindow()
         {
             InitializeComponent();
-            StatusTextBlock.Text = "Idle";
+            StatusTextBlock.Text = Loc.T("autoclicker.status.idle");
+            ClickCounterTextBlock.Text = Loc.T("autoclicker.status.clicks", 0);
+            ApplyHotkeyFieldState();
             UpdateRunningState(false);
             SourceInitialized += AutoClickerWindow_SourceInitialized;
             Closed += AutoClickerWindow_Closed;
@@ -94,8 +97,6 @@ namespace BackgroundClicker.Wpf
             {
                 _hwndSource.AddHook(WndProc);
 
-                
-                
                 if (UseHotkeyCheckBox != null && UseHotkeyCheckBox.IsChecked == true)
                 {
                     RegisterHotKeySafe();
@@ -171,17 +172,15 @@ namespace BackgroundClicker.Wpf
             double intervalMs;
             string intervalText = IntervalMsTextBox.Text != null ? IntervalMsTextBox.Text.Trim() : string.Empty;
 
-            
-            
             bool parsed = double.TryParse(intervalText, NumberStyles.Float, CultureInfo.InvariantCulture, out intervalMs)
                           || double.TryParse(intervalText, NumberStyles.Float, CultureInfo.CurrentCulture, out intervalMs);
 
             if (!parsed || intervalMs <= 0)
             {
-                StatusTextBlock.Text = "Invalid interval";
+                StatusTextBlock.Text = Loc.T("autoclicker.status.invalidInterval");
                 MessageBox.Show(this,
-                    "Interval must be a positive number (milliseconds).",
-                    "Invalid interval",
+                    Loc.T("autoclicker.notify.intervalMessage"),
+                    Loc.T("autoclicker.notify.intervalTitle"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -195,10 +194,10 @@ namespace BackgroundClicker.Wpf
             {
                 if (!int.TryParse(FixedXTextBox.Text, out fixedPoint.X) || !int.TryParse(FixedYTextBox.Text, out fixedPoint.Y))
                 {
-                    StatusTextBlock.Text = "Invalid fixed position";
+                    StatusTextBlock.Text = Loc.T("autoclicker.status.invalidPosition");
                     MessageBox.Show(this,
-                        "Fixed X and Y must be valid integers.",
-                        "Invalid position",
+                        Loc.T("autoclicker.notify.positionMessage"),
+                        Loc.T("autoclicker.notify.positionTitle"),
                         MessageBoxButton.OK,
                         MessageBoxImage.Warning);
                     return;
@@ -208,19 +207,9 @@ namespace BackgroundClicker.Wpf
             _clickCts = new CancellationTokenSource();
             var token = _clickCts.Token;
 
-            
-            
-            ComboBoxItem buttonItem = ButtonTypeComboBox.SelectedItem as ComboBoxItem;
-            string button = buttonItem != null ? buttonItem.Content as string : null;
-            if (string.IsNullOrEmpty(button))
-            {
-                button = "Left";
-            }
+            string button = ButtonTokenFromIndex(ButtonTypeComboBox.SelectedIndex);
+            bool doubleClick = ClickTypeComboBox.SelectedIndex == 1;
 
-            ComboBoxItem clickTypeItem = ClickTypeComboBox.SelectedItem as ComboBoxItem;
-            bool doubleClick = clickTypeItem != null && (clickTypeItem.Content as string) == "Double";
-
-            
             bool showClickCount = ShowClickCountCheckBox.IsChecked == true;
 
             _isRunning = true;
@@ -250,17 +239,16 @@ namespace BackgroundClicker.Wpf
                         {
                             if (!GetCursorPos(out clickPoint))
                             {
-                                
+
                                 int fallbackDelayMs = (int)Math.Max(1.0, Math.Round(intervalMs));
-                                Thread.Sleep(fallbackDelayMs); 
+                                Thread.Sleep(fallbackDelayMs);
                                 continue;
                             }
                         }
 
                         PerformClick(clickPoint, button, doubleClick);
                         totalClicks++;
-                        
-                        
+
                         if (showClickCount && uiUpdateStopwatch.ElapsedMilliseconds > 100)
                         {
                             UpdateClickCounterSafe(totalClicks, true);
@@ -274,33 +262,29 @@ namespace BackgroundClicker.Wpf
                             effectiveIntervalMs = intervalMs * factor;
                         }
 
-                        
-                        
                         long targetTicks = (long)(effectiveIntervalMs / 1000.0 * frequency);
 
-                        
                         while (stopwatch.ElapsedTicks < targetTicks)
                         {
                             if (token.IsCancellationRequested)
                             {
                                 break;
                             }
-                            
-                            
+
                             Thread.SpinWait(20);
                         }
                     }
                 }
                 catch (TaskCanceledException)
                 {
-                    
+
                 }
                 catch (Exception ex)
                 {
-                    
+
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        StatusTextBlock.Text = "Error: " + (ex != null ? ex.Message : "unknown");
+                        StatusTextBlock.Text = Loc.T("autoclicker.status.error", ex != null ? ex.Message : Loc.T("autoclicker.status.unknownError"));
                     }));
                 }
                 finally
@@ -347,7 +331,7 @@ namespace BackgroundClicker.Wpf
             if (showClickCount)
             {
                 ClickCounterTextBlock.Visibility = Visibility.Visible;
-                ClickCounterTextBlock.Text = totalClicks + " clicks";
+                ClickCounterTextBlock.Text = Loc.T("autoclicker.status.clicks", totalClicks);
             }
             else
             {
@@ -357,15 +341,11 @@ namespace BackgroundClicker.Wpf
 
         private void UpdateRunningState(bool isRunning)
         {
-            StartStopButton.Content = isRunning ? "STOP" : "START";
-            StartStopButton.Background = isRunning
-                ? new SolidColorBrush(Colors.DarkRed)
-                : new SolidColorBrush(Color.FromRgb(0x22, 0x8B, 0x22));
-            StartStopButton.BorderBrush = isRunning
-                ? new SolidColorBrush(Colors.Red)
-                : new SolidColorBrush(Color.FromRgb(0x3C, 0xB3, 0x71));
+            StartStopButton.Content = Loc.T(isRunning ? "autoclicker.button.stop" : "autoclicker.button.start");
+            StartStopButton.Style = (Style)FindResource(isRunning ? "StopButton" : "PrimaryButton");
 
-            StatusTextBlock.Text = isRunning ? "Running..." : "Idle";
+            StatusTextBlock.Text = Loc.T(isRunning ? "autoclicker.status.running" : "autoclicker.status.idle");
+            StatusDot.Fill = (Brush)FindResource(isRunning ? "StateRunningBrush" : "StateIdleBrush");
             IntervalMsTextBox.IsEnabled = !isRunning;
             ButtonTypeComboBox.IsEnabled = !isRunning;
             ClickTypeComboBox.IsEnabled = !isRunning;
@@ -376,6 +356,16 @@ namespace BackgroundClicker.Wpf
             PickCurrentPositionButton_IsEnabledUpdate();
             RandomizeIntervalCheckBox.IsEnabled = !isRunning;
             UseHotkeyCheckBox.IsEnabled = !isRunning;
+        }
+
+        private static string ButtonTokenFromIndex(int index)
+        {
+            switch (index)
+            {
+                case 1: return "Right";
+                case 2: return "Middle";
+                default: return "Left";
+            }
         }
 
         private void PerformClick(POINT point, string button, bool doubleClick)
@@ -413,7 +403,7 @@ namespace BackgroundClicker.Wpf
 
         private static void SendMouseInput(int x, int y, uint downFlag, uint upFlag)
         {
-            
+
             SetCursorPos(x, y);
 
             INPUT[] inputs = new INPUT[2];
@@ -477,29 +467,36 @@ namespace BackgroundClicker.Wpf
 
         private void PickCurrentPositionFromHotkey()
         {
-            
+
             if (UseFixedPositionRadio != null)
             {
                 UseFixedPositionRadio.IsChecked = true;
             }
 
-            
             PickCurrentPositionButton_Click(this, new RoutedEventArgs());
         }
 
         private void UseHotkeyCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             RegisterHotKeySafe();
+            ApplyHotkeyFieldState();
         }
 
         private void UseHotkeyCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             UnregisterHotKeySafe();
+            ApplyHotkeyFieldState();
+        }
+
+        private void ApplyHotkeyFieldState()
+        {
+            if (ToggleHotkeyTextBox == null || UseHotkeyCheckBox == null) return;
+            ToggleHotkeyTextBox.IsEnabled = UseHotkeyCheckBox.IsChecked == true;
         }
 
         private void ToggleHotkeyTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            
+
             if (UseHotkeyCheckBox != null && UseHotkeyCheckBox.IsChecked == true)
             {
                 RegisterHotKeySafe();
@@ -508,8 +505,7 @@ namespace BackgroundClicker.Wpf
 
         private void ShowClickCountCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            
-            
+
             CheckBox source = sender as CheckBox;
             bool isChecked = false;
             if (source != null)
@@ -521,7 +517,6 @@ namespace BackgroundClicker.Wpf
                 isChecked = ShowClickCountCheckBox.IsChecked == true;
             }
 
-            
             if (ClickCounterTextBlock == null)
             {
                 return;
@@ -545,7 +540,6 @@ namespace BackgroundClicker.Wpf
             if (_hwndSource == null) return;
             var handle = _hwndSource.Handle;
 
-            
             string text = "F9";
             if (ToggleHotkeyTextBox != null && ToggleHotkeyTextBox.Text != null)
             {
@@ -563,7 +557,6 @@ namespace BackgroundClicker.Wpf
             }
             _currentToggleVk = vk;
 
-            
             UnregisterHotKey(handle, HOTKEY_ID_TOGGLE);
             UnregisterHotKey(handle, HOTKEY_ID_PICK);
 
@@ -587,29 +580,27 @@ namespace BackgroundClicker.Wpf
                 return false;
             }
 
-            
             if (text.Length >= 2 && text[0] == 'F')
             {
                 int num;
                 if (int.TryParse(text.Substring(1), out num) && num >= 1 && num <= 24)
                 {
-                    vk = (uint)(0x70 + (num - 1)); 
+                    vk = (uint)(0x70 + (num - 1));
                     return true;
                 }
             }
 
-            
             if (text.Length == 1)
             {
                 char c = text[0];
                 if (c >= 'A' && c <= 'Z')
                 {
-                    vk = (uint)c; 
+                    vk = (uint)c;
                     return true;
                 }
                 if (c >= '0' && c <= '9')
                 {
-                    vk = (uint)c; 
+                    vk = (uint)c;
                     return true;
                 }
             }

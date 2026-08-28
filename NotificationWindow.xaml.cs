@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Media;
+using BackgroundClicker.Wpf.I18n;
 
 namespace BackgroundClicker.Wpf
 {
@@ -16,14 +17,15 @@ namespace BackgroundClicker.Wpf
 
         public NotificationWindow(string message,
                                   bool isError = false,
-                                  string primaryButtonText = "OK",
+                                  string primaryButtonText = null,
                                   string secondaryButtonText = null)
         {
             InitializeComponent();
 
             Result = NotificationResult.None;
             MessageTextBlock.Text = message;
-            PrimaryButton.Content = primaryButtonText;
+
+            PrimaryButton.Content = primaryButtonText ?? Loc.T("notify.ok");
 
             if (string.IsNullOrEmpty(secondaryButtonText))
             {
@@ -37,7 +39,7 @@ namespace BackgroundClicker.Wpf
 
             if (isError)
             {
-                RootBorder.Background = new SolidColorBrush(Color.FromArgb(0xF0, 0x3B, 0x0B, 0x0B));
+                AccentBar.Fill = (Brush)FindResource("StateErrorBrush");
             }
         }
 

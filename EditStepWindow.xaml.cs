@@ -1,6 +1,8 @@
 using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Input;
+using BackgroundClicker.Wpf.I18n;
 
 namespace BackgroundClicker.Wpf
 {
@@ -21,25 +23,53 @@ namespace BackgroundClicker.Wpf
                 Close();
                 return;
             }
-            
+
+            WindowTitleTextBox.Text = _step.WindowTitle ?? string.Empty;
+            XCoordTextBox.Text = _step.X.ToString(CultureInfo.InvariantCulture);
+            YCoordTextBox.Text = _step.Y.ToString(CultureInfo.InvariantCulture);
             DelayTextBox.Text = _step.DelaySeconds.ToString(CultureInfo.InvariantCulture);
             DoubleClickCheckBox.IsChecked = _step.DoubleClick;
         }
 
+        private void ShowError(string key)
+        {
+            ErrorTextBlock.Text = Loc.T(key);
+            ErrorTextBlock.Visibility = Visibility.Visible;
+        }
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            ErrorTextBlock.Visibility = Visibility.Collapsed;
+
+            int x, y;
+            if (!int.TryParse(XCoordTextBox.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out x)
+             || !int.TryParse(YCoordTextBox.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out y))
+            {
+                ShowError("notify.invalidCoordinates");
+                return;
+            }
+
             double delay;
-            if (double.TryParse(DelayTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out delay) && delay >= 0)
+            if (!double.TryParse(DelayTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out delay)
+             || delay < 0)
             {
-                _step.DelaySeconds = delay;
-                _step.DoubleClick = DoubleClickCheckBox.IsChecked == true;
-                this.DialogResult = true;
-                this.Close();
+                ShowError("editStep.invalidDelay");
+                return;
             }
-            else
-            {
-                MessageBox.Show("Please enter a valid, non-negative number for the delay.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            _step.WindowTitle = (WindowTitleTextBox.Text ?? string.Empty).Trim();
+            _step.X = x;
+            _step.Y = y;
+            _step.DelaySeconds = delay;
+            _step.DoubleClick = DoubleClickCheckBox.IsChecked == true;
+
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        private void TitleBar_Drag(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left) this.DragMove();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

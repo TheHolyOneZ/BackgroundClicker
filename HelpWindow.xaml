@@ -1,182 +1,219 @@
 <Window x:Class="BackgroundClicker.Wpf.HelpWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Background Clicker Help" Height="700" Width="850"
+        xmlns:i18n="clr-namespace:BackgroundClicker.Wpf.I18n"
+        Title="Guide" Height="660" Width="860"
         WindowStartupLocation="CenterOwner" WindowStyle="None"
-        ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
-        FontFamily="Segoe UI Variable Text">
+        ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
-        
-        <SolidColorBrush x:Key="WindowBackground" Color="#F8F9FA"/>
-        <SolidColorBrush x:Key="BorderColor" Color="#E0E0E0"/>
-        <SolidColorBrush x:Key="PrimaryTextColor" Color="#202124"/>
-        <SolidColorBrush x:Key="SecondaryTextColor" Color="#5F6368"/>
-        <SolidColorBrush x:Key="AccentColor" Color="#4285F4"/>
-        <SolidColorBrush x:Key="AccentColorLight" Color="#E8F0FE"/>
-
-        
-        <Style x:Key="ModernScrollBarThumb" TargetType="{x:Type Thumb}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border x:Name="border" CornerRadius="4" Background="#CDCDCD" SnapsToDevicePixels="True"/>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#A8A8A8"/>
-                            </Trigger>
-                            <Trigger Property="IsDragging" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#7F7F7F"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style TargetType="{x:Type ScrollBar}">
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+        <Style x:Key="RailButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Width" Value="12"/>
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollBar}">
-                        <Track x:Name="PART_Track" IsDirectionReversed="true" Focusable="false">
-                            <Track.Thumb>
-                                <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
-                            </Track.Thumb>
-                        </Track>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        
-        <Style x:Key="TitleText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="26"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource PrimaryTextColor}"/>
-            <Setter Property="Margin" Value="0,0,0,8"/>
-        </Style>
-
-        
-        <Style x:Key="HeaderText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource PrimaryTextColor}"/>
-            <Setter Property="Margin" Value="0,25,0,12"/>
-        </Style>
-
-        
-        <Style x:Key="BodyText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="{StaticResource SecondaryTextColor}"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="LineHeight" Value="22"/>
-        </Style>
-        
-        
-        <Style x:Key="BulletPoint" TargetType="TextBlock" BasedOn="{StaticResource BodyText}">
-            <Setter Property="Margin" Value="0,0,0,8"/>
-        </Style>
-
-        
-        <Style x:Key="CloseButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#00BCD4"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="Foreground" Value="{StaticResource TextDimBrush}"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeMedium}"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="Transparent" CornerRadius="15" Width="30" Height="30" SnapsToDevicePixels="True">
-                            <TextBlock Text="✕" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{TemplateBinding Foreground}"/>
-                        </Border>
+                        <Grid Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle x:Name="Rule" Grid.Column="0" Fill="{StaticResource AccentBrush}" Visibility="Collapsed"/>
+                            <ContentPresenter Grid.Column="1" Margin="14,9" VerticalAlignment="Center"/>
+                        </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#E0F7FA"/>
-                                <Setter Property="Foreground" Value="#4DD0E1"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                <Setter TargetName="Rule" Property="Visibility" Value="Visible"/>
                             </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#B2EBF2"/>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                <Setter TargetName="Rule" Property="Visibility" Value="Visible"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="Marker" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontMono}"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeMedium}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,12,0"/>
+        </Style>
+
+        <Style x:Key="ModeLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource FontSizeMedium}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,3"/>
+        </Style>
     </Window.Resources>
 
-    <Border CornerRadius="12" BorderThickness="1" BorderBrush="{StaticResource BorderColor}" Background="{StaticResource WindowBackground}">
-        <Border.Effect>
-            <DropShadowEffect ShadowDepth="0" BlurRadius="15" Color="#000000" Opacity="0.1"/>
-        </Border.Effect>
-
+    <Border Background="{StaticResource SurfaceBaseBrush}"
+            BorderBrush="{StaticResource LineStrongBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource Radius}"
+            TextElement.FontFamily="{StaticResource FontUI}"
+            TextElement.FontSize="{StaticResource FontSizeBody}"
+            TextElement.Foreground="{StaticResource TextPrimaryBrush}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            
-            <Grid Grid.Row="0" Margin="20,10,10,10" MouseLeftButtonDown="TitleBar_Drag" Background="Transparent">
-                <TextBlock Text="How-To Guide" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource SecondaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <Button Style="{StaticResource CloseButton}" 
-                        Click="CloseButton_Click"
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Center"/>
+            <Grid Grid.Row="0" Background="{StaticResource SurfacePanelBrush}" MouseLeftButtonDown="TitleBar_Drag">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <Rectangle Width="3" Height="12" Fill="{StaticResource AccentBrush}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{i18n:T help.windowTitle}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                        Style="{StaticResource TitleBarCloseButton}" Height="40"
+                        HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                        ToolTip="{i18n:T nav.close}" Click="CloseButton_Click"/>
             </Grid>
 
-            
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel Margin="40,10,40,40">
-                    <TextBlock Text="Welcome to Background Clicker" Style="{StaticResource TitleText}"/>
-                    <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,20">
-                        This guide explains all the features to help you automate clicks without interrupting your workflow.
-                    </TextBlock>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="196"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <Separator Margin="0,10,0,10"/>
-                    
-
-                    <TextBlock Text="🚀 Quick Start" Style="{StaticResource HeaderText}"/>
-                    <StackPanel>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Foreground="{StaticResource AccentColor}" FontWeight="Bold">1.</Run>  Click 'Start Setup (Hold 3s)' and hover your mouse over the target window for 3 seconds.</TextBlock>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Foreground="{StaticResource AccentColor}" FontWeight="Bold">2.</Run>  Name your new settings in the 'Profile' box and click 'Save'.</TextBlock>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Foreground="{StaticResource AccentColor}" FontWeight="Bold">3.</Run>  Click 'START' for a test click, or enable 'Auto-Repeat' for continuous clicking.</TextBlock>
+                <Border Grid.Column="0" Background="{StaticResource SurfacePanelBrush}"
+                        BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,1,0">
+                    <StackPanel Margin="0,18,0,0">
+                        <TextBlock Text="{i18n:T help.nav.heading}" Style="{StaticResource SectionHeader}" Margin="16,0,0,10"/>
+                        <Button Content="{i18n:T help.nav.quickStart}" Tag="QuickStartSection"
+                                Style="{StaticResource RailButton}" Click="RailButton_Click"/>
+                        <Button Content="{i18n:T help.nav.profiles}" Tag="ProfilesSection"
+                                Style="{StaticResource RailButton}" Click="RailButton_Click"/>
+                        <Button Content="{i18n:T help.nav.modes}" Tag="ModesSection"
+                                Style="{StaticResource RailButton}" Click="RailButton_Click"/>
+                        <Button Content="{i18n:T help.nav.features}" Tag="FeaturesSection"
+                                Style="{StaticResource RailButton}" Click="RailButton_Click"/>
                     </StackPanel>
+                </Border>
 
+                <ScrollViewer x:Name="ContentScroller" Grid.Column="1"
+                              VerticalScrollBarVisibility="Auto" Padding="0,0,6,0">
+                    <StackPanel Margin="32,26,32,36">
 
-                    <TextBlock Text="💾 Profiles &amp; Sequences" Style="{StaticResource HeaderText}"/>
-                    <TextBlock Style="{StaticResource BodyText}">
-                        Use profiles to store settings. A Sequence is a list of clicks that run in order.
-                    </TextBlock>
-                    <StackPanel Margin="0,10,0,0">
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Text="➤ " Foreground="{StaticResource AccentColor}" FontWeight="Bold"/>Add, save, or delete click profiles using the main controls.</TextBlock>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Text="➤ " Foreground="{StaticResource AccentColor}" FontWeight="Bold"/>To build a sequence, capture positions and click 'Add step'.</TextBlock>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Text="➤ " Foreground="{StaticResource AccentColor}" FontWeight="Bold"/>Double-click a step in the list to edit its coordinates or delay.</TextBlock>
+                        <TextBlock Text="{i18n:T help.title}" Style="{StaticResource TitleText}"/>
+                        <TextBlock Text="{i18n:T help.intro}" Style="{StaticResource BodyText}" Margin="0,6,0,0"/>
+
+                        <Separator/>
+
+                        <StackPanel x:Name="QuickStartSection">
+                            <TextBlock Text="{i18n:T help.quickStart.heading}" Style="{StaticResource HeadingText}" Margin="0,4,0,12"/>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="1" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.quickStart.step1}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="2" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.quickStart.step2}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="3" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.quickStart.step3}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel x:Name="ProfilesSection">
+                            <TextBlock Text="{i18n:T help.profiles.heading}" Style="{StaticResource HeadingText}"/>
+                            <TextBlock Text="{i18n:T help.profiles.body}" Style="{StaticResource BodyText}" Margin="0,0,0,14"/>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="-" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.profiles.item1}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="-" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.profiles.item2}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="-" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.profiles.item3}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel x:Name="ModesSection">
+                            <TextBlock Text="{i18n:T help.modes.heading}" Style="{StaticResource HeadingText}"/>
+                            <TextBlock Text="{i18n:T help.modes.nonBlockingLabel}" Style="{StaticResource ModeLabel}"/>
+                            <TextBlock Text="{i18n:T help.modes.nonBlockingBody}" Style="{StaticResource BodyText}" Margin="0,0,0,16"/>
+                            <TextBlock Text="{i18n:T help.modes.blockingLabel}" Style="{StaticResource ModeLabel}"/>
+                            <TextBlock Text="{i18n:T help.modes.blockingBody}" Style="{StaticResource BodyText}"/>
+                        </StackPanel>
+
+                        <StackPanel x:Name="FeaturesSection">
+                            <TextBlock Text="{i18n:T help.features.heading}" Style="{StaticResource HeadingText}"/>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="-" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.features.item1}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="-" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.features.item2}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="-" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.features.item3}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="-" Style="{StaticResource Marker}"/>
+                                <TextBlock Grid.Column="1" Text="{i18n:T help.features.item4}" Style="{StaticResource BodyText}" Margin="0"/>
+                            </Grid>
+                        </StackPanel>
+
                     </StackPanel>
-                    
-
-                    <TextBlock Text="🖱️ Click Modes" Style="{StaticResource HeaderText}"/>
-                    <TextBlock Style="{StaticResource BodyText}">
-                        <Run FontWeight="SemiBold" Foreground="{StaticResource PrimaryTextColor}">Non-blocking (Default):</Run> Sends clicks directly to a window by its title. This is the recommended mode as it does not move your mouse or interrupt your work.
-                        <LineBreak/><LineBreak/>
-                        <Run FontWeight="SemiBold" Foreground="{StaticResource PrimaryTextColor}">Blocking Click:</Run> For apps that ignore background messages (e.g., some games). This mode will briefly move your actual mouse cursor to perform the click.
-                    </TextBlock>
-
-
-                    <TextBlock Text="⚙️ Other Features" Style="{StaticResource HeaderText}"/>
-                    <StackPanel>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Text="✓ " Foreground="{StaticResource AccentColor}" FontWeight="Bold"/>Press the <Bold>Global Hotkey (F8)</Bold> to start or stop the clicker from anywhere.</TextBlock>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Text="✓ " Foreground="{StaticResource AccentColor}" FontWeight="Bold"/>Enable <Bold>Randomize interval</Bold> or <Bold>Click Jitter</Bold> to simulate human behavior.</TextBlock>
-                        <TextBlock Style="{StaticResource BulletPoint}"><Run Text="✓ " Foreground="{StaticResource AccentColor}" FontWeight="Bold"/>Use the <Bold>Keep On Top</Bold> and <Bold>Sound Notifications</Bold> toggles for convenience.</TextBlock>
-                    </StackPanel>
-                </StackPanel>
-            </ScrollViewer>
+                </ScrollViewer>
+            </Grid>
         </Grid>
     </Border>
 </Window>

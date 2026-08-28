@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BackgroundClicker.Wpf
@@ -8,6 +9,18 @@ namespace BackgroundClicker.Wpf
         public HelpWindow()
         {
             InitializeComponent();
+        }
+
+        private void RailButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            string sectionName = button.Tag as string;
+            if (string.IsNullOrEmpty(sectionName)) return;
+
+            var section = FindName(sectionName) as FrameworkElement;
+            if (section != null) section.BringIntoView();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

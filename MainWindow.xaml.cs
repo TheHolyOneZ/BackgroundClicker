@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -16,7 +16,9 @@ using System.Windows.Threading;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Serialization;
+using System.Reflection;
 using BackgroundClicker.Wpf;
+using BackgroundClicker.Wpf.I18n;
 
 namespace BackgroundClicker.Wpf
 {
@@ -46,8 +48,21 @@ namespace BackgroundClicker.Wpf
         [DllImport("user32.dll")] private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
         [DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)] private static extern bool IsWindowVisible(IntPtr hWnd);
 
+        [DllImport("user32.dll")] private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+
         private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
         private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct KBDLLHOOKSTRUCT
+        {
+            public uint vkCode;
+            public uint scanCode;
+            public uint flags;
+            public uint time;
+            public IntPtr dwExtraInfo;
+        }
 
         [StructLayout(LayoutKind.Sequential)] public struct POINT { public int X; public int Y; }
         private const uint GA_ROOT = 2;
@@ -55,6 +70,15 @@ namespace BackgroundClicker.Wpf
         private const uint WM_LBUTTONUP = 0x0202;
         private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
         private const uint MOUSEEVENTF_LEFTUP = 0x0004;
+
+        private const int WH_KEYBOARD_LL = 13;
+        private const int WH_MOUSE_LL = 14;
+        private const uint WM_KEYDOWN_MSG = 0x0100;
+        private const uint WM_SYSKEYDOWN_MSG = 0x0104;
+        private const uint VK_F10 = 0x79;
+        private const uint VK_ESCAPE = 0x1B;
+
+        private const int HoldDriftTolerance = 6;
         #endregion
 
         [Serializable]
@@ -92,8 +116,9 @@ namespace BackgroundClicker.Wpf
 
             public string ToDisplayString()
             {
-                string action = DoubleClick ? "Double click" : "Click";
-                return string.Format("{0} at ({1}, {2}) then wait {3:0.###}s", action, X, Y, DelaySeconds);
+                string action = Loc.T(DoubleClick ? "sequence.doubleClick" : "sequence.click");
+                string delay = DelaySeconds.ToString("0.###", CultureInfo.CurrentCulture);
+                return Loc.T("sequence.stepFormat", action, X, Y, delay);
             }
         }
 
@@ -115,17 +140,33 @@ namespace BackgroundClicker.Wpf
         private double _baseIntervalSeconds = 1.0;
         private POINT _lastMousePosition;
 
+        private ClickProfile _currentProfile;
+
         private bool _isProfileDirty = false;
         private bool _isExecutionRunning = false;
-        
-        private const bool IsBetaBuild = true;
+
+        private LowLevelKeyboardProc _keyProc;
+        private IntPtr _keyHookID = IntPtr.Zero;
+        private enum CaptureTarget { SinglePoint, SequenceStep }
+
+        private bool _isUiReady;
+
+        private CaptureTarget _captureTarget = CaptureTarget.SinglePoint;
+        private bool _isCaptureArmed;
+        private int _recordedStepCount;
+        private POINT _holdOrigin;
+        private bool _isHoldTracking;
+
+        private string _statusKey = "status.idle";
+        private object[] _statusArgs;
+        private bool _statusIsError;
 
         public MainWindow()
         {
             InitializeComponent();
             this.SourceInitialized += new EventHandler(MainWindow_SourceInitialized);
             _proc = new LowLevelMouseProc(HookCallback);
-            ProfileComboBox.Loaded += ProfileComboBox_Loaded;
+            _keyProc = new LowLevelKeyboardProc(KeyboardHookCallback);
             _mouseHoldTimer = new DispatcherTimer();
             _mouseHoldTimer.Interval = TimeSpan.FromSeconds(3);
             _mouseHoldTimer.Tick += new EventHandler(MouseHoldTimer_Tick);
@@ -134,13 +175,43 @@ namespace BackgroundClicker.Wpf
             _profilesFilePath = GetProfilesFilePath();
             InitializeProfiles();
             this.Closed += new EventHandler(MainWindow_Closed);
-            
-            if (BetaWatermarkTextBlock != null)
-            {
-                BetaWatermarkTextBlock.Visibility = IsBetaBuild ? Visibility.Visible : Visibility.Collapsed;
-            }
+
+            InitializeLanguagePicker();
+            InitializeVersionLabel();
+            Loc.LanguageChanged += OnLanguageChanged;
+
+            _isUiReady = true;
+            ApplyTargetMode();
+            ApplyCaptureButtonState();
+            ApplyStatus();
         }
-        
+
+        private void InitializeVersionLabel()
+        {
+            Version v = Assembly.GetExecutingAssembly().GetName().Version;
+            VersionTextBlock.Text = string.Format("v{0}.{1}.{2}", v.Major, v.Minor, v.Build);
+        }
+
+        private void InitializeLanguagePicker()
+        {
+            LanguageComboBox.ItemsSource = Loc.Available;
+            LanguageComboBox.SelectedItem = Loc.Current;
+        }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var language = LanguageComboBox.SelectedItem as Language;
+            if (language != null) App.ChangeLanguage(language);
+        }
+
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            ApplyStatus();
+            ApplyExecutionButtonState();
+            ApplyCaptureButtonState();
+            RefreshSequenceListBox();
+        }
+
         private void SubscribeToProfileChanges()
         {
             WindowTitleTextBox.TextChanged += ProfileField_TextChanged;
@@ -154,8 +225,6 @@ namespace BackgroundClicker.Wpf
             DoubleClickCheckBox.Unchecked += ProfileField_CheckedChanged;
             AlwaysOnTopCheckBox.Checked += ProfileField_CheckedChanged;
             AlwaysOnTopCheckBox.Unchecked += ProfileField_CheckedChanged;
-            UseSequenceCheckBox.Checked += ProfileField_CheckedChanged;
-            UseSequenceCheckBox.Unchecked += ProfileField_CheckedChanged;
             EnableAutoRepeatCheckBox.Checked += ProfileField_CheckedChanged;
             EnableAutoRepeatCheckBox.Unchecked += ProfileField_CheckedChanged;
             BlockingClickCheckBox.Checked += ProfileField_CheckedChanged;
@@ -183,8 +252,6 @@ namespace BackgroundClicker.Wpf
             DoubleClickCheckBox.Unchecked -= ProfileField_CheckedChanged;
             AlwaysOnTopCheckBox.Checked -= ProfileField_CheckedChanged;
             AlwaysOnTopCheckBox.Unchecked -= ProfileField_CheckedChanged;
-            UseSequenceCheckBox.Checked -= ProfileField_CheckedChanged;
-            UseSequenceCheckBox.Unchecked -= ProfileField_CheckedChanged;
             EnableAutoRepeatCheckBox.Checked -= ProfileField_CheckedChanged;
             EnableAutoRepeatCheckBox.Unchecked -= ProfileField_CheckedChanged;
             BlockingClickCheckBox.Checked -= ProfileField_CheckedChanged;
@@ -198,7 +265,7 @@ namespace BackgroundClicker.Wpf
             PlayErrorSoundCheckBox.Checked -= ProfileField_CheckedChanged;
             PlayErrorSoundCheckBox.Unchecked -= ProfileField_CheckedChanged;
         }
-        
+
         private void SetProfileDirty(bool isDirty)
         {
             if (_isProfileDirty == isDirty)
@@ -216,34 +283,31 @@ namespace BackgroundClicker.Wpf
             {
                 return;
             }
-            
+
             ExecutionButton.IsEnabled = true;
 
             if (_isProfileDirty)
             {
-                UpdateStatus("Profile has unsaved changes. You can save it or start anyway.", true);
+                UpdateStatus("status.profileDirty", true);
             }
-            else
+            else if (_statusKey == "status.profileDirty")
             {
-                string statusText = StatusTextBlock.Text ?? string.Empty;
-                if (statusText.IndexOf("unsaved changes", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    UpdateStatus("Profile saved. Ready to run.", false);
-                }
+                UpdateStatus("status.profileSavedReady", false);
             }
         }
 
         private void SetUiEnabledState(bool isEnabled)
         {
             ProfileComboBox.IsEnabled = isEnabled;
+            NewProfileButton.IsEnabled = isEnabled;
             SaveProfileButton.IsEnabled = isEnabled;
-            DeleteProfileButton.IsEnabled = isEnabled;
+            ProfileMenuButton.IsEnabled = isEnabled;
             WindowTitleTextBox.IsEnabled = isEnabled;
             XCoordTextBox.IsEnabled = isEnabled;
             YCoordTextBox.IsEnabled = isEnabled;
             SequenceListBox.IsEnabled = isEnabled;
             SequenceDelayTextBox.IsEnabled = isEnabled;
-            AddSequenceStepButton.IsEnabled = isEnabled;
+            CapturePointButton.IsEnabled = isEnabled;
             RemoveSequenceStepButton.IsEnabled = isEnabled;
             ClearSequenceButton.IsEnabled = isEnabled;
             AutoSetupButton.IsEnabled = isEnabled;
@@ -256,7 +320,8 @@ namespace BackgroundClicker.Wpf
             PlayErrorSoundCheckBox.IsEnabled = isEnabled;
             DoubleClickCheckBox.IsEnabled = isEnabled;
             AlwaysOnTopCheckBox.IsEnabled = isEnabled;
-            UseSequenceCheckBox.IsEnabled = isEnabled;
+            SinglePointModeRadio.IsEnabled = isEnabled;
+            SequenceModeRadio.IsEnabled = isEnabled;
             EnableAutoRepeatCheckBox.IsEnabled = isEnabled;
             BlockingClickCheckBox.IsEnabled = isEnabled;
             HardStopCheckBox.IsEnabled = isEnabled;
@@ -264,13 +329,13 @@ namespace BackgroundClicker.Wpf
 
         private bool ValidateConfigurationForRun()
         {
-            bool useSequence = UseSequenceCheckBox.IsChecked == true;
+            bool useSequence = IsSequenceMode;
 
             if (useSequence)
             {
                 if (_sequenceSteps.Count == 0)
                 {
-                    ShowNotification("Your sequence is enabled but has no steps. Add at least one step before starting.", true);
+                    ShowNotification("notify.sequenceEmpty", true);
                     return false;
                 }
             }
@@ -279,7 +344,7 @@ namespace BackgroundClicker.Wpf
                 string title = (WindowTitleTextBox.Text ?? string.Empty).Trim();
                 if (string.IsNullOrEmpty(title))
                 {
-                    ShowNotification("Please enter a target window title or enable a sequence before starting.", true);
+                    ShowNotification("notify.noTarget", true);
                     return false;
                 }
 
@@ -287,23 +352,23 @@ namespace BackgroundClicker.Wpf
                 int y;
                 if (!int.TryParse(XCoordTextBox.Text, out x) || !int.TryParse(YCoordTextBox.Text, out y))
                 {
-                    ShowNotification("X and Y coordinates must be valid integers.", true);
+                    ShowNotification("notify.invalidCoordinates", true);
                     return false;
                 }
 
                 if (x == 0 && y == 0)
                 {
-                    ShowNotification("X and Y cannot both be 0. Move the target point away from the top-left corner.", true);
+                    ShowNotification("notify.zeroCoordinates", true);
                     return false;
                 }
-                
+
                 IntPtr testHandle = FindWindowByApproxTitle(title);
                 if (testHandle == IntPtr.Zero)
                 {
-                    ShowNotification("Could not find any window matching the title '" + title + "'. Make sure it is open and visible, or use the target capture.", true);
+                    ShowNotification("notify.windowNotFound", true, title);
                     return false;
                 }
-                
+
                 _targetWindowHandle = testHandle;
             }
 
@@ -312,7 +377,7 @@ namespace BackgroundClicker.Wpf
                 double sec;
                 if (!double.TryParse(IntervalTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out sec) || sec <= 0)
                 {
-                    ShowNotification("Interval must be a number greater than 0 seconds.", true);
+                    ShowNotification("notify.intervalInvalid", true);
                     return false;
                 }
             }
@@ -325,10 +390,10 @@ namespace BackgroundClicker.Wpf
             if (!_isExecutionRunning && _isProfileDirty)
             {
                 var dialog = new NotificationWindow(
-                    "You changed this profile. Save it before starting?",
+                    Loc.T("dialog.saveBeforeStartMessage"),
                     false,
-                    "Save and Start",
-                    "Cancel")
+                    Loc.T("dialog.saveAndStart"),
+                    Loc.T("notify.cancel"))
                 {
                     Owner = this
                 };
@@ -347,7 +412,7 @@ namespace BackgroundClicker.Wpf
                     return;
                 }
             }
-            
+
             if (!_isExecutionRunning)
             {
                 if (!ValidateConfigurationForRun())
@@ -360,10 +425,8 @@ namespace BackgroundClicker.Wpf
 
             if (_isExecutionRunning)
             {
-                UpdateStatus("Running...", false);
-                ExecutionButton.Content = "STOP";
-                ExecutionButton.Background = new SolidColorBrush(Colors.DarkRed);
-                ExecutionButton.BorderBrush = new SolidColorBrush(Colors.Red);
+                UpdateStatus("status.running", false);
+                ApplyExecutionButtonState();
                 SetUiEnabledState(false);
 
                 if (EnableAutoRepeatCheckBox.IsChecked == true)
@@ -393,14 +456,14 @@ namespace BackgroundClicker.Wpf
                     }
                     else
                     {
-                        UpdateStatus("Invalid Interval", true);
+                        UpdateStatus("status.invalidInterval", true);
                         _isExecutionRunning = false;
                         ExecutionButton_Click(this, new RoutedEventArgs());
                     }
                 }
                 else
                 {
-                    bool useSequence = UseSequenceCheckBox.IsChecked == true && _sequenceSteps.Count > 0;
+                    bool useSequence = IsSequenceMode && _sequenceSteps.Count > 0;
                     if (useSequence)
                     {
                         RunSequenceOnce();
@@ -415,10 +478,8 @@ namespace BackgroundClicker.Wpf
             else
             {
                 _clickTimer.Stop();
-                UpdateStatus("Stopped by user.", false);
-                ExecutionButton.Content = "START";
-                ExecutionButton.Background = new SolidColorBrush(Color.FromRgb(0x22, 0x8B, 0x22));
-                ExecutionButton.BorderBrush = new SolidColorBrush(Color.FromRgb(0x3C, 0xB3, 0x71));
+                UpdateStatus("status.stoppedByUser", false);
+                ApplyExecutionButtonState();
                 SetUiEnabledState(true);
             }
         }
@@ -439,7 +500,7 @@ namespace BackgroundClicker.Wpf
             {
                 return found;
             }
-            
+
             found = IntPtr.Zero;
 
             try
@@ -447,16 +508,16 @@ namespace BackgroundClicker.Wpf
                 EnumWindows(delegate(IntPtr hWnd, IntPtr lParam)
                 {
                     if (!IsWindow(hWnd) || !IsWindowVisible(hWnd)) return true;
-                    
+
                     int len = GetWindowTextLength(hWnd);
                     if (len <= 0) return true;
-                    
+
                     StringBuilder sb = new StringBuilder(len + 1);
                     GetWindowText(hWnd, sb, sb.Capacity);
                     string current = sb.ToString();
 
                     if (string.IsNullOrWhiteSpace(current)) return true;
-                    
+
                     if (current.IndexOf(target, StringComparison.OrdinalIgnoreCase) >= 0 || target.IndexOf(current, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         found = hWnd;
@@ -540,7 +601,7 @@ namespace BackgroundClicker.Wpf
             }
             catch { }
         }
-        
+
         private ClickProfile CreateProfileFromCurrent(string name)
         {
             double intervalSeconds;
@@ -569,11 +630,11 @@ namespace BackgroundClicker.Wpf
                 PlayClickSound = PlayClickSoundCheckBox.IsChecked == true,
                 PlayErrorSound = PlayErrorSoundCheckBox.IsChecked == true,
                 BlockingClick = BlockingClickCheckBox.IsChecked == true,
-                UseSequence = UseSequenceCheckBox.IsChecked == true,
+                UseSequence = IsSequenceMode,
                 SequenceSteps = CloneSequenceSteps(_sequenceSteps)
             };
         }
-        
+
         private void UpdateProfileFromCurrent(ClickProfile profile)
         {
             if (profile == null) return;
@@ -600,13 +661,14 @@ namespace BackgroundClicker.Wpf
             profile.PlayClickSound = PlayClickSoundCheckBox.IsChecked == true;
             profile.PlayErrorSound = PlayErrorSoundCheckBox.IsChecked == true;
             profile.BlockingClick = BlockingClickCheckBox.IsChecked == true;
-            profile.UseSequence = UseSequenceCheckBox.IsChecked == true;
+            profile.UseSequence = IsSequenceMode;
             profile.SequenceSteps = CloneSequenceSteps(_sequenceSteps);
         }
-        
+
         private void LoadProfileIntoUi(ClickProfile profile)
         {
             if (profile == null) return;
+            _currentProfile = profile;
             _isLoadingProfile = true;
             UnsubscribeFromProfileChanges();
             try
@@ -626,25 +688,27 @@ namespace BackgroundClicker.Wpf
                 PlayClickSoundCheckBox.IsChecked = profile.PlayClickSound;
                 PlayErrorSoundCheckBox.IsChecked = profile.PlayErrorSound;
                 BlockingClickCheckBox.IsChecked = profile.BlockingClick;
-                UseSequenceCheckBox.IsChecked = profile.UseSequence;
+                SequenceModeRadio.IsChecked = profile.UseSequence;
+                SinglePointModeRadio.IsChecked = !profile.UseSequence;
                 ProfileComboBox.Text = profile.Name ?? string.Empty;
 
                 IntPtr hwnd = (IntPtr)profile.Hwnd;
                 if (hwnd != IntPtr.Zero && IsWindow(hwnd))
                 {
                     _targetWindowHandle = hwnd;
-                    UpdateStatus("Target window ready (HWND).", false);
+                    UpdateStatus("status.targetReadyHandle", false);
                 }
                 else
                 {
                     _targetWindowHandle = FindWindowByApproxTitle(profile.WindowTitle);
                     if (_targetWindowHandle != IntPtr.Zero)
                     {
-                        UpdateStatus("Target window ready (Title).", false);
+                        UpdateStatus("status.targetReadyTitle", false);
                     }
                     else
                     {
-                        UpdateStatus("Target window not found. Use 'Setup'.", true);
+                        UpdateStatus(IsSequenceMode ? "status.targetNotFoundCapture"
+                                                    : "status.targetNotFoundSetup", true);
                     }
                 }
 
@@ -658,12 +722,13 @@ namespace BackgroundClicker.Wpf
             }
             finally
             {
+                ApplyTargetMode();
                 _isLoadingProfile = false;
                 SubscribeToProfileChanges();
                 SetProfileDirty(false);
             }
         }
-        
+
         private void RefreshProfilesCombo(string selectedName)
         {
             _isLoadingProfile = true;
@@ -685,52 +750,184 @@ namespace BackgroundClicker.Wpf
             finally { _isLoadingProfile = false; }
         }
 
+        private bool ConfirmDiscardUnsavedChanges()
+        {
+            if (!_isProfileDirty) return true;
+
+            MessageBoxResult result = MessageBox.Show(
+                Loc.T("dialog.unsavedMessage"),
+                Loc.T("dialog.unsavedTitle"),
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Cancel) return false;
+            if (result == MessageBoxResult.Yes) SaveProfileButton_Click(this, new RoutedEventArgs());
+            return true;
+        }
+
         private void ProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_isLoadingProfile || _isExecutionRunning) return;
 
-            if (_isProfileDirty)
+            ClickProfile selected = ProfileComboBox.SelectedItem as ClickProfile;
+            if (selected == null || selected == _currentProfile) return;
+
+            if (!ConfirmDiscardUnsavedChanges())
             {
-                MessageBoxResult result = MessageBox.Show("You have unsaved changes in the current profile. Save them before switching?", "Unsaved Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.Yes)
-                {
-                    SaveProfileButton_Click(this, new RoutedEventArgs());
-                }
-                else if (result == MessageBoxResult.Cancel)
-                {
-                    _isLoadingProfile = true;
-                    ProfileComboBox.SelectedItem = _profiles.FirstOrDefault(p => p.Name == (ProfileComboBox.Text ?? ""));
-                    _isLoadingProfile = false;
-                    return;
-                }
+                _isLoadingProfile = true;
+                ProfileComboBox.SelectedItem = _currentProfile;
+                _isLoadingProfile = false;
+                return;
             }
-            
-            if (ProfileComboBox.SelectedItem is ClickProfile)
-            {
-                LoadProfileIntoUi((ClickProfile)ProfileComboBox.SelectedItem);
-            }
+
+            LoadProfileIntoUi(selected);
+            SetProfileDirty(false);
         }
 
         private void SaveProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            string name = (ProfileComboBox.Text ?? string.Empty).Trim();
+            ClickProfile selected = ProfileComboBox.SelectedItem as ClickProfile;
+
+            if (selected == null)
+            {
+                NewProfileButton_Click(sender, e);
+                return;
+            }
+
+            UpdateProfileFromCurrent(selected);
+            SaveProfiles();
+            RefreshProfilesCombo(selected.Name);
+            UpdateStatus("status.profileSaved", false, selected.Name);
+        }
+
+        private string ValidateProfileName(string candidate, ClickProfile allowSameAs)
+        {
+            string name = (candidate ?? string.Empty).Trim();
+
             if (string.IsNullOrEmpty(name))
             {
-                name = "Profile " + (_profiles.Count + 1);
+                return Loc.T("profile.errorEmpty");
             }
-            var existing = _profiles.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
-            if (existing == null)
+
+            ClickProfile clash = _profiles.FirstOrDefault(
+                x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase) && x != allowSameAs);
+
+            return clash != null ? Loc.T("profile.errorTaken", name) : null;
+        }
+
+        private string SuggestProfileName(string basis)
+        {
+            if (ValidateProfileName(basis, null) == null) return basis;
+
+            for (int i = 2; i < 1000; i++)
             {
-                _profiles.Add(CreateProfileFromCurrent(name));
+                string candidate = basis + " " + i.ToString(CultureInfo.InvariantCulture);
+                if (ValidateProfileName(candidate, null) == null) return candidate;
             }
-            else
+            return basis + " " + Guid.NewGuid().ToString("N").Substring(0, 4);
+        }
+
+        private bool AskProfileName(string titleKey, string confirmKey, string suggested,
+                                    ClickProfile allowSameAs, out string chosen)
+        {
+            chosen = null;
+
+            var prompt = new PromptWindow(
+                Loc.T(titleKey),
+                Loc.T("profile.nameLabel"),
+                suggested,
+                Loc.T(confirmKey),
+                candidate => ValidateProfileName(candidate, allowSameAs))
             {
-                UpdateProfileFromCurrent(existing);
+                Owner = this
+            };
+
+            if (prompt.ShowDialog() != true) return false;
+
+            chosen = prompt.Value;
+            return true;
+        }
+
+        private void NewProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ConfirmDiscardUnsavedChanges()) return;
+
+            string name;
+            if (!AskProfileName("profile.newTitle", "profile.createAction",
+                                SuggestProfileName(Loc.T("profile.defaultName")), null, out name))
+            {
+                return;
             }
+
+            var created = new ClickProfile
+            {
+                Name = name,
+                IntervalSeconds = 1.0,
+                SequenceSteps = new List<SequenceStep>()
+            };
+
+            _profiles.Add(created);
             SaveProfiles();
             RefreshProfilesCombo(name);
-            UpdateStatus("Profile saved: " + name, false);
-            ShowNotification("Profile saved: " + name, false);
+            LoadProfileIntoUi(created);
+            SetProfileDirty(false);
+            UpdateStatus("status.profileCreated", false, name);
+        }
+
+        private void DuplicateProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ClickProfile source = ProfileComboBox.SelectedItem as ClickProfile;
+            if (source == null) return;
+
+            string name;
+            if (!AskProfileName("profile.duplicateTitle", "profile.duplicateAction",
+                                SuggestProfileName(source.Name + " " + Loc.T("profile.copySuffix")),
+                                null, out name))
+            {
+                return;
+            }
+
+            ClickProfile copy = CreateProfileFromCurrent(name);
+            _profiles.Add(copy);
+            SaveProfiles();
+            RefreshProfilesCombo(name);
+            LoadProfileIntoUi(copy);
+            SetProfileDirty(false);
+            UpdateStatus("status.profileCreated", false, name);
+        }
+
+        private void RenameProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ClickProfile selected = ProfileComboBox.SelectedItem as ClickProfile;
+            if (selected == null) return;
+
+            string name;
+            if (!AskProfileName("profile.renameTitle", "profile.renameAction",
+                                selected.Name, selected, out name))
+            {
+                return;
+            }
+
+            selected.Name = name;
+            SaveProfiles();
+            RefreshProfilesCombo(name);
+            UpdateStatus("status.profileRenamed", false, name);
+        }
+
+        private void ProfileMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null || button.ContextMenu == null) return;
+
+            bool hasProfile = ProfileComboBox.SelectedItem is ClickProfile;
+            foreach (object item in button.ContextMenu.Items)
+            {
+                var entry = item as MenuItem;
+                if (entry != null) entry.IsEnabled = hasProfile;
+            }
+
+            button.ContextMenu.PlacementTarget = button;
+            button.ContextMenu.IsOpen = true;
         }
 
         private void ProfileField_TextChanged(object sender, TextChangedEventArgs e) { if (!_isLoadingProfile) SetProfileDirty(true); }
@@ -740,6 +937,16 @@ namespace BackgroundClicker.Wpf
         {
             if (!(ProfileComboBox.SelectedItem is ClickProfile)) return;
             ClickProfile selected = (ClickProfile)ProfileComboBox.SelectedItem;
+
+            MessageBoxResult confirm = MessageBox.Show(
+                Loc.T("profile.deleteConfirmMessage", selected.Name),
+                Loc.T("profile.deleteConfirmTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning,
+                MessageBoxResult.No);
+
+            if (confirm != MessageBoxResult.Yes) return;
+
             _profiles.Remove(selected);
             SaveProfiles();
             string nextName = _profiles.Count > 0 ? _profiles[0].Name : null;
@@ -750,8 +957,17 @@ namespace BackgroundClicker.Wpf
             }
             else
             {
-                LoadProfileIntoUi(new ClickProfile { Name = "Default", IntervalSeconds = 1.0 });
-                SetProfileDirty(true);
+                var replacement = new ClickProfile
+                {
+                    Name = Loc.T("profile.defaultName"),
+                    IntervalSeconds = 1.0,
+                    SequenceSteps = new List<SequenceStep>()
+                };
+                _profiles.Add(replacement);
+                SaveProfiles();
+                RefreshProfilesCombo(replacement.Name);
+                LoadProfileIntoUi(replacement);
+                SetProfileDirty(false);
             }
         }
 
@@ -761,25 +977,23 @@ namespace BackgroundClicker.Wpf
             SequenceListBox.ItemsSource = _sequenceSteps.Select(s => s.ToDisplayString()).ToList();
         }
 
-        private void AddSequenceStepButton_Click(object sender, RoutedEventArgs e)
+        private void AddSequenceStep(string windowTitle, int x, int y)
         {
-            int x, y;
-            if (!int.TryParse(XCoordTextBox.Text, out x) || !int.TryParse(YCoordTextBox.Text, out y))
-            {
-                UpdateStatus("Invalid coordinates for step.", true);
-                return;
-            }
             double delay;
             double.TryParse(SequenceDelayTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out delay);
+
             _sequenceSteps.Add(new SequenceStep
             {
-                WindowTitle = (WindowTitleTextBox.Text ?? string.Empty).Trim(),
+                WindowTitle = (windowTitle ?? string.Empty).Trim(),
                 X = x,
                 Y = y,
                 DoubleClick = DoubleClickCheckBox.IsChecked == true,
                 DelaySeconds = delay
             });
+
             RefreshSequenceListBox();
+            SequenceListBox.SelectedIndex = _sequenceSteps.Count - 1;
+            SequenceListBox.ScrollIntoView(SequenceListBox.SelectedItem);
             SetProfileDirty(true);
         }
 
@@ -830,16 +1044,6 @@ namespace BackgroundClicker.Wpf
 
         private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); }
 
-        private void ProfileComboBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            var editableTextBox = ProfileComboBox.Template.FindName("PART_EditableTextBox", ProfileComboBox) as TextBox;
-            if (editableTextBox != null)
-            {
-                editableTextBox.Background = new SolidColorBrush(Color.FromRgb(0x15, 0x15, 0x15));
-                editableTextBox.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0xF2, 0xEA));
-            }
-        }
-
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             var help = new HelpWindow();
@@ -865,10 +1069,32 @@ namespace BackgroundClicker.Wpf
         private void CloseButton_Click(object sender, RoutedEventArgs e) { Close(); }
         private void MinimizeButton_Click(object sender, RoutedEventArgs e) { WindowState = WindowState.Minimized; }
 
-        private void UpdateStatus(string message, bool isError)
+        private void UpdateStatus(string key, bool isError, params object[] args)
         {
-            StatusTextBlock.Text = message;
-            StatusTextBlock.Foreground = isError ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Color.FromRgb(0, 242, 234));
+            _statusKey = key;
+            _statusArgs = args;
+            _statusIsError = isError;
+            ApplyStatus();
+        }
+
+        private void ApplyStatus()
+        {
+            StatusTextBlock.Text = Loc.T(_statusKey, _statusArgs);
+
+            string textKey = _statusIsError ? "StateErrorBrush" : "TextDimBrush";
+            string dotKey = _statusIsError ? "StateErrorBrush"
+                          : _isExecutionRunning ? "StateRunningBrush"
+                          : "StateIdleBrush";
+
+            StatusTextBlock.Foreground = (Brush)FindResource(textKey);
+            StatusDot.Fill = (Brush)FindResource(dotKey);
+        }
+
+        private void ApplyExecutionButtonState()
+        {
+            ExecutionButton.Content = Loc.T(_isExecutionRunning ? "main.button.stop" : "main.button.start");
+            ExecutionButton.Style = (Style)FindResource(_isExecutionRunning ? "StopButton" : "PrimaryButton");
+            ApplyStatus();
         }
 
         private async void RunSequenceOnce()
@@ -902,7 +1128,7 @@ namespace BackgroundClicker.Wpf
 
                     if (seqHWnd == IntPtr.Zero)
                     {
-                        UpdateStatus("Target window not found for blocking sequence.", true);
+                        UpdateStatus("status.targetNotFoundBlocking", true);
                         return;
                     }
                 }
@@ -920,13 +1146,7 @@ namespace BackgroundClicker.Wpf
                     }
                     else
                     {
-                        UnsubscribeFromProfileChanges();
-                        WindowTitleTextBox.Text = step.WindowTitle;
-                        XCoordTextBox.Text = step.X.ToString();
-                        YCoordTextBox.Text = step.Y.ToString();
-                        DoubleClickCheckBox.IsChecked = step.DoubleClick;
-                        SubscribeToProfileChanges();
-                        TrySendBackgroundClick();
+                        SendClickAt(step.WindowTitle, step.X, step.Y, step.DoubleClick);
                     }
 
                     if (i < _sequenceSteps.Count - 1)
@@ -984,10 +1204,16 @@ namespace BackgroundClicker.Wpf
             int x, y;
             if (!int.TryParse(XCoordTextBox.Text, out x) || !int.TryParse(YCoordTextBox.Text, out y))
             {
-                UpdateStatus("Invalid Coordinates", true);
+                UpdateStatus("status.invalidCoordinates", true);
                 return false;
             }
 
+            return SendClickAt((WindowTitleTextBox.Text ?? string.Empty).Trim(), x, y,
+                               DoubleClickCheckBox.IsChecked == true);
+        }
+
+        private bool SendClickAt(string windowTitle, int x, int y, bool doubleClick)
+        {
             IntPtr hWnd = IntPtr.Zero;
             if (_targetWindowHandle != IntPtr.Zero && IsWindow(_targetWindowHandle))
             {
@@ -995,12 +1221,12 @@ namespace BackgroundClicker.Wpf
             }
             else
             {
-                 hWnd = FindWindowByApproxTitle((WindowTitleTextBox.Text ?? "").Trim());
+                 hWnd = FindWindowByApproxTitle(windowTitle ?? string.Empty);
             }
 
             if (hWnd == IntPtr.Zero)
             {
-                UpdateStatus("Target window not found. Check the title or bring the window to the foreground.", true);
+                UpdateStatus("status.targetNotFoundTitle", true);
 
                 if (_isExecutionRunning)
                 {
@@ -1012,7 +1238,7 @@ namespace BackgroundClicker.Wpf
                 }
                 else
                 {
-                    ShowNotification("Target window not found. Verify the window title or use the setup capture.", true);
+                    ShowNotification("notify.targetNotFound", true);
                 }
 
                 return false;
@@ -1029,12 +1255,12 @@ namespace BackgroundClicker.Wpf
             {
                 var point = new POINT { X = x, Y = y };
                 ClientToScreen(hWnd, ref point);
-                
+
                 POINT originalPos;
                 GetCursorPos(out originalPos);
 
                 SlideMouse(originalPos, point, 20, 150);
-                SendScreenClickAt(point.X, point.Y, DoubleClickCheckBox.IsChecked == true);
+                SendScreenClickAt(point.X, point.Y, doubleClick);
                 SlideMouse(point, originalPos, 20, 150);
             }
             else
@@ -1042,7 +1268,7 @@ namespace BackgroundClicker.Wpf
                 IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
                 SendMessage(hWnd, WM_LBUTTONDOWN, IntPtr.Zero, lParam);
                 SendMessage(hWnd, WM_LBUTTONUP, IntPtr.Zero, lParam);
-                if (DoubleClickCheckBox.IsChecked == true)
+                if (doubleClick)
                 {
                     SendMessage(hWnd, WM_LBUTTONDOWN, IntPtr.Zero, lParam);
                     SendMessage(hWnd, WM_LBUTTONUP, IntPtr.Zero, lParam);
@@ -1054,7 +1280,7 @@ namespace BackgroundClicker.Wpf
             {
                 SystemSounds.Asterisk.Play();
             }
-            UpdateStatus("Click Sent Successfully", false);
+            UpdateStatus("status.clickSent", false);
             return true;
         }
 
@@ -1082,7 +1308,7 @@ namespace BackgroundClicker.Wpf
 
                 if (seqHWnd == IntPtr.Zero)
                 {
-                    UpdateStatus("Target window lost. Stopping.", true);
+                    UpdateStatus("status.targetLost", true);
                     ExecutionButton_Click(this, new RoutedEventArgs());
                     return false;
                 }
@@ -1099,13 +1325,7 @@ namespace BackgroundClicker.Wpf
             }
             else
             {
-                UnsubscribeFromProfileChanges();
-                WindowTitleTextBox.Text = step.WindowTitle;
-                XCoordTextBox.Text = step.X.ToString();
-                YCoordTextBox.Text = step.Y.ToString();
-                DoubleClickCheckBox.IsChecked = step.DoubleClick;
-                SubscribeToProfileChanges();
-                sent = TrySendBackgroundClick();
+                sent = SendClickAt(step.WindowTitle, step.X, step.Y, step.DoubleClick);
             }
 
             _sequenceIndex = (_sequenceIndex + 1) % _sequenceSteps.Count;
@@ -1124,7 +1344,7 @@ namespace BackgroundClicker.Wpf
         private void ClickTimer_Tick(object sender, EventArgs e)
         {
             bool sent = false;
-            if (UseSequenceCheckBox.IsChecked == true && _sequenceSteps.Count > 0)
+            if (IsSequenceMode && _sequenceSteps.Count > 0)
             {
                 sent = RunSequenceTick();
             }
@@ -1132,33 +1352,33 @@ namespace BackgroundClicker.Wpf
             {
                 sent = TrySendBackgroundClick();
             }
-            
+
             if (sent)
             {
                 _sessionClicks++;
-                
+
                 if (HardStopCheckBox.IsChecked == true)
                 {
                     bool hardClickLimitReached = _sessionClickLimit.HasValue && _sessionClicks >= _sessionClickLimit.Value;
                     if (hardClickLimitReached)
                     {
-                        UpdateStatus("Hard click limit reached. Stopping.", false);
+                        UpdateStatus("status.hardLimitReached", false);
                         if (PlayErrorSoundCheckBox.IsChecked == true) System.Media.SystemSounds.Hand.Play();
                         ExecutionButton_Click(this, new RoutedEventArgs());
-                        return; 
+                        return;
                     }
                 }
 
                 bool clickLimitReached = _sessionClickLimit.HasValue && _sessionClicks >= _sessionClickLimit.Value;
                 bool timeLimitReached = _sessionEndTimeUtc.HasValue && DateTime.UtcNow >= _sessionEndTimeUtc.Value;
 
-                bool isReadyForSoftStopCheck = !UseSequenceCheckBox.IsChecked.GetValueOrDefault()
+                bool isReadyForSoftStopCheck = !IsSequenceMode
                                                || _sequenceSteps.Count == 0
                                                || _sequenceIndex == 0;
 
                 if (isReadyForSoftStopCheck && (clickLimitReached || timeLimitReached))
                 {
-                    UpdateStatus("Run limit reached. Stopping.", false);
+                    UpdateStatus("status.runLimitReached", false);
                     if (PlayErrorSoundCheckBox.IsChecked == true)
                     {
                         SystemSounds.Hand.Play();
@@ -1183,75 +1403,241 @@ namespace BackgroundClicker.Wpf
 
         private void AutoSetupButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateStatus("Hold Left Mouse for 3 Seconds on target...", false);
-            if (_hookID != IntPtr.Zero) UnhookWindowsHookEx(_hookID);
-            _hookID = SetHook(_proc);
+            if (_isCaptureArmed) DisarmCapture(true);
+            else ArmCapture(CaptureTarget.SinglePoint);
         }
 
-        private IntPtr SetHook(LowLevelMouseProc proc)
+        private void CapturePointButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isCaptureArmed) DisarmCapture(true);
+            else ArmCapture(CaptureTarget.SequenceStep);
+        }
+
+        private void ArmCapture(CaptureTarget target)
+        {
+            if (_isCaptureArmed) return;
+
+            _captureTarget = target;
+            _isCaptureArmed = true;
+            _recordedStepCount = 0;
+            _isHoldTracking = false;
+
+            if (_hookID != IntPtr.Zero) UnhookWindowsHookEx(_hookID);
+            _hookID = SetMouseHook(_proc);
+            if (_keyHookID != IntPtr.Zero) UnhookWindowsHookEx(_keyHookID);
+            _keyHookID = SetKeyboardHook(_keyProc);
+
+            ApplyCaptureButtonState();
+
+            string statusKey = _captureTarget == CaptureTarget.SinglePoint
+                ? "status.captureArmed"
+                : (IsRecordingSteps ? "status.captureRecording" : "status.captureStep");
+            UpdateStatus(statusKey, false);
+        }
+
+        private void DisarmCapture(bool cancelled)
+        {
+            if (!_isCaptureArmed) return;
+
+            _isCaptureArmed = false;
+            _isHoldTracking = false;
+            _mouseHoldTimer.Stop();
+
+            if (_hookID != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_hookID);
+                _hookID = IntPtr.Zero;
+            }
+            if (_keyHookID != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_keyHookID);
+                _keyHookID = IntPtr.Zero;
+            }
+
+            ApplyCaptureButtonState();
+
+            if (cancelled)
+            {
+                UpdateStatus("status.captureCancelled", false);
+            }
+            else if (_recordedStepCount > 0)
+            {
+                UpdateStatus("status.recordingFinished", false, _recordedStepCount);
+            }
+        }
+
+        private bool IsSequenceMode
+        {
+            get { return SequenceModeRadio != null && SequenceModeRadio.IsChecked == true; }
+        }
+
+        private void TargetMode_Changed(object sender, RoutedEventArgs e)
+        {
+            if (!_isUiReady) return;
+
+            ApplyTargetMode();
+            if (!_isLoadingProfile) SetProfileDirty(true);
+        }
+
+        private void ApplyTargetMode()
+        {
+            if (CoordinatesRow == null) return;
+
+            bool sequence = IsSequenceMode;
+
+            CoordinatesRow.Visibility = sequence ? Visibility.Collapsed : Visibility.Visible;
+            AutoSetupButton.Visibility = sequence ? Visibility.Collapsed : Visibility.Visible;
+            SetupHintText.Visibility = sequence ? Visibility.Collapsed : Visibility.Visible;
+            SequenceSection.Visibility = sequence ? Visibility.Visible : Visibility.Collapsed;
+
+            if (_isCaptureArmed) DisarmCapture(true);
+        }
+
+        private bool IsRecordingSteps
+        {
+            get { return RecordStepsCheckBox != null && RecordStepsCheckBox.IsChecked == true; }
+        }
+
+        private void ApplyCaptureButtonState()
+        {
+            AutoSetupButton.Content = Loc.T(_isCaptureArmed ? "main.button.cancelSetup" : "main.button.setup");
+
+            Brush accent = (Brush)FindResource(_isCaptureArmed ? "StateErrorBrush" : "AccentBrush");
+            AutoSetupButton.Foreground = accent;
+            AutoSetupButton.BorderBrush = accent;
+        }
+
+        private IntPtr SetMouseHook(LowLevelMouseProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
             {
-                return SetWindowsHookEx(14, proc, GetModuleHandle(curModule.ModuleName), 0);
+                return SetWindowsHookEx(WH_MOUSE_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+            }
+        }
+
+        private IntPtr SetKeyboardHook(LowLevelKeyboardProc proc)
+        {
+            using (Process curProcess = Process.GetCurrentProcess())
+            using (ProcessModule curModule = curProcess.MainModule)
+            {
+                return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
             }
         }
 
         private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0)
+            if (nCode >= 0 && _isCaptureArmed)
             {
                 if ((uint)wParam == WM_LBUTTONDOWN)
                 {
-                    _mouseHoldTimer.Start();
+                    if (GetCursorPos(out _holdOrigin))
+                    {
+                        _isHoldTracking = true;
+                        _mouseHoldTimer.Start();
+                    }
                 }
                 else if ((uint)wParam == WM_LBUTTONUP)
                 {
+                    _isHoldTracking = false;
                     _mouseHoldTimer.Stop();
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
+        private IntPtr KeyboardHookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            if (nCode >= 0 && _isCaptureArmed)
+            {
+                uint msg = (uint)wParam;
+                if (msg == WM_KEYDOWN_MSG || msg == WM_SYSKEYDOWN_MSG)
+                {
+                    KBDLLHOOKSTRUCT info = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
+
+                    if (info.vkCode == VK_F10)
+                    {
+                        CaptureAtCursor();
+                        return (IntPtr)1;
+                    }
+                    if (info.vkCode == VK_ESCAPE)
+                    {
+                        DisarmCapture(_recordedStepCount == 0);
+                        return (IntPtr)1;
+                    }
+                }
+            }
+            return CallNextHookEx(_keyHookID, nCode, wParam, lParam);
+        }
+
         private void MouseHoldTimer_Tick(object sender, EventArgs e)
         {
             _mouseHoldTimer.Stop();
-            if (_hookID != IntPtr.Zero)
+            if (!_isCaptureArmed || !_isHoldTracking) return;
+
+            POINT now;
+            if (GetCursorPos(out now)
+                && (Math.Abs(now.X - _holdOrigin.X) > HoldDriftTolerance
+                 || Math.Abs(now.Y - _holdOrigin.Y) > HoldDriftTolerance))
             {
-                UnhookWindowsHookEx(_hookID);
-                _hookID = IntPtr.Zero;
+                _isHoldTracking = false;
+                return;
             }
 
+            _isHoldTracking = false;
+            CaptureAtCursor();
+        }
+
+        private void CaptureAtCursor()
+        {
             POINT pos;
-            if (GetCursorPos(out pos))
+            if (!GetCursorPos(out pos)) return;
+
+            IntPtr hWnd = WindowFromPoint(pos);
+            if (hWnd != IntPtr.Zero)
             {
-                IntPtr hWnd = WindowFromPoint(pos);
-                if (hWnd != IntPtr.Zero)
-                {
-                    hWnd = GetAncestor(hWnd, GA_ROOT);
-                }
-
-                if (hWnd != IntPtr.Zero)
-                {
-                    _targetWindowHandle = hWnd;
-                    StringBuilder sb = new StringBuilder(GetWindowTextLength(hWnd) + 1);
-                    GetWindowText(hWnd, sb, sb.Capacity);
-
-                    UnsubscribeFromProfileChanges();
-                    WindowTitleTextBox.Text = sb.ToString();
-                    ScreenToClient(hWnd, ref pos);
-                    XCoordTextBox.Text = pos.X.ToString();
-                    YCoordTextBox.Text = pos.Y.ToString();
-                    SubscribeToProfileChanges();
-
-                    SetProfileDirty(true);
-                    UpdateStatus("Target Captured! Please save the profile.", false);
-                }
-                else
-                {
-                    UpdateStatus("Error: No Window Detected", true);
-                }
+                hWnd = GetAncestor(hWnd, GA_ROOT);
             }
+
+            if (hWnd == IntPtr.Zero || hWnd == new WindowInteropHelper(this).Handle)
+            {
+                UpdateStatus("status.noWindowDetected", true);
+                return;
+            }
+
+            _targetWindowHandle = hWnd;
+            StringBuilder sb = new StringBuilder(GetWindowTextLength(hWnd) + 1);
+            GetWindowText(hWnd, sb, sb.Capacity);
+            string title = sb.ToString();
+            ScreenToClient(hWnd, ref pos);
+
+            if (_captureTarget == CaptureTarget.SequenceStep)
+            {
+                AddSequenceStep(title, pos.X, pos.Y);
+                _recordedStepCount++;
+
+                SystemSounds.Asterisk.Play();
+
+                if (IsRecordingSteps)
+                {
+                    UpdateStatus("status.stepRecorded", false, _recordedStepCount);
+                    return;
+                }
+
+                UpdateStatus("status.stepAdded", false, _sequenceSteps.Count);
+                DisarmCapture(false);
+                return;
+            }
+
+            UnsubscribeFromProfileChanges();
+            WindowTitleTextBox.Text = title;
+            XCoordTextBox.Text = pos.X.ToString();
+            YCoordTextBox.Text = pos.Y.ToString();
+            SubscribeToProfileChanges();
+            SetProfileDirty(true);
+
+            UpdateStatus("status.targetCaptured", false);
+            DisarmCapture(false);
         }
 
         private void MainWindow_SourceInitialized(object sender, EventArgs e)
@@ -1262,14 +1648,14 @@ namespace BackgroundClicker.Wpf
             {
                 source.AddHook(HwndHook);
             }
-            RegisterHotKey(helper.Handle, 1, 0, 0x77); 
+            RegisterHotKey(helper.Handle, 1, 0, 0x77);
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == 0x0312 && wParam.ToInt32() == 1) 
+            if (msg == 0x0312 && wParam.ToInt32() == 1)
             {
-                if (ExecutionButton.IsEnabled)
+                if (ExecutionButton.IsEnabled && !_isCaptureArmed)
                 {
                     ExecutionButton_Click(this, new RoutedEventArgs());
                 }
@@ -1281,16 +1667,19 @@ namespace BackgroundClicker.Wpf
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             if (_hookID != IntPtr.Zero) UnhookWindowsHookEx(_hookID);
+            if (_keyHookID != IntPtr.Zero) UnhookWindowsHookEx(_keyHookID);
             _clickTimer.Stop();
-            
+
             if (Application.Current != null)
             {
                 Application.Current.Shutdown();
             }
         }
 
-        private void ShowNotification(string message, bool isError = false)
+        private void ShowNotification(string key, bool isError = false, params object[] args)
         {
+            string message = Loc.T(key, args);
+
             try
             {
                 var window = new NotificationWindow(message, isError)
@@ -1302,7 +1691,7 @@ namespace BackgroundClicker.Wpf
             catch
             {
                 MessageBox.Show(message,
-                    isError ? "Error" : "Information",
+                    Loc.T(isError ? "notify.titleError" : "notify.titleInfo"),
                     MessageBoxButton.OK,
                     isError ? MessageBoxImage.Error : MessageBoxImage.Information);
             }
@@ -1323,7 +1712,7 @@ namespace BackgroundClicker.Wpf
         private void ListWindowsButton_Click(object sender, RoutedEventArgs e)
         {
             string allTitles = GetAllVisibleWindowTitles();
-            var watermarkWindow = new WatermarkWindow("Visible Windows", allTitles)
+            var watermarkWindow = new WatermarkWindow(Loc.T("windowList.title"), allTitles)
             {
                 Owner = this
             };

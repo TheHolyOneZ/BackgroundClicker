@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "tr",
+    "name": "Türkçe"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "Kılavuz",
+    "autoclicker": "Oto tıklayıcı",
+    "credits": "Hakkında",
+    "minimize": "Simge durumuna küçült",
+    "close": "Kapat",
+    "language": "Dil"
+  },
+  "main": {
+    "section": {
+      "target": "HEDEF",
+      "sequence": "DİZİ",
+      "timing": "ZAMANLAMA",
+      "behavior": "DAVRANIŞ",
+      "sound": "SES"
+    },
+    "field": {
+      "profile": "Profil",
+      "window": "Pencere",
+      "coordinates": "Koordinatlar",
+      "interval": "Aralık",
+      "stopAfterClicks": "Sınır",
+      "stopAfterMinutes": "Sınır",
+      "jitter": "Sapma",
+      "stepDelay": "Adımdan sonra bekleme"
+    },
+    "unit": {
+      "seconds": "sn",
+      "clicks": "tıklama",
+      "minutes": "dk",
+      "pixels": "px"
+    },
+    "button": {
+      "save": "Kaydet",
+      "removeStep": "Kaldır",
+      "clearSteps": "Temizle",
+      "listWindows": "Görünür pencereleri listele",
+      "setup": "Yakalamayı başlat",
+      "start": "BAŞLAT",
+      "stop": "DURDUR",
+      "reset": "Tıklama sayacını sıfırla",
+      "cancelSetup": "Yakalamayı iptal et  (Esc)",
+      "newProfile": "Yeni",
+      "moreActions": "Diğer profil işlemleri",
+      "capturePoint": "Nokta yakala"
+    },
+    "toggle": {
+      "randomize": "Rastgele aralık (±%20)",
+      "hardStop": "Sınıra ulaşınca hemen dur",
+      "doubleClick": "Çift tıklama gönder",
+      "alwaysOnTop": "Bu pencereyi üstte tut",
+      "blocking": "Engelleyici tıklama",
+      "blockingTip": "Mesaj göndermek yerine gerçek imleci kullanır. Arka plan tıklamalarını yok sayan oyun ve uygulamalarda daha güvenilirdir, ama farenizi kısa süre hareket ettirir.",
+      "pingOnClick": "Her tıklamada sesli uyarı",
+      "alertOnError": "Hata veya durmada uyarı",
+      "autoRepeat": "Otomatik tekrar",
+      "recordSteps": "Adımları kaydet — etkin kal ve her yakalamayı ekle"
+    },
+    "hint": {
+      "sequence": "«Nokta yakala»ya basın, hedef penceredeki bir noktaya gelin ve F10’a basın — hemen buraya eklenir. Arka arkaya birkaç nokta almak için «Adımları kaydet»i açın, sonra Esc’e basın. Bir adımı düzenlemek için çift tıklayın.",
+      "setup": "«Yakalamayı başlat»a basın, hedef penceredeki istediğiniz noktaya gelin ve yakalamak için F10’a basın. Esc iptal eder. Sol tuşu 3 saniye sabit tutmak da çalışır."
+    },
+    "footer": {
+      "clicksSent": "tıklama gönderildi"
+    },
+    "menu": {
+      "duplicate": "Profili çoğalt…",
+      "rename": "Profili yeniden adlandır…",
+      "delete": "Profili sil"
+    },
+    "mode": {
+      "single": "Tek nokta",
+      "sequence": "Dizi"
+    }
+  },
+  "status": {
+    "idle": "Boşta",
+    "running": "Çalışıyor",
+    "stoppedByUser": "Kullanıcı durdurdu",
+    "profileDirty": "Profilde kaydedilmemiş değişiklikler var. Kaydedin ya da yine de başlatın.",
+    "profileSavedReady": "Profil kaydedildi. Başlatmaya hazır.",
+    "profileSaved": "Profil kaydedildi: {0}",
+    "invalidInterval": "Geçersiz aralık",
+    "invalidCoordinates": "Geçersiz koordinatlar",
+    "targetReadyHandle": "Hedef pencere hazır (tanıtıcı)",
+    "targetReadyTitle": "Hedef pencere hazır (başlık)",
+    "targetNotFoundSetup": "Hedef pencere bulunamadı. «Yakalamayı başlat»ı kullanın.",
+    "targetNotFoundTitle": "Hedef pencere bulunamadı. Başlığı kontrol edin ya da pencereyi öne getirin.",
+    "targetNotFoundBlocking": "Engelleyici dizi için hedef pencere bulunamadı",
+    "targetLost": "Hedef pencere kayboldu. Durduruluyor.",
+    "clickSent": "Tıklama gönderildi",
+    "hardLimitReached": "Kesin tıklama sınırına ulaşıldı. Durduruluyor.",
+    "runLimitReached": "Süre sınırına ulaşıldı. Durduruluyor.",
+    "targetCaptured": "Hedef yakalandı. Saklamak için profili kaydedin.",
+    "noWindowDetected": "İmlecin altında pencere algılanmadı",
+    "captureArmed": "Hedefe gelin ve yakalamak için F10’a basın. Esc iptal eder.",
+    "captureRecording": "Kaydediliyor — her noktada F10’a basın, bitirmek için Esc.",
+    "stepRecorded": "Adım {0} kaydedildi. Sonraki için F10, bitirmek için Esc.",
+    "captureCancelled": "Yakalama iptal edildi.",
+    "recordingFinished": "Kayıt bitti — {0} adım eklendi.",
+    "profileCreated": "Profil oluşturuldu: {0}",
+    "profileRenamed": "Profil şu adla değiştirildi: {0}",
+    "captureStep": "Eklenecek noktaya gelin ve F10’a basın. Esc iptal eder.",
+    "stepAdded": "Adım eklendi. Dizide artık {0} var.",
+    "targetNotFoundCapture": "Hedef pencere bulunamadı. «Nokta yakala»yı kullanın."
+  },
+  "notify": {
+    "sequenceEmpty": "Dizi etkin ama hiç adımı yok. Başlatmadan önce en az bir adım ekleyin.",
+    "noTarget": "Başlatmadan önce bir hedef pencere başlığı girin ya da diziyi etkinleştirin.",
+    "invalidCoordinates": "X ve Y geçerli tam sayı olmalıdır.",
+    "zeroCoordinates": "X ve Y birlikte 0 olamaz. Hedef noktayı sol üst köşeden uzaklaştırın.",
+    "windowNotFound": "«{0}» başlığıyla eşleşen pencere yok. Açık ve görünür olduğundan emin olun ya da «Yakalamayı başlat» ile yakalayın.",
+    "intervalInvalid": "Aralık 0 saniyeden büyük bir sayı olmalıdır.",
+    "targetNotFound": "Hedef pencere bulunamadı. Başlığı kontrol edin ya da «Yakalamayı başlat» ile yakalayın.",
+    "titleError": "Hata",
+    "titleInfo": "Bilgi",
+    "ok": "Tamam",
+    "cancel": "İptal"
+  },
+  "dialog": {
+    "unsavedTitle": "Kaydedilmemiş değişiklikler",
+    "unsavedMessage": "Bu profilde kaydedilmemiş değişiklikler var. Geçmeden önce kaydedilsin mi?",
+    "saveBeforeStartMessage": "Bu profili değiştirdiniz. Başlatmadan önce kaydedilsin mi?",
+    "saveAndStart": "Kaydet ve başlat"
+  },
+  "sequence": {
+    "click": "Tıklama",
+    "doubleClick": "Çift tıklama",
+    "stepFormat": "({1}, {2}) konumunda {0} — {3}sn bekle"
+  },
+  "windowList": {
+    "title": "Görünür pencereler"
+  },
+  "editStep": {
+    "invalidDelay": "Bekleme için geçerli, negatif olmayan bir sayı girin.",
+    "title": "Adımı düzenle",
+    "doubleClick": "Bu adımda çift tıklama gönder",
+    "save": "Kaydet",
+    "cancel": "İptal"
+  },
+  "autoclicker": {
+    "title": "OTO TIKLAYICI",
+    "subtitle": "Basit hızlı imleç tıklayıcı",
+    "section": {
+      "timing": "ZAMANLAMA",
+      "target": "HEDEF",
+      "behavior": "DAVRANIŞ"
+    },
+    "field": {
+      "button": "Düğme",
+      "interval": "Aralık",
+      "clickType": "Tıklama türü",
+      "hotkey": "Değiştirme tuşu",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "ms"
+    },
+    "button": {
+      "left": "Sol",
+      "right": "Sağ",
+      "middle": "Orta",
+      "single": "Tek",
+      "double": "Çift",
+      "pickCurrent": "Geçerli konumu al",
+      "start": "BAŞLAT",
+      "stop": "DURDUR"
+    },
+    "toggle": {
+      "useCursor": "İmlecin geçerli konumuna tıkla",
+      "useFixed": "Sabit bir ekran konumuna tıkla",
+      "randomize": "Rastgele aralık (±%20)",
+      "globalHotkey": "Genel kısayol",
+      "showCounter": "Tıklama sayacını göster"
+    },
+    "hint": {
+      "cps": "Saniyedeki en yüksek tıklama sayısı sisteminize bağlıdır — genelde 150 ile 400 arası.",
+      "keys": "Başlatmak veya durdurmak için F9, geçerli konumu almak için F10, ya da aşağıdaki düğmeleri kullanın."
+    },
+    "status": {
+      "idle": "Boşta",
+      "running": "Çalışıyor",
+      "invalidInterval": "Geçersiz aralık",
+      "invalidPosition": "Geçersiz sabit konum",
+      "error": "Hata: {0}",
+      "unknownError": "bilinmiyor",
+      "clicks": "{0} tıklama"
+    },
+    "notify": {
+      "intervalMessage": "Aralık milisaniye cinsinden pozitif bir sayı olmalıdır.",
+      "intervalTitle": "Geçersiz aralık",
+      "positionMessage": "Sabit X ve Y geçerli tam sayı olmalıdır.",
+      "positionTitle": "Geçersiz konum"
+    }
+  },
+  "help": {
+    "windowTitle": "Kılavuz",
+    "title": "Background Clicker",
+    "intro": "Farenizden vazgeçmeden tıklamaları nasıl otomatikleştirirsiniz.",
+    "nav": {
+      "heading": "İÇİNDEKİLER",
+      "quickStart": "Hızlı başlangıç",
+      "profiles": "Profiller ve diziler",
+      "modes": "Tıklama modları",
+      "features": "Diğer özellikler"
+    },
+    "quickStart": {
+      "heading": "Hızlı başlangıç",
+      "step1": "«Yakalamayı başlat»a basın, hedef penceredeki istediğiniz noktaya gelin ve yakalamak için F10’a basın.",
+      "step2": "Profil kutusuna bir ad yazın ve «Kaydet»e basın.",
+      "step3": "Tek bir deneme tıklaması için BAŞLAT’a basın ya da sürekli tıklama için «Otomatik tekrar»ı açın."
+    },
+    "profiles": {
+      "heading": "Profiller ve diziler",
+      "body": "Bir profil her şeyi saklar: hedef pencere, koordinatlar, zamanlamalar ve tüm anahtarlar. Dizi, sırayla çalışan tıklamaların listesidir.",
+      "item1": "Profilleri üstteki Profil satırından kaydedin, yükleyin ve silin.",
+      "item2": "Hedefi «Dizi»ye alın, «Nokta yakala»ya basın ve her noktada F10’a basın. Tek seferde birkaçını almak için önce «Adımları kaydet»i açın.",
+      "item3": "Listedeki bir adımın beklemesini ya da çift tıklama ayarını değiştirmek için çift tıklayın."
+    },
+    "modes": {
+      "heading": "Tıklama modları",
+      "nonBlockingLabel": "Engellemeyen (varsayılan)",
+      "nonBlockingBody": "Tıklamayı başlığı üzerinden doğrudan pencereye gönderir. İmleciniz hiç hareket etmez ve işiniz bölünmez. Önerilen mod budur.",
+      "blockingLabel": "Engelleyici",
+      "blockingBody": "Bazı oyunlar gibi arka plan mesajlarını yok sayan uygulamalar için. Tıklamayı yapmak üzere gerçek imleci kısa süre hareket ettirir, yani fareyi bir an için kaybedersiniz."
+    },
+    "features": {
+      "heading": "Diğer özellikler",
+      "item1": "Bu pencere simge durumundayken bile, herhangi bir yerde F8’e basarak tıklayıcıyı başlatın veya durdurun.",
+      "item2": "«Rastgele aralık» ve «Sapma», zamanlamayı ve konumu daha az mekanik gösterir.",
+      "item3": "«Üstte tut» bu pencereyi hedefin üzerine sabitler, ses anahtarları da tıklamaları ve hataları kulakla doğrular.",
+      "item4": "Belirli sayıda tıklama veya dakikadan sonra durmak, gözetimsiz çalışmayı sınırlar."
+    }
+  },
+  "credits": {
+    "windowTitle": "Hakkında",
+    "title": "Background Clicker",
+    "version": "Sürüm {0}",
+    "authorHeading": "Yazar",
+    "authorBody": "TheHolyOneZ tarafından tasarlandı ve geliştirildi.",
+    "featuresHeading": "Neler yapar",
+    "feature1Label": "Arka planda tıklama",
+    "feature1Body": "Farenizi oynatmadan ve odağı çalmadan bir pencereye tıklama gönderir.",
+    "feature2Label": "Tıklama dizileri",
+    "feature2Body": "Çok adımlı işler için tıklamaları kendi beklemeleriyle zincirler.",
+    "feature3Label": "Profiller",
+    "feature3Body": "Her görev için tam bir yapılandırmayı kaydeder ve geri yükler.",
+    "feature4Label": "İnsanlaştırma",
+    "feature4Body": "Sapma ve rastgele aralıklar zamanlamayı daha az mekanik gösterir.",
+    "feature5Label": "İki tıklama modu",
+    "feature5Body": "Arka plan olaylarını yok sayan uygulamalar için engelleyici tıklamaya geçer.",
+    "feature6Label": "Genel kısayol",
+    "feature6Body": "F8 ile her yerden başlatır ve durdurur.",
+    "moduleHeading": "Oto tıklayıcı modülü",
+    "module1Label": "Esnek tıklama",
+    "module1Body": "Aralığı ayarlayın, fare düğmesini seçin, tek ya da çift.",
+    "module2Label": "Hedefli konumlar",
+    "module2Body": "İmleçte ya da sabit bir ekran konumunda tıklayın.",
+    "module3Label": "Tuş denetimi",
+    "module3Body": "F9 başlatır ve durdurur, F10 geçerli konumu alır.",
+    "techHeading": "Nasıl çalışır",
+    "techBody": "WPF ve C# ile yapıldı. Fare olaylarını doğrudan bir pencere tanıtıcısına göndermek için Win32 mesajlaşma API’sini kullanır; imlecinizin denetimini almadan tıklamasını sağlayan da budur.",
+    "translationHeading": "Çeviriler",
+    "translationBody": "Diller çalıştırılabilir dosyanın içindedir. Kendinizinkini eklemek için programın yanında bir Lang klasörü oluşturun, en.json’u oraya kopyalayın, değerleri çevirin ve _meta bloğunu değiştirin."
+  },
+  "profile": {
+    "nameLabel": "Profil adı",
+    "defaultName": "Profil",
+    "copySuffix": "kopya",
+    "newTitle": "Yeni profil",
+    "createAction": "Oluştur",
+    "duplicateTitle": "Profili çoğalt",
+    "duplicateAction": "Çoğalt",
+    "renameTitle": "Profili yeniden adlandır",
+    "renameAction": "Yeniden adlandır",
+    "errorEmpty": "Profil için bir ad girin.",
+    "errorTaken": "«{0}» adlı bir profil zaten var.",
+    "deleteConfirmTitle": "Profili sil",
+    "deleteConfirmMessage": "«{0}» profili silinsin mi?\n\nHedefi, zamanlamaları ve dizisi kaldırılır. Bu geri alınamaz."
+  }
+}

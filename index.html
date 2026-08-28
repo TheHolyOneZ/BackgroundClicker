@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Clicker Showcase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Background Clicker</a>
+        </div>
+    </nav>
+
+    <header class="hero-section text-center text-white">
+        <div class="container">
+            <h1 class="display-4">The Non-Blocking Window Clicker</h1>
+            <p class="lead">Automate clicks without losing control of your mouse. Perfect for work, gaming, and more.</p>
+            <a href="https://github.com/TheHolyOneZ/BackgroundClickEmulationStudy/releases" class="btn btn-primary btn-lg">Download Now</a>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <section id="features" class="mb-5">
+            <h2 class="text-center mb-4">Core Features</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">🖱️ True Background Clicks</h5>
+                            <p class="card-text">Utilizes non-blocking Win32 API calls to click windows without moving your mouse.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">💾 Profile System</h5>
+                            <p class="card-text">Save and load different automation profiles. Each profile stores the target window, click coordinates, sequences, and all timing settings.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">📜 Advanced Sequencing</h5>
+                            <p class="card-text">Chain multiple clicks together. Each step can have unique coordinates and a specific delay.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="mb-5">
+            <h2 class="text-center mb-4">How It Works</h2>
+            <p>The application leverages the Windows operating system's own messaging system to communicate with other programs. When you use the "Start Setup" feature, the tool identifies the unique handle (HWND) of the target window under your cursor. This handle is like a direct phone number to that window. In the default non-blocking mode, instead of moving your mouse, the tool sends `WM_LBUTTONDOWN` and `WM_LBUTTONUP` messages directly to the target window's handle. This tells the application "a click happened at these coordinates" without ever involving your physical cursor.</p>
+        </section>
+
+        <section id="gallery" class="mb-5">
+            <h2 class="text-center mb-4">Gallery</h2>
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="images/image.png" class="d-block w-100" alt="Main Application Interface">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/HowTo.png" class="d-block w-100" alt="How-To Guide">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/Credits.png" class="d-block w-100" alt="Credits Screen">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2026 Background Clicker. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -11,70 +11,56 @@
         Topmost="True"
         Title="Notification"
         Opacity="0">
+
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                     From="0" To="1"
-                                     Duration="0:0:0.18"/>
-                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                     From="0.9" To="1.0" Duration="0:0:0.18"/>
-                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                     From="0.9" To="1.0" Duration="0:0:0.18"/>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.12"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid RenderTransformOrigin="0.5,0.5">
-        <Grid.RenderTransform>
-            <ScaleTransform ScaleX="1" ScaleY="1" />
-        </Grid.RenderTransform>
+    <Border x:Name="RootBorder"
+            Background="{StaticResource SurfacePanelBrush}"
+            BorderBrush="{StaticResource LineStrongBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource Radius}"
+            MaxWidth="460"
+            TextElement.FontFamily="{StaticResource FontUI}"
+            TextElement.FontSize="{StaticResource FontSizeBody}"
+            TextElement.Foreground="{StaticResource TextPrimaryBrush}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Border x:Name="RootBorder"
-                Background="#F0202230"
-                BorderBrush="#66FFFFFF"
-                BorderThickness="1"
-                CornerRadius="14"
-                Padding="20"
-                Margin="10">
-            <Border.Effect>
-                <DropShadowEffect Color="#9900F2EA"
-                                  BlurRadius="18"
-                                  ShadowDepth="0"
-                                  Opacity="0.7"/>
-            </Border.Effect>
+            <Rectangle x:Name="AccentBar" Grid.Column="0" Fill="{StaticResource AccentBrush}"/>
 
-            <StackPanel>
+            <StackPanel Grid.Column="1" Margin="20,18,20,16">
                 <TextBlock x:Name="MessageTextBlock"
                            Text="Placeholder message"
-                           Foreground="White"
-                           FontSize="14"
+                           FontSize="{StaticResource FontSizeMedium}"
+                           Foreground="{StaticResource TextPrimaryBrush}"
                            TextWrapping="Wrap"
-                           Margin="0,0,0,16"/>
+                           LineHeight="20"
+                           Margin="0,0,0,18"/>
+
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="SecondaryButton"
                             Content="Cancel"
-                            Width="80"
-                            Height="28"
-                            Margin="0,0,8,0"
-                            Background="#00000000"
-                            BorderBrush="#55FFFFFF"
-                            BorderThickness="1"
-                            Foreground="#DDFFFFFF"
+                            Style="{StaticResource SecondaryButton}"
+                            MinWidth="88" Height="32" Margin="0,0,8,0"
                             Click="SecondaryButton_Click"/>
                     <Button x:Name="PrimaryButton"
                             Content="OK"
-                            Width="110"
-                            Height="30"
-                            Background="#FF00F2EA"
-                            BorderBrush="#FF00F2EA"
-                            Foreground="#111111"
-                            FontWeight="Bold"
+                            Style="{StaticResource PrimaryButton}"
+                            MinWidth="110" Height="32"
                             Click="PrimaryButton_Click"/>
                 </StackPanel>
             </StackPanel>
-        </Border>
-    </Grid>
+        </Grid>
+    </Border>
 </Window>

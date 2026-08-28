@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "it",
+    "name": "Italiano"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "Guida",
+    "autoclicker": "Auto-clicker",
+    "credits": "Informazioni",
+    "minimize": "Riduci a icona",
+    "close": "Chiudi",
+    "language": "Lingua"
+  },
+  "main": {
+    "section": {
+      "target": "BERSAGLIO",
+      "sequence": "SEQUENZA",
+      "timing": "TEMPI",
+      "behavior": "COMPORTAMENTO",
+      "sound": "SUONO"
+    },
+    "field": {
+      "profile": "Profilo",
+      "window": "Finestra",
+      "coordinates": "Coordinate",
+      "interval": "Intervallo",
+      "stopAfterClicks": "Ferma dopo",
+      "stopAfterMinutes": "Ferma dopo",
+      "jitter": "Dispersione",
+      "stepDelay": "Pausa dopo il passo"
+    },
+    "unit": {
+      "seconds": "s",
+      "clicks": "clic",
+      "minutes": "min",
+      "pixels": "px"
+    },
+    "button": {
+      "save": "Salva",
+      "removeStep": "Rimuovi",
+      "clearSteps": "Svuota",
+      "listWindows": "Elenca finestre visibili",
+      "setup": "Avvia acquisizione",
+      "start": "AVVIA",
+      "stop": "FERMA",
+      "reset": "Azzera il contatore dei clic",
+      "cancelSetup": "Annulla acquisizione  (Esc)",
+      "newProfile": "Nuovo",
+      "moreActions": "Altre azioni sul profilo",
+      "capturePoint": "Acquisisci punto"
+    },
+    "toggle": {
+      "randomize": "Intervallo casuale (±20%)",
+      "hardStop": "Ferma subito al limite",
+      "doubleClick": "Invia un doppio clic",
+      "alwaysOnTop": "Tieni questa finestra in primo piano",
+      "blocking": "Clic bloccante",
+      "blockingTip": "Usa il cursore reale invece di inviare un messaggio. Più affidabile per giochi e app che ignorano i clic in background, ma sposta brevemente il mouse.",
+      "pingOnClick": "Segnale a ogni clic",
+      "alertOnError": "Avviso in caso di errore o arresto",
+      "autoRepeat": "Ripetizione automatica",
+      "recordSteps": "Registra i passi — resta attivo e aggiungi ogni acquisizione"
+    },
+    "hint": {
+      "sequence": "Premi Acquisisci punto, punta un punto nella finestra bersaglio e premi F10 — viene aggiunto qui subito. Attiva Registra i passi per restare attivo e acquisirne diversi di seguito, poi premi Esc. Doppio clic su un passo per modificarlo.",
+      "setup": "Premi Avvia acquisizione, punta il punto che vuoi nella finestra bersaglio e premi F10 per acquisirlo. Esc annulla. Tenere fermo il tasto sinistro per 3 secondi funziona ancora."
+    },
+    "footer": {
+      "clicksSent": "clic inviati"
+    },
+    "menu": {
+      "duplicate": "Duplica profilo…",
+      "rename": "Rinomina profilo…",
+      "delete": "Elimina profilo"
+    },
+    "mode": {
+      "single": "Punto singolo",
+      "sequence": "Sequenza"
+    }
+  },
+  "status": {
+    "idle": "Inattivo",
+    "running": "In esecuzione",
+    "stoppedByUser": "Fermato dall’utente",
+    "profileDirty": "Il profilo ha modifiche non salvate. Salvalo, o avvia comunque.",
+    "profileSavedReady": "Profilo salvato. Pronto per l’avvio.",
+    "profileSaved": "Profilo salvato: {0}",
+    "invalidInterval": "Intervallo non valido",
+    "invalidCoordinates": "Coordinate non valide",
+    "targetReadyHandle": "Finestra bersaglio pronta (handle)",
+    "targetReadyTitle": "Finestra bersaglio pronta (titolo)",
+    "targetNotFoundSetup": "Finestra bersaglio non trovata. Usa Avvia acquisizione.",
+    "targetNotFoundTitle": "Finestra bersaglio non trovata. Controlla il titolo, o porta la finestra in primo piano.",
+    "targetNotFoundBlocking": "Finestra bersaglio non trovata per la sequenza bloccante",
+    "targetLost": "Finestra bersaglio persa. Arresto in corso.",
+    "clickSent": "Clic inviato",
+    "hardLimitReached": "Limite rigido di clic raggiunto. Arresto in corso.",
+    "runLimitReached": "Limite di durata raggiunto. Arresto in corso.",
+    "targetCaptured": "Bersaglio acquisito. Salva il profilo per conservarlo.",
+    "noWindowDetected": "Nessuna finestra rilevata sotto il cursore",
+    "captureArmed": "Punta il bersaglio e premi F10 per acquisire. Esc annulla.",
+    "captureRecording": "Registrazione — premi F10 su ogni punto, Esc per terminare.",
+    "stepRecorded": "Passo {0} registrato. F10 per il prossimo, Esc per terminare.",
+    "captureCancelled": "Acquisizione annullata.",
+    "recordingFinished": "Registrazione terminata — {0} passi aggiunti.",
+    "profileCreated": "Profilo creato: {0}",
+    "profileRenamed": "Profilo rinominato in: {0}",
+    "captureStep": "Punta il punto da aggiungere e premi F10. Esc annulla.",
+    "stepAdded": "Passo aggiunto. La sequenza ora ne ha {0}.",
+    "targetNotFoundCapture": "Finestra bersaglio non trovata. Usa Acquisisci punto."
+  },
+  "notify": {
+    "sequenceEmpty": "La sequenza è attiva ma non ha passi. Aggiungine almeno uno prima di avviare.",
+    "noTarget": "Inserisci il titolo di una finestra bersaglio, o attiva la sequenza, prima di avviare.",
+    "invalidCoordinates": "X e Y devono essere numeri interi validi.",
+    "zeroCoordinates": "X e Y non possono essere entrambi 0. Allontana il punto bersaglio dall’angolo in alto a sinistra.",
+    "windowNotFound": "Nessuna finestra corrisponde al titolo “{0}”. Assicurati che sia aperta e visibile, oppure acquisiscila con Avvia acquisizione.",
+    "intervalInvalid": "L’intervallo deve essere un numero maggiore di 0 secondi.",
+    "targetNotFound": "Finestra bersaglio non trovata. Controlla il titolo, oppure acquisiscila con Avvia acquisizione.",
+    "titleError": "Errore",
+    "titleInfo": "Informazione",
+    "ok": "OK",
+    "cancel": "Annulla"
+  },
+  "dialog": {
+    "unsavedTitle": "Modifiche non salvate",
+    "unsavedMessage": "Questo profilo ha modifiche non salvate. Salvarle prima di cambiare?",
+    "saveBeforeStartMessage": "Hai modificato questo profilo. Salvarlo prima di avviare?",
+    "saveAndStart": "Salva e avvia"
+  },
+  "sequence": {
+    "click": "Clic",
+    "doubleClick": "Doppio clic",
+    "stepFormat": "{0} a ({1}, {2}) — attendere {3}s"
+  },
+  "windowList": {
+    "title": "Finestre visibili"
+  },
+  "editStep": {
+    "invalidDelay": "Inserisci un numero valido e non negativo per la pausa.",
+    "title": "Modifica passo",
+    "doubleClick": "Invia un doppio clic per questo passo",
+    "save": "Salva",
+    "cancel": "Annulla"
+  },
+  "autoclicker": {
+    "title": "AUTO-CLICKER",
+    "subtitle": "Clicker rapido sul cursore",
+    "section": {
+      "timing": "TEMPI",
+      "target": "BERSAGLIO",
+      "behavior": "COMPORTAMENTO"
+    },
+    "field": {
+      "button": "Pulsante",
+      "interval": "Intervallo",
+      "clickType": "Tipo di clic",
+      "hotkey": "Tasto di attivazione",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "ms"
+    },
+    "button": {
+      "left": "Sinistro",
+      "right": "Destro",
+      "middle": "Centrale",
+      "single": "Singolo",
+      "double": "Doppio",
+      "pickCurrent": "Usa attuale",
+      "start": "AVVIA",
+      "stop": "FERMA"
+    },
+    "toggle": {
+      "useCursor": "Clicca alla posizione attuale del cursore",
+      "useFixed": "Clicca a una posizione fissa dello schermo",
+      "randomize": "Intervallo casuale (±20%)",
+      "globalHotkey": "Tasto di scelta rapida globale",
+      "showCounter": "Mostra il contatore dei clic"
+    },
+    "hint": {
+      "cps": "Il massimo di clic al secondo dipende dal sistema — di solito da 150 a 400.",
+      "keys": "Premi F9 per avviare o fermare, F10 per usare la posizione attuale, oppure usa i pulsanti qui sotto."
+    },
+    "status": {
+      "idle": "Inattivo",
+      "running": "In esecuzione",
+      "invalidInterval": "Intervallo non valido",
+      "invalidPosition": "Posizione fissa non valida",
+      "error": "Errore: {0}",
+      "unknownError": "sconosciuto",
+      "clicks": "{0} clic"
+    },
+    "notify": {
+      "intervalMessage": "L’intervallo deve essere un numero positivo in millisecondi.",
+      "intervalTitle": "Intervallo non valido",
+      "positionMessage": "X e Y fisse devono essere numeri interi validi.",
+      "positionTitle": "Posizione non valida"
+    }
+  },
+  "help": {
+    "windowTitle": "Guida",
+    "title": "Background Clicker",
+    "intro": "Come automatizzare i clic senza rinunciare al mouse.",
+    "nav": {
+      "heading": "INDICE",
+      "quickStart": "Avvio rapido",
+      "profiles": "Profili e sequenze",
+      "modes": "Modalità di clic",
+      "features": "Altre funzioni"
+    },
+    "quickStart": {
+      "heading": "Avvio rapido",
+      "step1": "Premi Avvia acquisizione, punta il punto che vuoi nella finestra bersaglio e premi F10 per acquisirlo.",
+      "step2": "Scrivi un nome nel campo Profilo e premi Salva.",
+      "step3": "Premi AVVIA per un singolo clic di prova, oppure attiva Ripetizione automatica per clic continui."
+    },
+    "profiles": {
+      "heading": "Profili e sequenze",
+      "body": "Un profilo memorizza tutto: la finestra bersaglio, le coordinate, i tempi e ogni interruttore. Una sequenza è un elenco di clic eseguiti in ordine.",
+      "item1": "Salva, carica ed elimina i profili dalla riga Profilo in alto.",
+      "item2": "Porta il bersaglio su Sequenza, premi Acquisisci punto e premi F10 su ogni punto. Attiva prima Registra i passi per acquisirne diversi in una sola volta.",
+      "item3": "Fai doppio clic su un passo dell’elenco per cambiarne la pausa o il doppio clic."
+    },
+    "modes": {
+      "heading": "Modalità di clic",
+      "nonBlockingLabel": "Non bloccante (predefinita)",
+      "nonBlockingBody": "Invia il clic direttamente alla finestra tramite il suo titolo. Il cursore non si muove mai e il tuo lavoro non viene interrotto. È la modalità consigliata.",
+      "blockingLabel": "Bloccante",
+      "blockingBody": "Per le app che ignorano i messaggi in background, come alcuni giochi. Sposta brevemente il cursore reale per eseguire il clic, quindi perdi il mouse per un momento."
+    },
+    "features": {
+      "heading": "Altre funzioni",
+      "item1": "Premi F8 ovunque per avviare o fermare il clicker, anche con questa finestra ridotta a icona.",
+      "item2": "Intervallo casuale e Dispersione rendono ritmo e posizione meno meccanici.",
+      "item3": "Tieni in primo piano fissa questa finestra sopra il bersaglio, e i suoni confermano clic ed errori a orecchio.",
+      "item4": "Fermarsi dopo un numero di clic o di minuti limita un’esecuzione non sorvegliata."
+    }
+  },
+  "credits": {
+    "windowTitle": "Informazioni",
+    "title": "Background Clicker",
+    "version": "Versione {0}",
+    "authorHeading": "Autore",
+    "authorBody": "Progettato e sviluppato da TheHolyOneZ.",
+    "featuresHeading": "Cosa fa",
+    "feature1Label": "Clic in background",
+    "feature1Body": "Invia clic a una finestra senza muovere il mouse né rubare il focus.",
+    "feature2Label": "Sequenze di clic",
+    "feature2Body": "Concatena clic con pause individuali per routine a più passi.",
+    "feature3Label": "Profili",
+    "feature3Body": "Salva e ricarica una configurazione completa per ogni compito.",
+    "feature4Label": "Umanizzazione",
+    "feature4Body": "Dispersione e intervalli casuali rendono i tempi meno meccanici.",
+    "feature5Label": "Due modalità di clic",
+    "feature5Body": "Passa al clic bloccante per le app che ignorano gli eventi in background.",
+    "feature6Label": "Tasto globale",
+    "feature6Body": "Avvia e ferma da ovunque con F8.",
+    "moduleHeading": "Modulo Auto-clicker",
+    "module1Label": "Clic flessibile",
+    "module1Body": "Imposta l’intervallo, scegli il pulsante del mouse, singolo o doppio.",
+    "module2Label": "Posizioni mirate",
+    "module2Body": "Clicca sul cursore, o su una posizione fissa dello schermo.",
+    "module3Label": "Controllo da tastiera",
+    "module3Body": "F9 avvia e ferma, F10 usa la posizione attuale.",
+    "techHeading": "Come funziona",
+    "techBody": "Realizzato con WPF e C#. Usa l’API di messaggistica Win32 per inviare eventi del mouse direttamente a un handle di finestra, ed è questo che gli permette di cliccare senza prendere il controllo del cursore.",
+    "translationHeading": "Traduzioni",
+    "translationBody": "Le lingue sono incluse nell’eseguibile. Per aggiungere la tua, crea una cartella Lang accanto al programma, copiaci en.json, traduci i valori e modifica il blocco _meta."
+  },
+  "profile": {
+    "nameLabel": "Nome del profilo",
+    "defaultName": "Profilo",
+    "copySuffix": "copia",
+    "newTitle": "Nuovo profilo",
+    "createAction": "Crea",
+    "duplicateTitle": "Duplica profilo",
+    "duplicateAction": "Duplica",
+    "renameTitle": "Rinomina profilo",
+    "renameAction": "Rinomina",
+    "errorEmpty": "Inserisci un nome per il profilo.",
+    "errorTaken": "Esiste già un profilo chiamato “{0}”.",
+    "deleteConfirmTitle": "Elimina profilo",
+    "deleteConfirmMessage": "Eliminare il profilo “{0}”?\n\nIl suo bersaglio, i tempi e la sequenza vengono rimossi. L’operazione non può essere annullata."
+  }
+}

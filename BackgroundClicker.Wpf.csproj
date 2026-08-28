@@ -41,9 +41,40 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Palette.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="I18n\JsonReader.cs" />
+    <Compile Include="I18n\Loc.cs" />
+    <Compile Include="I18n\LocProvider.cs" />
+    <Compile Include="I18n\TrExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Compiled into the exe so a bare executable ships fully translated.
+         A Lang folder beside the exe stays optional and overrides these by code. -->
+    <EmbeddedResource Include="Lang\en.json" />
+    <EmbeddedResource Include="Lang\de.json" />
+    <EmbeddedResource Include="Lang\es.json" />
+    <EmbeddedResource Include="Lang\fr.json" />
+    <EmbeddedResource Include="Lang\it.json" />
+    <EmbeddedResource Include="Lang\pl.json" />
+    <EmbeddedResource Include="Lang\pt.json" />
+    <EmbeddedResource Include="Lang\ru.json" />
+    <EmbeddedResource Include="Lang\tr.json" />
+    <EmbeddedResource Include="Lang\zh.json" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -74,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PromptWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -96,6 +131,9 @@
     </Compile>
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PromptWindow.xaml.cs">
+      <DependentUpon>PromptWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\\AssemblyInfo.cs" />
     <Compile Include="WatermarkWindow.xaml.cs">

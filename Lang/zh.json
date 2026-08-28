@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "zh",
+    "name": "简体中文"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "指南",
+    "autoclicker": "连点器",
+    "credits": "关于",
+    "minimize": "最小化",
+    "close": "关闭",
+    "language": "语言"
+  },
+  "main": {
+    "section": {
+      "target": "目标",
+      "sequence": "序列",
+      "timing": "时间",
+      "behavior": "行为",
+      "sound": "声音"
+    },
+    "field": {
+      "profile": "配置",
+      "window": "窗口",
+      "coordinates": "坐标",
+      "interval": "间隔",
+      "stopAfterClicks": "停止条件",
+      "stopAfterMinutes": "停止条件",
+      "jitter": "抖动",
+      "stepDelay": "步骤后等待"
+    },
+    "unit": {
+      "seconds": "秒",
+      "clicks": "次点击",
+      "minutes": "分钟",
+      "pixels": "像素"
+    },
+    "button": {
+      "save": "保存",
+      "removeStep": "移除",
+      "clearSteps": "清空",
+      "listWindows": "列出可见窗口",
+      "setup": "开始拾取",
+      "start": "开始",
+      "stop": "停止",
+      "reset": "重置点击计数",
+      "cancelSetup": "取消拾取  (Esc)",
+      "newProfile": "新建",
+      "moreActions": "更多配置操作",
+      "capturePoint": "拾取坐标"
+    },
+    "toggle": {
+      "randomize": "随机间隔（±20%）",
+      "hardStop": "达到上限立即停止",
+      "doubleClick": "发送双击",
+      "alwaysOnTop": "窗口置顶",
+      "blocking": "阻塞式点击",
+      "blockingTip": "使用真实鼠标指针而不是发送消息。对忽略后台点击的游戏和程序更可靠，但会短暂移动你的鼠标。",
+      "pingOnClick": "每次点击提示音",
+      "alertOnError": "出错或停止时提示",
+      "autoRepeat": "自动重复",
+      "recordSteps": "记录步骤 — 保持拾取并添加每次结果"
+    },
+    "hint": {
+      "sequence": "按「拾取坐标」，将鼠标移到目标窗口中的位置并按 F10 — 会立刻加入这里。打开「记录步骤」可连续拾取多个，完成后按 Esc。双击某个步骤即可编辑。",
+      "setup": "按「开始拾取」，将鼠标移到目标窗口中想要的位置，按 F10 拾取。Esc 取消。按住左键保持不动 3 秒同样有效。"
+    },
+    "footer": {
+      "clicksSent": "次点击已发送"
+    },
+    "menu": {
+      "duplicate": "复制配置…",
+      "rename": "重命名配置…",
+      "delete": "删除配置"
+    },
+    "mode": {
+      "single": "单点",
+      "sequence": "序列"
+    }
+  },
+  "status": {
+    "idle": "空闲",
+    "running": "运行中",
+    "stoppedByUser": "已由用户停止",
+    "profileDirty": "配置有未保存的更改。请保存，或直接开始。",
+    "profileSavedReady": "配置已保存，可以开始。",
+    "profileSaved": "配置已保存：{0}",
+    "invalidInterval": "间隔无效",
+    "invalidCoordinates": "坐标无效",
+    "targetReadyHandle": "目标窗口就绪（句柄）",
+    "targetReadyTitle": "目标窗口就绪（标题）",
+    "targetNotFoundSetup": "未找到目标窗口。请使用「开始拾取」。",
+    "targetNotFoundTitle": "未找到目标窗口。请检查标题，或将窗口置于前台。",
+    "targetNotFoundBlocking": "阻塞式序列未找到目标窗口",
+    "targetLost": "目标窗口已丢失，正在停止。",
+    "clickSent": "点击已发送",
+    "hardLimitReached": "已达到点击硬上限，正在停止。",
+    "runLimitReached": "已达到运行上限，正在停止。",
+    "targetCaptured": "目标已拾取。保存配置以保留它。",
+    "noWindowDetected": "光标下未检测到窗口",
+    "captureArmed": "将鼠标移到目标上并按 F10 拾取。Esc 取消。",
+    "captureRecording": "记录中 — 在每个位置按 F10，完成后按 Esc。",
+    "stepRecorded": "已记录第 {0} 步。F10 继续，Esc 结束。",
+    "captureCancelled": "拾取已取消。",
+    "recordingFinished": "记录完成 — 已添加 {0} 个步骤。",
+    "profileCreated": "已创建配置：{0}",
+    "profileRenamed": "配置已重命名为：{0}",
+    "captureStep": "将鼠标移到要添加的位置并按 F10。Esc 取消。",
+    "stepAdded": "步骤已添加，序列现有 {0} 个。",
+    "targetNotFoundCapture": "未找到目标窗口。请使用「拾取坐标」。"
+  },
+  "notify": {
+    "sequenceEmpty": "序列已启用但没有步骤。开始前请至少添加一个。",
+    "noTarget": "开始前请输入目标窗口标题，或启用序列。",
+    "invalidCoordinates": "X 和 Y 都必须是有效的整数。",
+    "zeroCoordinates": "X 和 Y 不能同时为 0。请将目标点移离左上角。",
+    "windowNotFound": "没有标题匹配“{0}”的窗口。请确认它已打开且可见，或用「开始拾取」拾取它。",
+    "intervalInvalid": "间隔必须是大于 0 秒的数字。",
+    "targetNotFound": "未找到目标窗口。请检查窗口标题，或用「开始拾取」拾取它。",
+    "titleError": "错误",
+    "titleInfo": "信息",
+    "ok": "确定",
+    "cancel": "取消"
+  },
+  "dialog": {
+    "unsavedTitle": "未保存的更改",
+    "unsavedMessage": "此配置有未保存的更改。切换前先保存吗？",
+    "saveBeforeStartMessage": "你修改了此配置。开始前先保存吗？",
+    "saveAndStart": "保存并开始"
+  },
+  "sequence": {
+    "click": "点击",
+    "doubleClick": "双击",
+    "stepFormat": "在 ({1}, {2}) {0} — 等待 {3} 秒"
+  },
+  "windowList": {
+    "title": "可见窗口"
+  },
+  "editStep": {
+    "invalidDelay": "请输入有效的非负数作为等待时间。",
+    "title": "编辑步骤",
+    "doubleClick": "此步骤发送双击",
+    "save": "保存",
+    "cancel": "取消"
+  },
+  "autoclicker": {
+    "title": "连点器",
+    "subtitle": "简单的高速光标连点器",
+    "section": {
+      "timing": "时间",
+      "target": "目标",
+      "behavior": "行为"
+    },
+    "field": {
+      "button": "按键",
+      "interval": "间隔",
+      "clickType": "点击类型",
+      "hotkey": "切换热键",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "毫秒"
+    },
+    "button": {
+      "left": "左键",
+      "right": "右键",
+      "middle": "中键",
+      "single": "单击",
+      "double": "双击",
+      "pickCurrent": "取当前位置",
+      "start": "开始",
+      "stop": "停止"
+    },
+    "toggle": {
+      "useCursor": "在光标当前位置点击",
+      "useFixed": "在固定的屏幕位置点击",
+      "randomize": "随机间隔（±20%）",
+      "globalHotkey": "全局热键",
+      "showCounter": "显示点击计数"
+    },
+    "hint": {
+      "cps": "每秒最大点击次数取决于你的系统 — 通常为 150 到 400。",
+      "keys": "按 F9 开始或停止，按 F10 取当前位置，或使用下方按钮。"
+    },
+    "status": {
+      "idle": "空闲",
+      "running": "运行中",
+      "invalidInterval": "间隔无效",
+      "invalidPosition": "固定位置无效",
+      "error": "错误：{0}",
+      "unknownError": "未知",
+      "clicks": "{0} 次点击"
+    },
+    "notify": {
+      "intervalMessage": "间隔必须是以毫秒为单位的正数。",
+      "intervalTitle": "间隔无效",
+      "positionMessage": "固定的 X 和 Y 都必须是有效的整数。",
+      "positionTitle": "位置无效"
+    }
+  },
+  "help": {
+    "windowTitle": "指南",
+    "title": "Background Clicker",
+    "intro": "如何在不放开鼠标的情况下自动点击。",
+    "nav": {
+      "heading": "目录",
+      "quickStart": "快速上手",
+      "profiles": "配置与序列",
+      "modes": "点击模式",
+      "features": "其他功能"
+    },
+    "quickStart": {
+      "heading": "快速上手",
+      "step1": "按「开始拾取」，将鼠标移到目标窗口中想要的位置，按 F10 拾取。",
+      "step2": "在「配置」框中输入名称并按「保存」。",
+      "step3": "按「开始」进行一次测试点击，或打开「自动重复」进行连续点击。"
+    },
+    "profiles": {
+      "heading": "配置与序列",
+      "body": "一个配置保存全部内容：目标窗口、坐标、各项时间和每个开关。序列是一组按顺序执行的点击。",
+      "item1": "在顶部的「配置」行保存、加载和删除配置。",
+      "item2": "把目标切换到「序列」，按「拾取坐标」，然后在每个位置按 F10。先打开「记录步骤」可一次拾取多个。",
+      "item3": "双击列表中的任意步骤即可修改它的等待时间或双击设置。"
+    },
+    "modes": {
+      "heading": "点击模式",
+      "nonBlockingLabel": "非阻塞（默认）",
+      "nonBlockingBody": "通过窗口标题把点击直接发送给窗口。光标不会移动，工作也不会被打断。推荐使用此模式。",
+      "blockingLabel": "阻塞",
+      "blockingBody": "适用于忽略后台消息的程序，例如某些游戏。它会短暂移动真实光标来完成点击，因此你会短时间失去鼠标。"
+    },
+    "features": {
+      "heading": "其他功能",
+      "item1": "在任何地方按 F8 都能启动或停止连点，即使本窗口已最小化。",
+      "item2": "「随机间隔」和「抖动」让节奏和位置看起来不那么机械。",
+      "item3": "「窗口置顶」把本窗口固定在目标之上，声音开关则用声音确认点击和错误。",
+      "item4": "按点击次数或分钟数停止，可为无人值守的运行设定边界。"
+    }
+  },
+  "credits": {
+    "windowTitle": "关于",
+    "title": "Background Clicker",
+    "version": "版本 {0}",
+    "authorHeading": "作者",
+    "authorBody": "由 TheHolyOneZ 设计并开发。",
+    "featuresHeading": "功能",
+    "feature1Label": "后台点击",
+    "feature1Body": "向窗口发送点击，不移动鼠标，也不抢占焦点。",
+    "feature2Label": "点击序列",
+    "feature2Body": "用各自的延迟把点击串联成多步流程。",
+    "feature3Label": "配置",
+    "feature3Body": "为每项任务保存并重新加载完整配置。",
+    "feature4Label": "拟人化",
+    "feature4Body": "抖动和随机间隔让节奏看起来不那么机械。",
+    "feature5Label": "两种点击模式",
+    "feature5Body": "对忽略后台事件的程序改用阻塞式点击。",
+    "feature6Label": "全局热键",
+    "feature6Body": "用 F8 在任何地方启动和停止。",
+    "moduleHeading": "连点器模块",
+    "module1Label": "灵活点击",
+    "module1Body": "设置间隔，选择鼠标按键，单击或双击。",
+    "module2Label": "指定位置",
+    "module2Body": "在光标处点击，或在固定的屏幕位置点击。",
+    "module3Label": "热键控制",
+    "module3Body": "F9 启动和停止，F10 取当前位置。",
+    "techHeading": "工作原理",
+    "techBody": "使用 WPF 和 C# 构建。它通过 Win32 消息 API 把鼠标事件直接发送到窗口句柄，正因如此才能在不接管你的光标的情况下点击。",
+    "translationHeading": "翻译",
+    "translationBody": "各语言已内置在可执行文件中。若要添加你自己的语言，请在程序旁新建 Lang 文件夹，把 en.json 复制进去，翻译其中的值并修改 _meta 块。"
+  },
+  "profile": {
+    "nameLabel": "配置名称",
+    "defaultName": "配置",
+    "copySuffix": "副本",
+    "newTitle": "新建配置",
+    "createAction": "创建",
+    "duplicateTitle": "复制配置",
+    "duplicateAction": "复制",
+    "renameTitle": "重命名配置",
+    "renameAction": "重命名",
+    "errorEmpty": "请输入配置名称。",
+    "errorTaken": "名为“{0}”的配置已存在。",
+    "deleteConfirmTitle": "删除配置",
+    "deleteConfirmMessage": "删除配置“{0}”？\n\n它的目标、时间设置和序列都会被移除，此操作无法撤销。"
+  }
+}

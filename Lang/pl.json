@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "pl",
+    "name": "Polski"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "Poradnik",
+    "autoclicker": "Auto-kliker",
+    "credits": "O programie",
+    "minimize": "Minimalizuj",
+    "close": "Zamknij",
+    "language": "Język"
+  },
+  "main": {
+    "section": {
+      "target": "CEL",
+      "sequence": "SEKWENCJA",
+      "timing": "CZASY",
+      "behavior": "ZACHOWANIE",
+      "sound": "DŹWIĘK"
+    },
+    "field": {
+      "profile": "Profil",
+      "window": "Okno",
+      "coordinates": "Współrzędne",
+      "interval": "Odstęp",
+      "stopAfterClicks": "Zatrzymaj po",
+      "stopAfterMinutes": "Zatrzymaj po",
+      "jitter": "Rozrzut",
+      "stepDelay": "Pauza po kroku"
+    },
+    "unit": {
+      "seconds": "s",
+      "clicks": "kliknięć",
+      "minutes": "min",
+      "pixels": "px"
+    },
+    "button": {
+      "save": "Zapisz",
+      "removeStep": "Usuń",
+      "clearSteps": "Wyczyść",
+      "listWindows": "Pokaż widoczne okna",
+      "setup": "Rozpocznij przechwyt",
+      "start": "START",
+      "stop": "STOP",
+      "reset": "Wyzeruj licznik kliknięć",
+      "cancelSetup": "Anuluj przechwyt  (Esc)",
+      "newProfile": "Nowy",
+      "moreActions": "Więcej działań na profilu",
+      "capturePoint": "Przechwyć punkt"
+    },
+    "toggle": {
+      "randomize": "Losowy odstęp (±20%)",
+      "hardStop": "Zatrzymaj natychmiast po limicie",
+      "doubleClick": "Wyślij podwójne kliknięcie",
+      "alwaysOnTop": "Trzymaj to okno na wierzchu",
+      "blocking": "Kliknięcie blokujące",
+      "blockingTip": "Używa prawdziwego kursora zamiast wysyłać komunikat. Pewniejsze w grach i programach ignorujących kliknięcia w tle, ale na chwilę przesunie myszkę.",
+      "pingOnClick": "Sygnał przy każdym kliknięciu",
+      "alertOnError": "Alarm przy błędzie lub zatrzymaniu",
+      "autoRepeat": "Automatyczne powtarzanie",
+      "recordSteps": "Nagrywaj kroki — pozostań aktywny i dodawaj każdy przechwyt"
+    },
+    "hint": {
+      "sequence": "Naciśnij Przechwyć punkt, najedź na miejsce w oknie docelowym i naciśnij F10 — trafi tutaj od razu. Włącz Nagrywaj kroki, aby pozostać aktywnym i przechwycić kilka po kolei, potem naciśnij Esc. Kliknij krok dwukrotnie, aby go edytować.",
+      "setup": "Naciśnij Rozpocznij przechwyt, najedź na wybrany punkt w oknie docelowym i naciśnij F10, aby go przechwycić. Esc anuluje. Przytrzymanie lewego przycisku przez 3 sekundy też działa."
+    },
+    "footer": {
+      "clicksSent": "wysłanych kliknięć"
+    },
+    "menu": {
+      "duplicate": "Duplikuj profil…",
+      "rename": "Zmień nazwę profilu…",
+      "delete": "Usuń profil"
+    },
+    "mode": {
+      "single": "Pojedynczy punkt",
+      "sequence": "Sekwencja"
+    }
+  },
+  "status": {
+    "idle": "Bezczynny",
+    "running": "Działa",
+    "stoppedByUser": "Zatrzymane przez użytkownika",
+    "profileDirty": "Profil ma niezapisane zmiany. Zapisz go lub uruchom mimo to.",
+    "profileSavedReady": "Profil zapisany. Gotowy do uruchomienia.",
+    "profileSaved": "Profil zapisany: {0}",
+    "invalidInterval": "Nieprawidłowy odstęp",
+    "invalidCoordinates": "Nieprawidłowe współrzędne",
+    "targetReadyHandle": "Okno docelowe gotowe (uchwyt)",
+    "targetReadyTitle": "Okno docelowe gotowe (tytuł)",
+    "targetNotFoundSetup": "Nie znaleziono okna docelowego. Użyj Rozpocznij przechwyt.",
+    "targetNotFoundTitle": "Nie znaleziono okna docelowego. Sprawdź tytuł lub przenieś okno na wierzch.",
+    "targetNotFoundBlocking": "Nie znaleziono okna docelowego dla sekwencji blokującej",
+    "targetLost": "Utracono okno docelowe. Zatrzymywanie.",
+    "clickSent": "Kliknięcie wysłane",
+    "hardLimitReached": "Osiągnięto twardy limit kliknięć. Zatrzymywanie.",
+    "runLimitReached": "Osiągnięto limit czasu. Zatrzymywanie.",
+    "targetCaptured": "Cel przechwycony. Zapisz profil, aby go zachować.",
+    "noWindowDetected": "Nie wykryto okna pod kursorem",
+    "captureArmed": "Najedź na cel i naciśnij F10, aby przechwycić. Esc anuluje.",
+    "captureRecording": "Nagrywanie — naciskaj F10 w każdym punkcie, Esc kończy.",
+    "stepRecorded": "Nagrano krok {0}. F10 dla następnego, Esc kończy.",
+    "captureCancelled": "Przechwyt anulowany.",
+    "recordingFinished": "Nagrywanie zakończone — dodano kroków: {0}.",
+    "profileCreated": "Utworzono profil: {0}",
+    "profileRenamed": "Zmieniono nazwę profilu na: {0}",
+    "captureStep": "Najedź na punkt do dodania i naciśnij F10. Esc anuluje.",
+    "stepAdded": "Krok dodany. Sekwencja ma teraz {0}.",
+    "targetNotFoundCapture": "Nie znaleziono okna docelowego. Użyj Przechwyć punkt."
+  },
+  "notify": {
+    "sequenceEmpty": "Sekwencja jest włączona, ale nie ma kroków. Dodaj co najmniej jeden przed uruchomieniem.",
+    "noTarget": "Wpisz tytuł okna docelowego lub włącz sekwencję przed uruchomieniem.",
+    "invalidCoordinates": "X i Y muszą być prawidłowymi liczbami całkowitymi.",
+    "zeroCoordinates": "X i Y nie mogą oba wynosić 0. Odsuń punkt docelowy od lewego górnego rogu.",
+    "windowNotFound": "Żadne okno nie pasuje do tytułu „{0}”. Upewnij się, że jest otwarte i widoczne, albo przechwyć je przez Rozpocznij przechwyt.",
+    "intervalInvalid": "Odstęp musi być liczbą większą od 0 sekund.",
+    "targetNotFound": "Nie znaleziono okna docelowego. Sprawdź tytuł albo przechwyć je przez Rozpocznij przechwyt.",
+    "titleError": "Błąd",
+    "titleInfo": "Informacja",
+    "ok": "OK",
+    "cancel": "Anuluj"
+  },
+  "dialog": {
+    "unsavedTitle": "Niezapisane zmiany",
+    "unsavedMessage": "Ten profil ma niezapisane zmiany. Zapisać je przed przełączeniem?",
+    "saveBeforeStartMessage": "Zmieniono ten profil. Zapisać go przed uruchomieniem?",
+    "saveAndStart": "Zapisz i uruchom"
+  },
+  "sequence": {
+    "click": "Kliknięcie",
+    "doubleClick": "Podwójne kliknięcie",
+    "stepFormat": "{0} w ({1}, {2}) — czekaj {3}s"
+  },
+  "windowList": {
+    "title": "Widoczne okna"
+  },
+  "editStep": {
+    "invalidDelay": "Wpisz prawidłową, nieujemną liczbę dla pauzy.",
+    "title": "Edytuj krok",
+    "doubleClick": "Wyślij podwójne kliknięcie w tym kroku",
+    "save": "Zapisz",
+    "cancel": "Anuluj"
+  },
+  "autoclicker": {
+    "title": "AUTO-KLIKER",
+    "subtitle": "Prosty szybki kliker przy kursorze",
+    "section": {
+      "timing": "CZASY",
+      "target": "CEL",
+      "behavior": "ZACHOWANIE"
+    },
+    "field": {
+      "button": "Przycisk",
+      "interval": "Odstęp",
+      "clickType": "Rodzaj kliknięcia",
+      "hotkey": "Klawisz przełączania",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "ms"
+    },
+    "button": {
+      "left": "Lewy",
+      "right": "Prawy",
+      "middle": "Środkowy",
+      "single": "Pojedyncze",
+      "double": "Podwójne",
+      "pickCurrent": "Użyj bieżącej",
+      "start": "START",
+      "stop": "STOP"
+    },
+    "toggle": {
+      "useCursor": "Klikaj w bieżącej pozycji kursora",
+      "useFixed": "Klikaj w stałej pozycji ekranu",
+      "randomize": "Losowy odstęp (±20%)",
+      "globalHotkey": "Skrót globalny",
+      "showCounter": "Pokaż licznik kliknięć"
+    },
+    "hint": {
+      "cps": "Maksymalna liczba kliknięć na sekundę zależy od systemu — zwykle od 150 do 400.",
+      "keys": "Naciśnij F9, aby uruchomić lub zatrzymać, F10, aby użyć bieżącej pozycji, albo użyj przycisków poniżej."
+    },
+    "status": {
+      "idle": "Bezczynny",
+      "running": "Działa",
+      "invalidInterval": "Nieprawidłowy odstęp",
+      "invalidPosition": "Nieprawidłowa stała pozycja",
+      "error": "Błąd: {0}",
+      "unknownError": "nieznany",
+      "clicks": "kliknięć: {0}"
+    },
+    "notify": {
+      "intervalMessage": "Odstęp musi być liczbą dodatnią w milisekundach.",
+      "intervalTitle": "Nieprawidłowy odstęp",
+      "positionMessage": "Stałe X i Y muszą być prawidłowymi liczbami całkowitymi.",
+      "positionTitle": "Nieprawidłowa pozycja"
+    }
+  },
+  "help": {
+    "windowTitle": "Poradnik",
+    "title": "Background Clicker",
+    "intro": "Jak zautomatyzować kliknięcia, nie oddając myszki.",
+    "nav": {
+      "heading": "SPIS TREŚCI",
+      "quickStart": "Szybki start",
+      "profiles": "Profile i sekwencje",
+      "modes": "Tryby klikania",
+      "features": "Inne funkcje"
+    },
+    "quickStart": {
+      "heading": "Szybki start",
+      "step1": "Naciśnij Rozpocznij przechwyt, najedź na wybrany punkt w oknie docelowym i naciśnij F10, aby go przechwycić.",
+      "step2": "Wpisz nazwę w polu Profil i naciśnij Zapisz.",
+      "step3": "Naciśnij START, aby wykonać jedno kliknięcie testowe, albo włącz Automatyczne powtarzanie, aby klikać w kółko."
+    },
+    "profiles": {
+      "heading": "Profile i sekwencje",
+      "body": "Profil zapisuje wszystko: okno docelowe, współrzędne, czasy i każdy przełącznik. Sekwencja to lista kliknięć wykonywanych po kolei.",
+      "item1": "Zapisuj, wczytuj i usuwaj profile w wierszu Profil na górze.",
+      "item2": "Przełącz cel na Sekwencję, naciśnij Przechwyć punkt i naciskaj F10 w każdym miejscu. Włącz najpierw Nagrywaj kroki, aby przechwycić kilka za jednym razem.",
+      "item3": "Kliknij dwukrotnie dowolny krok na liście, aby zmienić jego pauzę lub podwójne kliknięcie."
+    },
+    "modes": {
+      "heading": "Tryby klikania",
+      "nonBlockingLabel": "Nieblokujący (domyślny)",
+      "nonBlockingBody": "Wysyła kliknięcie prosto do okna po jego tytule. Kursor nigdy się nie rusza, a praca nie jest przerywana. To zalecany tryb.",
+      "blockingLabel": "Blokujący",
+      "blockingBody": "Dla programów ignorujących komunikaty w tle, na przykład niektórych gier. Na chwilę przesuwa prawdziwy kursor, aby wykonać kliknięcie, więc na moment tracisz myszkę."
+    },
+    "features": {
+      "heading": "Inne funkcje",
+      "item1": "Naciśnij F8 w dowolnym miejscu, aby uruchomić lub zatrzymać kliker, nawet gdy to okno jest zminimalizowane.",
+      "item2": "Losowy odstęp i Rozrzut sprawiają, że rytm i pozycja wyglądają mniej mechanicznie.",
+      "item3": "Trzymaj na wierzchu przypina to okno nad celem, a przełączniki dźwięku potwierdzają kliknięcia i błędy słuchem.",
+      "item4": "Zatrzymanie po liczbie kliknięć lub minut ogranicza pracę bez nadzoru."
+    }
+  },
+  "credits": {
+    "windowTitle": "O programie",
+    "title": "Background Clicker",
+    "version": "Wersja {0}",
+    "authorHeading": "Autor",
+    "authorBody": "Zaprojektowane i wykonane przez TheHolyOneZ.",
+    "featuresHeading": "Co potrafi",
+    "feature1Label": "Kliknięcia w tle",
+    "feature1Body": "Wysyła kliknięcia do okna bez ruszania myszką i bez zabierania fokusu.",
+    "feature2Label": "Sekwencje kliknięć",
+    "feature2Body": "Łączy kliknięcia z własnymi pauzami w wielokrokowe procedury.",
+    "feature3Label": "Profile",
+    "feature3Body": "Zapisuje i wczytuje pełną konfigurację dla każdego zadania.",
+    "feature4Label": "Humanizacja",
+    "feature4Body": "Rozrzut i losowe odstępy sprawiają, że rytm wygląda mniej mechanicznie.",
+    "feature5Label": "Dwa tryby klikania",
+    "feature5Body": "Przechodzi na kliknięcie blokujące w programach ignorujących zdarzenia w tle.",
+    "feature6Label": "Skrót globalny",
+    "feature6Body": "Uruchamia i zatrzymuje z dowolnego miejsca klawiszem F8.",
+    "moduleHeading": "Moduł Auto-kliker",
+    "module1Label": "Elastyczne klikanie",
+    "module1Body": "Ustaw odstęp, wybierz przycisk myszy, pojedyncze lub podwójne.",
+    "module2Label": "Wskazane pozycje",
+    "module2Body": "Klikaj przy kursorze albo w stałej pozycji ekranu.",
+    "module3Label": "Sterowanie klawiszami",
+    "module3Body": "F9 uruchamia i zatrzymuje, F10 pobiera bieżącą pozycję.",
+    "techHeading": "Jak to działa",
+    "techBody": "Zbudowane w WPF i C#. Używa API komunikatów Win32, aby wysyłać zdarzenia myszy prosto do uchwytu okna — właśnie to pozwala klikać bez przejmowania kontroli nad kursorem.",
+    "translationHeading": "Tłumaczenia",
+    "translationBody": "Języki są wbudowane w plik wykonywalny. Aby dodać własny, utwórz obok programu folder Lang, skopiuj do niego en.json, przetłumacz wartości i zmień blok _meta."
+  },
+  "profile": {
+    "nameLabel": "Nazwa profilu",
+    "defaultName": "Profil",
+    "copySuffix": "kopia",
+    "newTitle": "Nowy profil",
+    "createAction": "Utwórz",
+    "duplicateTitle": "Duplikuj profil",
+    "duplicateAction": "Duplikuj",
+    "renameTitle": "Zmień nazwę profilu",
+    "renameAction": "Zmień nazwę",
+    "errorEmpty": "Wpisz nazwę profilu.",
+    "errorTaken": "Profil o nazwie „{0}” już istnieje.",
+    "deleteConfirmTitle": "Usuń profil",
+    "deleteConfirmMessage": "Usunąć profil „{0}”?\n\nJego cel, czasy i sekwencja zostaną usunięte. Tej operacji nie można cofnąć."
+  }
+}

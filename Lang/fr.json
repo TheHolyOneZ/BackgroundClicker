@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "fr",
+    "name": "Français"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "Guide",
+    "autoclicker": "Auto-clicker",
+    "credits": "À propos",
+    "minimize": "Réduire",
+    "close": "Fermer",
+    "language": "Langue"
+  },
+  "main": {
+    "section": {
+      "target": "CIBLE",
+      "sequence": "SÉQUENCE",
+      "timing": "CADENCE",
+      "behavior": "COMPORTEMENT",
+      "sound": "SON"
+    },
+    "field": {
+      "profile": "Profil",
+      "window": "Fenêtre",
+      "coordinates": "Coordonnées",
+      "interval": "Intervalle",
+      "stopAfterClicks": "Arrêt après",
+      "stopAfterMinutes": "Arrêt après",
+      "jitter": "Dispersion",
+      "stepDelay": "Pause après l'étape"
+    },
+    "unit": {
+      "seconds": "s",
+      "clicks": "clics",
+      "minutes": "min",
+      "pixels": "px"
+    },
+    "button": {
+      "save": "Enregistrer",
+      "removeStep": "Retirer",
+      "clearSteps": "Vider",
+      "listWindows": "Lister les fenêtres visibles",
+      "setup": "Démarrer la capture",
+      "start": "DÉMARRER",
+      "stop": "ARRÊTER",
+      "reset": "Réinitialiser le compteur de clics",
+      "cancelSetup": "Annuler la capture  (Échap)",
+      "newProfile": "Nouveau",
+      "moreActions": "Autres actions de profil",
+      "capturePoint": "Capturer un point"
+    },
+    "toggle": {
+      "randomize": "Intervalle aléatoire (±20 %)",
+      "hardStop": "Arrêter immédiatement à la limite",
+      "doubleClick": "Envoyer un double-clic",
+      "alwaysOnTop": "Garder cette fenêtre au premier plan",
+      "blocking": "Clic bloquant",
+      "blockingTip": "Utilise le vrai curseur au lieu d'envoyer un message. Plus fiable pour les jeux et les applications qui ignorent les clics en arrière-plan, mais votre souris sera brièvement déplacée.",
+      "pingOnClick": "Bip à chaque clic",
+      "alertOnError": "Alerte en cas d'erreur ou d'arrêt",
+      "autoRepeat": "Répétition automatique",
+      "recordSteps": "Enregistrer les étapes — rester actif et ajouter chaque capture"
+    },
+    "hint": {
+      "sequence": "Appuyez sur « Capturer un point », survolez un endroit de la fenêtre cible et appuyez sur F10 — il est ajouté ici immédiatement. Activez « Enregistrer les étapes » pour rester armé et en capturer plusieurs à la suite, puis appuyez sur Échap. Double-cliquez sur une étape pour la modifier.",
+      "setup": "Appuyez sur « Démarrer la capture », survolez le point voulu dans la fenêtre cible, puis appuyez sur F10. Échap annule. Maintenir le bouton gauche immobile pendant 3 secondes fonctionne toujours."
+    },
+    "footer": {
+      "clicksSent": "clics envoyés"
+    },
+    "menu": {
+      "duplicate": "Dupliquer le profil…",
+      "rename": "Renommer le profil…",
+      "delete": "Supprimer le profil"
+    },
+    "mode": {
+      "single": "Point unique",
+      "sequence": "Séquence"
+    }
+  },
+  "status": {
+    "idle": "En attente",
+    "running": "En cours",
+    "stoppedByUser": "Arrêté par l'utilisateur",
+    "profileDirty": "Le profil a des modifications non enregistrées. Enregistrez, ou démarrez quand même.",
+    "profileSavedReady": "Profil enregistré. Prêt à démarrer.",
+    "profileSaved": "Profil enregistré : {0}",
+    "invalidInterval": "Intervalle invalide",
+    "invalidCoordinates": "Coordonnées invalides",
+    "targetReadyHandle": "Fenêtre cible prête (handle)",
+    "targetReadyTitle": "Fenêtre cible prête (titre)",
+    "targetNotFoundSetup": "Fenêtre cible introuvable. Utilisez « Démarrer la capture ».",
+    "targetNotFoundTitle": "Fenêtre cible introuvable. Vérifiez le titre, ou mettez la fenêtre au premier plan.",
+    "targetNotFoundBlocking": "Fenêtre cible introuvable pour la séquence bloquante",
+    "targetLost": "Fenêtre cible perdue. Arrêt en cours.",
+    "clickSent": "Clic envoyé",
+    "hardLimitReached": "Limite stricte de clics atteinte. Arrêt en cours.",
+    "runLimitReached": "Limite de durée atteinte. Arrêt en cours.",
+    "targetCaptured": "Cible capturée. Enregistrez le profil pour la conserver.",
+    "noWindowDetected": "Aucune fenêtre détectée sous le curseur",
+    "captureArmed": "Survolez la cible et appuyez sur F10. Échap annule.",
+    "captureRecording": "Enregistrement — F10 à chaque point, Échap pour terminer.",
+    "stepRecorded": "Étape {0} enregistrée. F10 pour la suivante, Échap pour terminer.",
+    "captureCancelled": "Capture annulée.",
+    "recordingFinished": "Enregistrement terminé — {0} étapes ajoutées.",
+    "profileCreated": "Profil créé : {0}",
+    "profileRenamed": "Profil renommé en : {0}",
+    "captureStep": "Survolez le point à ajouter et appuyez sur F10. Échap annule.",
+    "stepAdded": "Étape ajoutée. La séquence en compte maintenant {0}.",
+    "targetNotFoundCapture": "Fenêtre cible introuvable. Utilisez « Capturer un point »."
+  },
+  "notify": {
+    "sequenceEmpty": "La séquence est activée mais ne contient aucune étape. Ajoutez au moins une étape avant de démarrer.",
+    "noTarget": "Saisissez un titre de fenêtre cible, ou activez la séquence, avant de démarrer.",
+    "invalidCoordinates": "X et Y doivent être des nombres entiers valides.",
+    "zeroCoordinates": "X et Y ne peuvent pas valoir 0 tous les deux. Éloignez le point cible du coin supérieur gauche.",
+    "windowNotFound": "Aucune fenêtre ne correspond au titre « {0} ». Vérifiez qu'elle est ouverte et visible, ou capturez-la avec « Démarrer la capture ».",
+    "intervalInvalid": "L'intervalle doit être un nombre supérieur à 0 seconde.",
+    "targetNotFound": "Fenêtre cible introuvable. Vérifiez le titre, ou capturez-la avec « Démarrer la capture ».",
+    "titleError": "Erreur",
+    "titleInfo": "Information",
+    "ok": "OK",
+    "cancel": "Annuler"
+  },
+  "dialog": {
+    "unsavedTitle": "Modifications non enregistrées",
+    "unsavedMessage": "Ce profil a des modifications non enregistrées. Les enregistrer avant de changer ?",
+    "saveBeforeStartMessage": "Ce profil a été modifié. L’enregistrer avant de démarrer ?",
+    "saveAndStart": "Enregistrer et démarrer"
+  },
+  "sequence": {
+    "click": "Clic",
+    "doubleClick": "Double-clic",
+    "stepFormat": "{0} à ({1}, {2}) — attendre {3} s"
+  },
+  "windowList": {
+    "title": "Fenêtres visibles"
+  },
+  "editStep": {
+    "invalidDelay": "Saisissez un nombre valide et non négatif pour la pause.",
+    "title": "Modifier l'étape",
+    "doubleClick": "Envoyer un double-clic pour cette étape",
+    "save": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "autoclicker": {
+    "title": "AUTO-CLICKER",
+    "subtitle": "Clicker rapide au curseur",
+    "section": {
+      "timing": "CADENCE",
+      "target": "CIBLE",
+      "behavior": "COMPORTEMENT"
+    },
+    "field": {
+      "button": "Bouton",
+      "interval": "Intervalle",
+      "clickType": "Type de clic",
+      "hotkey": "Touche de bascule",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "ms"
+    },
+    "button": {
+      "left": "Gauche",
+      "right": "Droit",
+      "middle": "Milieu",
+      "single": "Simple",
+      "double": "Double",
+      "pickCurrent": "Prendre l'actuelle",
+      "start": "DÉMARRER",
+      "stop": "ARRÊTER"
+    },
+    "toggle": {
+      "useCursor": "Cliquer à la position actuelle du curseur",
+      "useFixed": "Cliquer à une position fixe de l'écran",
+      "randomize": "Intervalle aléatoire (±20 %)",
+      "globalHotkey": "Raccourci global",
+      "showCounter": "Afficher le compteur de clics en cours"
+    },
+    "hint": {
+      "cps": "Le nombre maximal de clics par seconde dépend de votre système — généralement de 150 à 400.",
+      "keys": "F9 démarre et arrête, F10 prend la position actuelle, ou utilisez les boutons ci-dessous."
+    },
+    "status": {
+      "idle": "En attente",
+      "running": "En cours",
+      "invalidInterval": "Intervalle invalide",
+      "invalidPosition": "Position fixe invalide",
+      "error": "Erreur : {0}",
+      "unknownError": "inconnue",
+      "clicks": "{0} clics"
+    },
+    "notify": {
+      "intervalMessage": "L'intervalle doit être un nombre positif en millisecondes.",
+      "intervalTitle": "Intervalle invalide",
+      "positionMessage": "Les valeurs X et Y fixes doivent être des nombres entiers valides.",
+      "positionTitle": "Position invalide"
+    }
+  },
+  "help": {
+    "windowTitle": "Guide",
+    "title": "Background Clicker",
+    "intro": "Automatiser des clics sans renoncer à votre souris.",
+    "nav": {
+      "heading": "SOMMAIRE",
+      "quickStart": "Démarrage rapide",
+      "profiles": "Profils et séquences",
+      "modes": "Modes de clic",
+      "features": "Autres fonctions"
+    },
+    "quickStart": {
+      "heading": "Démarrage rapide",
+      "step1": "Appuyez sur « Démarrer la capture », survolez le point voulu dans la fenêtre cible et appuyez sur F10.",
+      "step2": "Saisissez un nom dans le champ « Profil » et appuyez sur « Enregistrer ».",
+      "step3": "Appuyez sur « DÉMARRER » pour un clic de test, ou activez « Répétition automatique » pour cliquer en continu."
+    },
+    "profiles": {
+      "heading": "Profils et séquences",
+      "body": "Un profil enregistre tout : la fenêtre cible, les coordonnées, les cadences et chaque option. Une séquence est une liste de clics exécutés dans l'ordre.",
+      "item1": "Enregistrez, chargez et supprimez les profils depuis la ligne « Profil » en haut.",
+      "item2": "Passez la cible en « Séquence », appuyez sur « Capturer un point », puis sur F10 à chaque endroit. Activez d’abord « Enregistrer les étapes » pour en capturer plusieurs d’un coup.",
+      "item3": "Double-cliquez sur une étape de la liste pour changer sa pause ou son réglage de double-clic."
+    },
+    "modes": {
+      "heading": "Modes de clic",
+      "nonBlockingLabel": "Non bloquant (par défaut)",
+      "nonBlockingBody": "Envoie le clic directement à la fenêtre via son titre. Votre curseur ne bouge jamais et votre travail n'est pas interrompu. C'est le mode recommandé.",
+      "blockingLabel": "Bloquant",
+      "blockingBody": "Pour les applications qui ignorent les messages en arrière-plan, comme certains jeux. Votre vrai curseur est brièvement déplacé pour effectuer le clic, vous perdez donc la souris un instant."
+    },
+    "features": {
+      "heading": "Autres fonctions",
+      "item1": "F8 démarre et arrête le clicker depuis n'importe où, même si cette fenêtre est réduite.",
+      "item2": "« Intervalle aléatoire » et « Dispersion » rendent la cadence et la position moins mécaniques.",
+      "item3": "« Garder au premier plan » épingle cette fenêtre au-dessus de la cible, et les options sonores confirment clics et erreurs à l'oreille.",
+      "item4": "Un arrêt après un nombre de clics ou de minutes borne une exécution sans surveillance."
+    }
+  },
+  "credits": {
+    "windowTitle": "À propos",
+    "title": "Background Clicker",
+    "version": "Version {0}",
+    "authorHeading": "Auteur",
+    "authorBody": "Conçu et développé par TheHolyOneZ.",
+    "featuresHeading": "Ce qu'il fait",
+    "feature1Label": "Clics en arrière-plan",
+    "feature1Body": "Envoie des clics à une fenêtre sans bouger votre souris ni voler le focus.",
+    "feature2Label": "Séquences de clics",
+    "feature2Body": "Enchaîne des clics avec des pauses individuelles pour des routines en plusieurs étapes.",
+    "feature3Label": "Profils",
+    "feature3Body": "Enregistre et recharge une configuration complète par tâche.",
+    "feature4Label": "Humanisation",
+    "feature4Body": "La dispersion et les intervalles aléatoires rendent la cadence moins mécanique.",
+    "feature5Label": "Deux modes de clic",
+    "feature5Body": "Bascule vers un clic bloquant pour les applications qui ignorent les événements en arrière-plan.",
+    "feature6Label": "Raccourci global",
+    "feature6Body": "Démarre et arrête depuis n'importe où avec F8.",
+    "moduleHeading": "Module Auto-clicker",
+    "module1Label": "Clic flexible",
+    "module1Body": "Réglez l'intervalle, choisissez le bouton, simple ou double.",
+    "module2Label": "Positions ciblées",
+    "module2Body": "Cliquez au curseur, ou à une position fixe de l'écran.",
+    "module3Label": "Contrôle au clavier",
+    "module3Body": "F9 démarre et arrête, F10 prend la position actuelle.",
+    "techHeading": "Comment ça marche",
+    "techBody": "Développé avec WPF et C#. Il utilise l'API de messages Win32 pour envoyer les événements souris directement à un handle de fenêtre, ce qui lui permet de cliquer sans prendre le contrôle de votre curseur.",
+    "translationHeading": "Traductions",
+    "translationBody": "Les langues sont intégrées à l'exécutable. Pour ajouter la vôtre, créez un dossier « Lang » à côté du programme, copiez-y en.json, traduisez les valeurs et modifiez le bloc _meta."
+  },
+  "profile": {
+    "nameLabel": "Nom du profil",
+    "defaultName": "Profil",
+    "copySuffix": "copie",
+    "newTitle": "Nouveau profil",
+    "createAction": "Créer",
+    "duplicateTitle": "Dupliquer le profil",
+    "duplicateAction": "Dupliquer",
+    "renameTitle": "Renommer le profil",
+    "renameAction": "Renommer",
+    "errorEmpty": "Saisissez un nom pour le profil.",
+    "errorTaken": "Un profil nommé « {0} » existe déjà.",
+    "deleteConfirmTitle": "Supprimer le profil",
+    "deleteConfirmMessage": "Supprimer le profil « {0} » ?\n\nSa cible, ses cadences et sa séquence seront supprimées. Cette action est irréversible."
+  }
+}

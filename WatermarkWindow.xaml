@@ -1,38 +1,53 @@
 <Window x:Class="BackgroundClicker.Wpf.WatermarkWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Watermark" Height="400" Width="600"
-        WindowStartupLocation="CenterScreen" WindowStyle="None"
-        AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize">
+        xmlns:i18n="clr-namespace:BackgroundClicker.Wpf.I18n"
+        Title="Visible windows" Height="460" Width="640"
+        WindowStartupLocation="CenterOwner" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" ResizeMode="CanResizeWithGrip">
 
-    <Border CornerRadius="15" BorderThickness="1" BorderBrush="#33FFFFFF" Background="#D8111111">
+    <Border Background="{StaticResource SurfaceBaseBrush}"
+            BorderBrush="{StaticResource LineStrongBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource Radius}"
+            TextElement.FontFamily="{StaticResource FontUI}"
+            TextElement.FontSize="{StaticResource FontSizeBody}"
+            TextElement.Foreground="{StaticResource TextPrimaryBrush}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Background="Transparent" MouseLeftButtonDown="Header_MouseLeftButtonDown">
-                <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" 
-                           Foreground="White" Opacity="0.9" VerticalAlignment="Center" HorizontalAlignment="Center"
-                           FontWeight="SemiBold"/>
-                <Button Content="X" Width="30" Height="30" Click="CloseButton_Click" 
-                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"
-                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                        Background="#CCFF0055" BorderThickness="0" FontWeight="Bold"/>
+            <Grid Grid.Row="0" Background="{StaticResource SurfacePanelBrush}"
+                  MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <Rectangle Width="3" Height="12" Fill="{StaticResource AccentBrush}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"
+                               FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                        Style="{StaticResource TitleBarCloseButton}" Height="40"
+                        HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                        ToolTip="{i18n:T nav.close}" Click="CloseButton_Click"/>
             </Grid>
 
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
-                <TextBox x:Name="WatermarkTextBox"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         Background="#1AFFFFFF"
-                         Foreground="#EAEAEA"
-                         BorderThickness="0"
-                         FontFamily="Consolas"
-                         FontSize="12"/>
-            </ScrollViewer>
+            <Border Grid.Row="1" Style="{StaticResource InsetPanel}" Margin="16">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <TextBox x:Name="WatermarkTextBox"
+                             IsReadOnly="True"
+                             TextWrapping="NoWrap"
+                             AcceptsReturn="True"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Height="Auto"
+                             VerticalContentAlignment="Top"
+                             Padding="4"
+                             Foreground="{StaticResource TextDimBrush}"
+                             FontFamily="{StaticResource FontMono}"
+                             FontSize="{StaticResource FontSizeSmall}"/>
+                </ScrollViewer>
+            </Border>
         </Grid>
     </Border>
 </Window>

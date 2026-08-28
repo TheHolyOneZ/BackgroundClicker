@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "de",
+    "name": "Deutsch"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "Anleitung",
+    "autoclicker": "Auto-Klicker",
+    "credits": "Über",
+    "minimize": "Minimieren",
+    "close": "Schließen",
+    "language": "Sprache"
+  },
+  "main": {
+    "section": {
+      "target": "ZIEL",
+      "sequence": "SEQUENZ",
+      "timing": "TIMING",
+      "behavior": "VERHALTEN",
+      "sound": "TON"
+    },
+    "field": {
+      "profile": "Profil",
+      "window": "Fenstertitel",
+      "coordinates": "Koordinaten",
+      "interval": "Intervall",
+      "stopAfterClicks": "Stopp nach",
+      "stopAfterMinutes": "Stopp nach",
+      "jitter": "Streuung",
+      "stepDelay": "Pause nach Schritt"
+    },
+    "unit": {
+      "seconds": "s",
+      "clicks": "Klicks",
+      "minutes": "Min",
+      "pixels": "px"
+    },
+    "button": {
+      "save": "Speichern",
+      "removeStep": "Entfernen",
+      "clearSteps": "Leeren",
+      "listWindows": "Sichtbare Fenster auflisten",
+      "setup": "Einrichtung starten",
+      "start": "START",
+      "stop": "STOPP",
+      "reset": "Klickzähler zurücksetzen",
+      "cancelSetup": "Einrichtung abbrechen  (Esc)",
+      "newProfile": "Neu",
+      "moreActions": "Weitere Profilaktionen",
+      "capturePoint": "Punkt erfassen"
+    },
+    "toggle": {
+      "randomize": "Intervall zufällig variieren (±20%)",
+      "hardStop": "Beim Limit sofort stoppen",
+      "doubleClick": "Doppelklick senden",
+      "alwaysOnTop": "Fenster im Vordergrund halten",
+      "blocking": "Blockierender Klick",
+      "blockingTip": "Benutzt den echten Mauszeiger statt eine Nachricht zu senden. Zuverlässiger für Spiele und Programme, die Hintergrundklicks ignorieren, bewegt aber kurz deine Maus.",
+      "pingOnClick": "Ton bei jedem Klick",
+      "alertOnError": "Warnton bei Fehler oder Stopp",
+      "autoRepeat": "Automatisch wiederholen",
+      "recordSteps": "Schritte aufzeichnen — aktiv bleiben und jede Erfassung hinzufügen"
+    },
+    "hint": {
+      "sequence": "„Punkt erfassen“ drücken, eine Stelle im Zielfenster anvisieren und F10 drücken — sie wird sofort hier eingetragen. Mit „Schritte aufzeichnen“ bleibt die Erfassung aktiv für mehrere Punkte hintereinander, zum Beenden Esc. Doppelklick auf einen Schritt zum Bearbeiten.",
+      "setup": "„Einrichtung starten“ drücken, den gewünschten Punkt im Zielfenster anvisieren und F10 drücken. Esc bricht ab. Die linke Maustaste 3 Sekunden stillzuhalten funktioniert weiterhin."
+    },
+    "footer": {
+      "clicksSent": "Klicks gesendet"
+    },
+    "menu": {
+      "duplicate": "Profil duplizieren…",
+      "rename": "Profil umbenennen…",
+      "delete": "Profil löschen"
+    },
+    "mode": {
+      "single": "Einzelpunkt",
+      "sequence": "Sequenz"
+    }
+  },
+  "status": {
+    "idle": "Bereit",
+    "running": "Läuft",
+    "stoppedByUser": "Vom Benutzer gestoppt",
+    "profileDirty": "Profil hat ungespeicherte Änderungen. Speichern oder trotzdem starten.",
+    "profileSavedReady": "Profil gespeichert. Bereit zum Start.",
+    "profileSaved": "Profil gespeichert: {0}",
+    "invalidInterval": "Ungültiges Intervall",
+    "invalidCoordinates": "Ungültige Koordinaten",
+    "targetReadyHandle": "Zielfenster bereit (Handle)",
+    "targetReadyTitle": "Zielfenster bereit (Titel)",
+    "targetNotFoundSetup": "Zielfenster nicht gefunden. Bitte „Einrichtung starten“ verwenden.",
+    "targetNotFoundTitle": "Zielfenster nicht gefunden. Titel prüfen oder Fenster nach vorne holen.",
+    "targetNotFoundBlocking": "Zielfenster für die blockierende Sequenz nicht gefunden",
+    "targetLost": "Zielfenster verloren. Wird gestoppt.",
+    "clickSent": "Klick gesendet",
+    "hardLimitReached": "Hartes Klicklimit erreicht. Wird gestoppt.",
+    "runLimitReached": "Laufzeitlimit erreicht. Wird gestoppt.",
+    "targetCaptured": "Ziel erfasst. Profil speichern, um es zu behalten.",
+    "noWindowDetected": "Kein Fenster unter dem Mauszeiger erkannt",
+    "captureArmed": "Ziel anvisieren und F10 drücken. Esc bricht ab.",
+    "captureRecording": "Aufzeichnung — an jedem Punkt F10 drücken, zum Beenden Esc.",
+    "stepRecorded": "Schritt {0} aufgezeichnet. F10 für den nächsten, Esc zum Beenden.",
+    "captureCancelled": "Einrichtung abgebrochen.",
+    "recordingFinished": "Aufzeichnung beendet — {0} Schritte hinzugefügt.",
+    "profileCreated": "Profil erstellt: {0}",
+    "profileRenamed": "Profil umbenannt in: {0}",
+    "captureStep": "Den Punkt anvisieren und F10 drücken. Esc bricht ab.",
+    "stepAdded": "Schritt hinzugefügt. Die Sequenz hat jetzt {0}.",
+    "targetNotFoundCapture": "Zielfenster nicht gefunden. Bitte „Punkt erfassen“ verwenden."
+  },
+  "notify": {
+    "sequenceEmpty": "Die Sequenz ist aktiv, hat aber keine Schritte. Bitte vor dem Start mindestens einen Schritt hinzufügen.",
+    "noTarget": "Vor dem Start einen Fenstertitel eingeben oder die Sequenz aktivieren.",
+    "invalidCoordinates": "X und Y müssen beide gültige ganze Zahlen sein.",
+    "zeroCoordinates": "X und Y dürfen nicht beide 0 sein. Den Zielpunkt von der oberen linken Ecke wegbewegen.",
+    "windowNotFound": "Kein Fenster passt zum Titel „{0}“. Sicherstellen, dass es geöffnet und sichtbar ist, oder es mit „Einrichtung starten“ erfassen.",
+    "intervalInvalid": "Das Intervall muss eine Zahl größer als 0 Sekunden sein.",
+    "targetNotFound": "Zielfenster nicht gefunden. Fenstertitel prüfen oder mit „Einrichtung starten“ erfassen.",
+    "titleError": "Fehler",
+    "titleInfo": "Information",
+    "ok": "OK",
+    "cancel": "Abbrechen"
+  },
+  "dialog": {
+    "unsavedTitle": "Ungespeicherte Änderungen",
+    "unsavedMessage": "Dieses Profil hat ungespeicherte Änderungen. Vor dem Wechsel speichern?",
+    "saveBeforeStartMessage": "Dieses Profil wurde geändert. Vor dem Start speichern?",
+    "saveAndStart": "Speichern und starten"
+  },
+  "sequence": {
+    "click": "Klick",
+    "doubleClick": "Doppelklick",
+    "stepFormat": "{0} bei ({1}, {2}) — {3}s warten"
+  },
+  "windowList": {
+    "title": "Sichtbare Fenster"
+  },
+  "editStep": {
+    "invalidDelay": "Bitte eine gültige, nicht negative Zahl für die Pause eingeben.",
+    "title": "Schritt bearbeiten",
+    "doubleClick": "Für diesen Schritt einen Doppelklick senden",
+    "save": "Speichern",
+    "cancel": "Abbrechen"
+  },
+  "autoclicker": {
+    "title": "AUTO-KLICKER",
+    "subtitle": "Einfacher schneller Klicker am Mauszeiger",
+    "section": {
+      "timing": "TIMING",
+      "target": "ZIEL",
+      "behavior": "VERHALTEN"
+    },
+    "field": {
+      "button": "Taste",
+      "interval": "Intervall",
+      "clickType": "Klickart",
+      "hotkey": "Umschalttaste",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "ms"
+    },
+    "button": {
+      "left": "Links",
+      "right": "Rechts",
+      "middle": "Mitte",
+      "single": "Einfach",
+      "double": "Doppelt",
+      "pickCurrent": "Aktuelle übernehmen",
+      "start": "START",
+      "stop": "STOPP"
+    },
+    "toggle": {
+      "useCursor": "An der aktuellen Mausposition klicken",
+      "useFixed": "An einer festen Bildschirmposition klicken",
+      "randomize": "Intervall zufällig variieren (±20%)",
+      "globalHotkey": "Globale Tastenkombination",
+      "showCounter": "Laufenden Klickzähler anzeigen"
+    },
+    "hint": {
+      "cps": "Die maximalen Klicks pro Sekunde hängen vom System ab — typischerweise 150 bis 400.",
+      "keys": "F9 startet und stoppt, F10 übernimmt die aktuelle Position, oder die Schaltflächen unten benutzen."
+    },
+    "status": {
+      "idle": "Bereit",
+      "running": "Läuft",
+      "invalidInterval": "Ungültiges Intervall",
+      "invalidPosition": "Ungültige feste Position",
+      "error": "Fehler: {0}",
+      "unknownError": "unbekannt",
+      "clicks": "{0} Klicks"
+    },
+    "notify": {
+      "intervalMessage": "Das Intervall muss eine positive Zahl in Millisekunden sein.",
+      "intervalTitle": "Ungültiges Intervall",
+      "positionMessage": "Festes X und Y müssen beide gültige ganze Zahlen sein.",
+      "positionTitle": "Ungültige Position"
+    }
+  },
+  "help": {
+    "windowTitle": "Anleitung",
+    "title": "Background Clicker",
+    "intro": "Klicks automatisieren, ohne die Maus aus der Hand zu geben.",
+    "nav": {
+      "heading": "INHALT",
+      "quickStart": "Schnellstart",
+      "profiles": "Profile & Sequenzen",
+      "modes": "Klickmodi",
+      "features": "Weitere Funktionen"
+    },
+    "quickStart": {
+      "heading": "Schnellstart",
+      "step1": "„Einrichtung starten“ drücken, den gewünschten Punkt im Zielfenster anvisieren und F10 drücken.",
+      "step2": "Einen Namen im Feld „Profil“ eintragen und auf „Speichern“ drücken.",
+      "step3": "„START“ für einen einzelnen Testklick drücken, oder „Automatisch wiederholen“ für Dauerklicks aktivieren."
+    },
+    "profiles": {
+      "heading": "Profile & Sequenzen",
+      "body": "Ein Profil speichert alles: Zielfenster, Koordinaten, Timings und jeden Schalter. Eine Sequenz ist eine Liste von Klicks, die der Reihe nach ausgeführt wird.",
+      "item1": "Profile werden in der Profilzeile oben gespeichert, geladen und gelöscht.",
+      "item2": "Das Ziel auf „Sequenz“ stellen, „Punkt erfassen“ drücken und an jeder Stelle F10 drücken. Mit „Schritte aufzeichnen“ lassen sich mehrere in einem Durchgang erfassen.",
+      "item3": "Doppelklick auf einen Schritt in der Liste ändert dessen Pause oder Doppelklick-Einstellung."
+    },
+    "modes": {
+      "heading": "Klickmodi",
+      "nonBlockingLabel": "Nicht blockierend (Standard)",
+      "nonBlockingBody": "Sendet den Klick direkt über den Fenstertitel an das Fenster. Der Mauszeiger bewegt sich nie und die Arbeit wird nicht unterbrochen. Dieser Modus wird empfohlen.",
+      "blockingLabel": "Blockierend",
+      "blockingBody": "Für Programme, die Hintergrundnachrichten ignorieren, etwa manche Spiele. Der echte Mauszeiger wird kurz bewegt, um den Klick auszuführen — die Maus ist für einen Moment blockiert."
+    },
+    "features": {
+      "heading": "Weitere Funktionen",
+      "item1": "F8 startet und stoppt den Klicker von überall, auch wenn dieses Fenster minimiert ist.",
+      "item2": "„Intervall zufällig variieren“ und „Streuung“ lassen Timing und Position weniger mechanisch wirken.",
+      "item3": "„Fenster im Vordergrund halten“ hält dieses Fenster über dem Ziel, die Tonschalter bestätigen Klicks und Fehler hörbar.",
+      "item4": "Ein Stopp nach einer Anzahl Klicks oder Minuten begrenzt einen unbeaufsichtigten Lauf."
+    }
+  },
+  "credits": {
+    "windowTitle": "Über",
+    "title": "Background Clicker",
+    "version": "Version {0}",
+    "authorHeading": "Autor",
+    "authorBody": "Entworfen und entwickelt von TheHolyOneZ.",
+    "featuresHeading": "Was es kann",
+    "feature1Label": "Hintergrundklicks",
+    "feature1Body": "Sendet Klicks an ein Fenster, ohne die Maus zu bewegen oder den Fokus zu stehlen.",
+    "feature2Label": "Klicksequenzen",
+    "feature2Body": "Verkettet Klicks mit eigenen Pausen für mehrstufige Abläufe.",
+    "feature3Label": "Profile",
+    "feature3Body": "Speichert und lädt eine komplette Konfiguration pro Aufgabe.",
+    "feature4Label": "Vermenschlichung",
+    "feature4Body": "Streuung und zufällige Intervalle lassen das Timing weniger mechanisch wirken.",
+    "feature5Label": "Zwei Klickmodi",
+    "feature5Body": "Wechselt zum blockierenden Klick für Programme, die Hintergrundereignisse ignorieren.",
+    "feature6Label": "Globale Taste",
+    "feature6Body": "Startet und stoppt von überall mit F8.",
+    "moduleHeading": "Auto-Klicker-Modul",
+    "module1Label": "Flexibles Klicken",
+    "module1Body": "Intervall einstellen, Maustaste wählen, einfach oder doppelt.",
+    "module2Label": "Gezielte Positionen",
+    "module2Body": "Am Mauszeiger klicken oder an einer festen Bildschirmposition.",
+    "module3Label": "Tastensteuerung",
+    "module3Body": "F9 startet und stoppt, F10 übernimmt die aktuelle Position.",
+    "techHeading": "Wie es funktioniert",
+    "techBody": "Gebaut mit WPF und C#. Es nutzt die Win32-Nachrichten-API, um Mausereignisse direkt an ein Fenster-Handle zu senden — genau das erlaubt das Klicken, ohne die Kontrolle über den Mauszeiger zu übernehmen.",
+    "translationHeading": "Übersetzungen",
+    "translationBody": "Die Sprachen sind in der Anwendung eingebaut. Für eine eigene Sprache einen Ordner „Lang“ neben dem Programm anlegen, en.json hineinkopieren, die Werte übersetzen und den _meta-Block anpassen."
+  },
+  "profile": {
+    "nameLabel": "Profilname",
+    "defaultName": "Profil",
+    "copySuffix": "Kopie",
+    "newTitle": "Neues Profil",
+    "createAction": "Erstellen",
+    "duplicateTitle": "Profil duplizieren",
+    "duplicateAction": "Duplizieren",
+    "renameTitle": "Profil umbenennen",
+    "renameAction": "Umbenennen",
+    "errorEmpty": "Bitte einen Namen für das Profil eingeben.",
+    "errorTaken": "Ein Profil namens „{0}“ existiert bereits.",
+    "deleteConfirmTitle": "Profil löschen",
+    "deleteConfirmMessage": "Das Profil „{0}“ löschen?\n\nZiel, Timings und Sequenz werden entfernt. Das kann nicht rückgängig gemacht werden."
+  }
+}

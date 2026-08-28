@@ -1,0 +1,290 @@
+{
+  "_meta": {
+    "code": "pt",
+    "name": "Português"
+  },
+  "app": {
+    "title": "BACKGROUND CLICKER"
+  },
+  "nav": {
+    "help": "Guia",
+    "autoclicker": "Auto-clicker",
+    "credits": "Sobre",
+    "minimize": "Minimizar",
+    "close": "Fechar",
+    "language": "Idioma"
+  },
+  "main": {
+    "section": {
+      "target": "ALVO",
+      "sequence": "SEQUÊNCIA",
+      "timing": "TEMPOS",
+      "behavior": "COMPORTAMENTO",
+      "sound": "SOM"
+    },
+    "field": {
+      "profile": "Perfil",
+      "window": "Janela",
+      "coordinates": "Coordenadas",
+      "interval": "Intervalo",
+      "stopAfterClicks": "Parar após",
+      "stopAfterMinutes": "Parar após",
+      "jitter": "Dispersão",
+      "stepDelay": "Pausa após o passo"
+    },
+    "unit": {
+      "seconds": "s",
+      "clicks": "cliques",
+      "minutes": "min",
+      "pixels": "px"
+    },
+    "button": {
+      "save": "Salvar",
+      "removeStep": "Remover",
+      "clearSteps": "Limpar",
+      "listWindows": "Listar janelas visíveis",
+      "setup": "Iniciar captura",
+      "start": "INICIAR",
+      "stop": "PARAR",
+      "reset": "Zerar o contador de cliques",
+      "cancelSetup": "Cancelar captura  (Esc)",
+      "newProfile": "Novo",
+      "moreActions": "Mais ações de perfil",
+      "capturePoint": "Capturar ponto"
+    },
+    "toggle": {
+      "randomize": "Intervalo aleatório (±20%)",
+      "hardStop": "Parar imediatamente no limite",
+      "doubleClick": "Enviar clique duplo",
+      "alwaysOnTop": "Manter esta janela à frente",
+      "blocking": "Clique bloqueante",
+      "blockingTip": "Usa o cursor real em vez de enviar uma mensagem. Mais confiável para jogos e programas que ignoram cliques em segundo plano, mas move o seu mouse por um instante.",
+      "pingOnClick": "Bipe a cada clique",
+      "alertOnError": "Aviso ao falhar ou parar",
+      "autoRepeat": "Repetição automática",
+      "recordSteps": "Gravar passos — permanecer ativo e adicionar cada captura"
+    },
+    "hint": {
+      "sequence": "Pressione Capturar ponto, aponte para um lugar da janela alvo e pressione F10 — ele é adicionado aqui na hora. Ative Gravar passos para permanecer ativo e capturar vários seguidos, depois pressione Esc. Clique duas vezes num passo para editá-lo.",
+      "setup": "Pressione Iniciar captura, aponte para o ponto desejado na janela alvo e pressione F10 para capturá-lo. Esc cancela. Manter o botão esquerdo parado por 3 segundos também funciona."
+    },
+    "footer": {
+      "clicksSent": "cliques enviados"
+    },
+    "menu": {
+      "duplicate": "Duplicar perfil…",
+      "rename": "Renomear perfil…",
+      "delete": "Excluir perfil"
+    },
+    "mode": {
+      "single": "Ponto único",
+      "sequence": "Sequência"
+    }
+  },
+  "status": {
+    "idle": "Ocioso",
+    "running": "Em execução",
+    "stoppedByUser": "Parado pelo usuário",
+    "profileDirty": "O perfil tem alterações não salvas. Salve-o, ou inicie mesmo assim.",
+    "profileSavedReady": "Perfil salvo. Pronto para iniciar.",
+    "profileSaved": "Perfil salvo: {0}",
+    "invalidInterval": "Intervalo inválido",
+    "invalidCoordinates": "Coordenadas inválidas",
+    "targetReadyHandle": "Janela alvo pronta (handle)",
+    "targetReadyTitle": "Janela alvo pronta (título)",
+    "targetNotFoundSetup": "Janela alvo não encontrada. Use Iniciar captura.",
+    "targetNotFoundTitle": "Janela alvo não encontrada. Verifique o título, ou traga a janela para a frente.",
+    "targetNotFoundBlocking": "Janela alvo não encontrada para a sequência bloqueante",
+    "targetLost": "Janela alvo perdida. Parando.",
+    "clickSent": "Clique enviado",
+    "hardLimitReached": "Limite rígido de cliques atingido. Parando.",
+    "runLimitReached": "Limite de execução atingido. Parando.",
+    "targetCaptured": "Alvo capturado. Salve o perfil para mantê-lo.",
+    "noWindowDetected": "Nenhuma janela detectada sob o cursor",
+    "captureArmed": "Aponte para o alvo e pressione F10 para capturar. Esc cancela.",
+    "captureRecording": "Gravando — pressione F10 em cada ponto, Esc ao terminar.",
+    "stepRecorded": "Passo {0} gravado. F10 para o próximo, Esc para terminar.",
+    "captureCancelled": "Captura cancelada.",
+    "recordingFinished": "Gravação concluída — {0} passos adicionados.",
+    "profileCreated": "Perfil criado: {0}",
+    "profileRenamed": "Perfil renomeado para: {0}",
+    "captureStep": "Aponte para o ponto a adicionar e pressione F10. Esc cancela.",
+    "stepAdded": "Passo adicionado. A sequência tem agora {0}.",
+    "targetNotFoundCapture": "Janela alvo não encontrada. Use Capturar ponto."
+  },
+  "notify": {
+    "sequenceEmpty": "A sequência está ativada mas não tem passos. Adicione pelo menos um antes de iniciar.",
+    "noTarget": "Digite o título de uma janela alvo, ou ative a sequência, antes de iniciar.",
+    "invalidCoordinates": "X e Y devem ser números inteiros válidos.",
+    "zeroCoordinates": "X e Y não podem ser ambos 0. Afaste o ponto alvo do canto superior esquerdo.",
+    "windowNotFound": "Nenhuma janela corresponde ao título “{0}”. Verifique se está aberta e visível, ou capture-a com Iniciar captura.",
+    "intervalInvalid": "O intervalo deve ser um número maior que 0 segundos.",
+    "targetNotFound": "Janela alvo não encontrada. Verifique o título, ou capture-a com Iniciar captura.",
+    "titleError": "Erro",
+    "titleInfo": "Informação",
+    "ok": "OK",
+    "cancel": "Cancelar"
+  },
+  "dialog": {
+    "unsavedTitle": "Alterações não salvas",
+    "unsavedMessage": "Este perfil tem alterações não salvas. Salvá-las antes de trocar?",
+    "saveBeforeStartMessage": "Você alterou este perfil. Salvá-lo antes de iniciar?",
+    "saveAndStart": "Salvar e iniciar"
+  },
+  "sequence": {
+    "click": "Clique",
+    "doubleClick": "Clique duplo",
+    "stepFormat": "{0} em ({1}, {2}) — esperar {3}s"
+  },
+  "windowList": {
+    "title": "Janelas visíveis"
+  },
+  "editStep": {
+    "invalidDelay": "Digite um número válido e não negativo para a pausa.",
+    "title": "Editar passo",
+    "doubleClick": "Enviar um clique duplo neste passo",
+    "save": "Salvar",
+    "cancel": "Cancelar"
+  },
+  "autoclicker": {
+    "title": "AUTO-CLICKER",
+    "subtitle": "Clicker rápido no cursor",
+    "section": {
+      "timing": "TEMPOS",
+      "target": "ALVO",
+      "behavior": "COMPORTAMENTO"
+    },
+    "field": {
+      "button": "Botão",
+      "interval": "Intervalo",
+      "clickType": "Tipo de clique",
+      "hotkey": "Tecla de alternância",
+      "x": "X",
+      "y": "Y"
+    },
+    "unit": {
+      "milliseconds": "ms"
+    },
+    "button": {
+      "left": "Esquerdo",
+      "right": "Direito",
+      "middle": "Meio",
+      "single": "Simples",
+      "double": "Duplo",
+      "pickCurrent": "Usar atual",
+      "start": "INICIAR",
+      "stop": "PARAR"
+    },
+    "toggle": {
+      "useCursor": "Clicar na posição atual do cursor",
+      "useFixed": "Clicar numa posição fixa da tela",
+      "randomize": "Intervalo aleatório (±20%)",
+      "globalHotkey": "Atalho global",
+      "showCounter": "Mostrar o contador de cliques"
+    },
+    "hint": {
+      "cps": "O máximo de cliques por segundo depende do seu sistema — normalmente 150 a 400.",
+      "keys": "Pressione F9 para iniciar ou parar, F10 para usar a posição atual, ou use os botões abaixo."
+    },
+    "status": {
+      "idle": "Ocioso",
+      "running": "Em execução",
+      "invalidInterval": "Intervalo inválido",
+      "invalidPosition": "Posição fixa inválida",
+      "error": "Erro: {0}",
+      "unknownError": "desconhecido",
+      "clicks": "{0} cliques"
+    },
+    "notify": {
+      "intervalMessage": "O intervalo deve ser um número positivo em milissegundos.",
+      "intervalTitle": "Intervalo inválido",
+      "positionMessage": "X e Y fixos devem ser números inteiros válidos.",
+      "positionTitle": "Posição inválida"
+    }
+  },
+  "help": {
+    "windowTitle": "Guia",
+    "title": "Background Clicker",
+    "intro": "Como automatizar cliques sem abrir mão do seu mouse.",
+    "nav": {
+      "heading": "CONTEÚDO",
+      "quickStart": "Início rápido",
+      "profiles": "Perfis e sequências",
+      "modes": "Modos de clique",
+      "features": "Outros recursos"
+    },
+    "quickStart": {
+      "heading": "Início rápido",
+      "step1": "Pressione Iniciar captura, aponte para o ponto desejado na janela alvo e pressione F10 para capturá-lo.",
+      "step2": "Digite um nome no campo Perfil e pressione Salvar.",
+      "step3": "Pressione INICIAR para um clique de teste, ou ative Repetição automática para clicar continuamente."
+    },
+    "profiles": {
+      "heading": "Perfis e sequências",
+      "body": "Um perfil guarda tudo: a janela alvo, as coordenadas, os tempos e cada opção. Uma sequência é uma lista de cliques executada em ordem.",
+      "item1": "Salve, carregue e exclua perfis na linha Perfil no topo.",
+      "item2": "Mude o alvo para Sequência, pressione Capturar ponto e pressione F10 em cada lugar. Ative Gravar passos antes para capturar vários de uma vez.",
+      "item3": "Clique duas vezes em qualquer passo da lista para mudar a pausa ou o clique duplo."
+    },
+    "modes": {
+      "heading": "Modos de clique",
+      "nonBlockingLabel": "Não bloqueante (padrão)",
+      "nonBlockingBody": "Envia o clique direto para a janela pelo seu título. Seu cursor nunca se move e seu trabalho nunca é interrompido. Este é o modo recomendado.",
+      "blockingLabel": "Bloqueante",
+      "blockingBody": "Para programas que ignoram mensagens em segundo plano, como alguns jogos. Move brevemente seu cursor real para dar o clique, então você perde o mouse por um momento."
+    },
+    "features": {
+      "heading": "Outros recursos",
+      "item1": "Pressione F8 em qualquer lugar para iniciar ou parar o clicker, mesmo com esta janela minimizada.",
+      "item2": "Intervalo aleatório e Dispersão deixam o ritmo e a posição menos mecânicos.",
+      "item3": "Manter à frente fixa esta janela sobre o alvo, e os avisos sonoros confirmam cliques e erros pelo ouvido.",
+      "item4": "Parar após um número de cliques ou de minutos limita uma execução sem supervisão."
+    }
+  },
+  "credits": {
+    "windowTitle": "Sobre",
+    "title": "Background Clicker",
+    "version": "Versão {0}",
+    "authorHeading": "Autor",
+    "authorBody": "Projetado e desenvolvido por TheHolyOneZ.",
+    "featuresHeading": "O que ele faz",
+    "feature1Label": "Cliques em segundo plano",
+    "feature1Body": "Envia cliques a uma janela sem mover seu mouse nem roubar o foco.",
+    "feature2Label": "Sequências de cliques",
+    "feature2Body": "Encadeia cliques com pausas próprias para rotinas de vários passos.",
+    "feature3Label": "Perfis",
+    "feature3Body": "Salva e recarrega uma configuração completa por tarefa.",
+    "feature4Label": "Humanização",
+    "feature4Body": "Dispersão e intervalos aleatórios deixam o ritmo menos mecânico.",
+    "feature5Label": "Dois modos de clique",
+    "feature5Body": "Alterna para o clique bloqueante em programas que ignoram eventos em segundo plano.",
+    "feature6Label": "Atalho global",
+    "feature6Body": "Inicia e para de qualquer lugar com F8.",
+    "moduleHeading": "Módulo Auto-clicker",
+    "module1Label": "Clique flexível",
+    "module1Body": "Defina o intervalo, escolha o botão do mouse, simples ou duplo.",
+    "module2Label": "Posições específicas",
+    "module2Body": "Clique no cursor, ou numa posição fixa da tela.",
+    "module3Label": "Controle por teclas",
+    "module3Body": "F9 inicia e para, F10 usa a posição atual.",
+    "techHeading": "Como funciona",
+    "techBody": "Feito com WPF e C#. Usa a API de mensagens do Win32 para enviar eventos de mouse direto a um handle de janela, que é o que permite clicar sem assumir o controle do seu cursor.",
+    "translationHeading": "Traduções",
+    "translationBody": "Os idiomas vêm dentro do executável. Para adicionar o seu, crie uma pasta Lang ao lado do programa, copie en.json para lá, traduza os valores e altere o bloco _meta."
+  },
+  "profile": {
+    "nameLabel": "Nome do perfil",
+    "defaultName": "Perfil",
+    "copySuffix": "cópia",
+    "newTitle": "Novo perfil",
+    "createAction": "Criar",
+    "duplicateTitle": "Duplicar perfil",
+    "duplicateAction": "Duplicar",
+    "renameTitle": "Renomear perfil",
+    "renameAction": "Renomear",
+    "errorEmpty": "Digite um nome para o perfil.",
+    "errorTaken": "Já existe um perfil chamado “{0}”.",
+    "deleteConfirmTitle": "Excluir perfil",
+    "deleteConfirmMessage": "Excluir o perfil “{0}”?\n\nSeu alvo, tempos e sequência serão removidos. Isso não pode ser desfeito."
+  }
+}
