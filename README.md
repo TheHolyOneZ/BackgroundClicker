@@ -5,7 +5,7 @@
 Tired of automation tools that take over your mouse? This is a WPF application built for true background clicking. It sends commands directly to application windows, so you can keep working, gaming, or browsing while it runs.
 
 > ### 🚀 Pre-compiled version available
-> Download the ready-to-use `.exe` from the [**Releases**](https://github.com/TheHolyOneZ/BackgroundClickEmulationStudy/releases) page. One file, no installer, no dependencies, nothing to unzip.
+> Download the ready-to-use `.exe` from the [**Releases**](https://github.com/TheHolyOneZ/BackgroundClicker/releases) page. One file, no installer, no dependencies, nothing to unzip.
 
 ![Application Screenshot](images/image.png)
 
